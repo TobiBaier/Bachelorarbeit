@@ -19,7 +19,7 @@ def init_serial(prt):
     return ret
 
 
-class Grid_Spec:
+class GridSpec:
 
     def __init__(self, step_time=1, wait_time=1, nAvg=4):
         self.step_time = step_time  # waiting for servo/grid
