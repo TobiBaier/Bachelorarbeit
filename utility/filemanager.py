@@ -6,7 +6,7 @@ import shutil
 """
 To-Do:
 - Messdaten aus "sortme" in passende Ordner packen -> fertig
-- Ordnerstruktur reduzieren
+- Ordnerstruktur reduzieren -> fertig
 - lade alle ids aus dem sample catalogue -> fertig
 """
 
@@ -58,7 +58,6 @@ class FileManager:
 
                             if not file.endswith("notes.txt"):
                                 shutil.copyfile(file, self.condata_path + "/" + sample + "/" + file_path)
-
 
     def save_in_dir(self):
         files = []
