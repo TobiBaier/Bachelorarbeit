@@ -40,7 +40,8 @@ class GetData:
             "delimiter": ";",
             "cols": None,
             "header": None,
-            "swap_axes": True
+            "swap_axes": True,
+            "skipfooter": None,
         }
 
         self.txt_standards = {
@@ -90,7 +91,7 @@ class GetData:
                 raise FileNotFoundError(f"There is no file called {path}! (CODE2)")
 
         data = pd.read_csv(path, sep=params["delimiter"], skiprows=params["skip_lines"], header=params["header"],
-                           usecols=params["cols"])
+                           usecols=params["cols"], skipfooter=params["skipfooter"])
 
         if params["swap_axes"]:
             return data.to_numpy().swapaxes(0, 1)

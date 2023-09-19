@@ -11,10 +11,6 @@ def config_window(params):
 
     if params["title"]:
         ax.set_title(params["title"])
-    if params["xbounds"]:
-        ax.set_xbound(params["xbounds"])
-    if params["ybounds"]:
-        ax.set_ybound(params["ybounds"])
     if params["grid"]:
         ax.grid()
 
@@ -106,6 +102,11 @@ class DrawDiagrams:
                 params["plot_kwargs"][key] = params[key]
 
         ax.plot(*data, **params["plot_kwargs"])
+
+        if params["xbounds"] is not None:
+            ax.set_xbound(params["xbounds"])
+        if params["ybounds"] is not None:
+            ax.set_ybound(params["ybounds"])
 
         save_draw(params)
 

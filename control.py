@@ -13,6 +13,13 @@ data_presets = {
                 "data_type": "csv",
                 "skip_lines": 0,
             },
+            "uv-vis": {
+                "data_type": "csv",
+                "skip_lines": 2,
+                "delimiter": ",",
+                "skipfooter": 32,
+                "cols": [0, 1],
+            },
 }
 
 draw_presets = {
@@ -29,6 +36,7 @@ draw_presets = {
                 "xlabel": r"Wellenlänge/nm",
                 "ylabel": r"Zählrate/$\frac{1}{s}$",
                 "grid": True,
+                "ybounds": [0, None],
             },
             "uv-vis": {
                 "plot_type": "plot",
@@ -41,6 +49,7 @@ draw_presets = {
                 "xlabel": r"$\lambda$/nm",
                 "ylabel": "transmission / %",
                 "grid": True,
+                "ybounds": [0, None],
             },
             "sev": {
                 "plot_type": "plot",
@@ -53,6 +62,7 @@ draw_presets = {
                 "xlabel": r"energy/channels",
                 "ylabel": "counts",
                 "grid": True,
+                "ybounds": [0, None],
             }
 }
 
@@ -88,6 +98,7 @@ class Control:
         self.curr_draw.load_presets(draw_presets)
 
     def auto_plot_data(self, file_name):
+        file_name = self.curr_file.check_ending(file_name)
         file_path = self.curr_file.check_if_file(file_name)
 
         if file_path is None:
@@ -115,4 +126,5 @@ fi = FileManager()
 da = GetData()
 
 a = Control(dr, fi, da)
-a.plot_all_data(["spec"])
+# a.auto_plot_data("spec_ppo1_sr_1")
+a.plot_all_data(["uv-vis"])

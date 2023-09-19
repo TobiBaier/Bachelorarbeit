@@ -11,6 +11,16 @@ To-Do:
 """
 
 
+def plottable(file):
+    if file.endswith("notes.txt") or file.endswith(".bin") or file.endswith(".json"):
+        return False
+
+    if "sev" in file and "hist" not in file:
+        return False
+
+    return True
+
+
 class FileManager:
 
     def __init__(self, path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit"):
@@ -82,6 +92,11 @@ class FileManager:
                 raise FileExistsError(f"A file already exists at {new_path + '/' + i}")
 
     def filecheck(self, file_name):
+        """
+        extracts sample and instrument id from file name
+        :param file_name:
+        :return:
+        """
         info = file_name.split("_")
         inst = info[0]
         sample = info[1]
@@ -95,7 +110,7 @@ class FileManager:
 
     def check_if_file(self, file_name):
         """
-        REQUIRES ENDING!!!
+        REQUIRES ENDING!!! -> check if file at path exists
         :param file_name
         :return: None if file does not exist, path if it does
         """
@@ -132,9 +147,30 @@ class FileManager:
             for sample_path in os.listdir(self.data_path + "/" + inst):
                 # could add a function, that checks if file is plottable
                 for file in os.listdir(self.data_path + "/" + inst + "/" + sample_path):
-                    if not file.endswith("notes.txt") or file.endswith(".bin") or file.endswith(".json"):
+                    if plottable(file):
                         names.append(file)
 
         return names
 
+    def check_ending(self, file_name):
+        inst, sample = self.filecheck(file_name)
 
+        if inst == "spec":
+            if not file_name.endswith(".csv"):
+                if plottable(file_name):
+                    if self.check_if_file(file_name + ".csv") is not None:
+                        return file_name + ".csv"
+
+        if inst == "sev":
+            if not file_name.endswith(".txt"):
+                if plottable(file_name):
+                    if self.check_if_file(file_name + ".txt") is not None:
+                        return file_name + ".txt"
+
+        return file_name
+
+
+if __name__ == "__main__":
+    a = FileManager()
+    a.save_in_dir()
+    a.reduce_dir_order()
