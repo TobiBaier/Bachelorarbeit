@@ -58,7 +58,7 @@ class FileManager:
 
                     # create target directory if necessary
                     if not os.path.isdir(self.condata_path + "/" + sample):
-                        os.mkdir(self.condata_path + "/" + sample)
+                        os.makedirs(self.condata_path + "/" + sample)
 
                     # get list of all files in current directory
                     for file_path in os.listdir(curr_path):
@@ -82,7 +82,7 @@ class FileManager:
             new_path = self.data_path + "/" + inst + "/" + sample
 
             if not os.path.isdir(new_path):
-                os.mkdir(new_path)
+                os.makedirs(new_path)
             else:
                 pass
 
@@ -155,7 +155,7 @@ class FileManager:
     def check_ending(self, file_name):
         inst, sample = self.filecheck(file_name)
 
-        if inst == "spec":
+        if inst == "spec" or inst == "uv-vis":
             if not file_name.endswith(".csv"):
                 if plottable(file_name):
                     if self.check_if_file(file_name + ".csv") is not None:
