@@ -2,12 +2,12 @@ import os
 import re
 import shutil
 
-
 """
 To-Do:
 - Messdaten aus "sortme" in passende Ordner packen -> fertig
 - Ordnerstruktur reduzieren -> fertig
 - lade alle ids aus dem sample catalogue -> fertig
+- eine id ändern 
 """
 
 
@@ -27,7 +27,7 @@ class FileManager:
 
     def load_ids(self):
         ids = []
-        with open(self.path+"/sample_catalogue.txt", "r") as idlist:
+        with open(self.path + "/sample_catalogue.txt", "r") as idlist:
             lines = idlist.readlines()
             for line in lines:
                 # finds all lines of type " id: "[word]""
@@ -67,14 +67,7 @@ class FileManager:
                 files.append(file_path)
 
         for i in files:
-            info = i.split("_")
-            inst = info[0]
-            sample = info[1]
-
-            if not inst in self.instrument_ids:
-                raise NameError(f"Instrument '{inst}' does not exist!")
-            if not sample in self.ids:
-                raise NameError(f"Sample id '{sample}' does not exist!")
+            inst, sample = self.filecheck(i)
 
             new_path = self.data_path + "/" + inst + "/" + sample
 
@@ -86,5 +79,62 @@ class FileManager:
             if not os.path.isfile(new_path + "/" + i):
                 os.rename(self.sort_path + "/" + i, new_path + "/" + i)
             else:
-                raise FileExistsError(f"A file already exists at {new_path+'/'+i}")
+                raise FileExistsError(f"A file already exists at {new_path + '/' + i}")
+
+    def filecheck(self, file_name):
+        info = file_name.split("_")
+        inst = info[0]
+        sample = info[1]
+
+        if inst not in self.instrument_ids:
+            raise NameError(f"Instrument '{inst}' does not exist!")
+        if sample not in self.ids:
+            raise NameError(f"Sample id '{sample}' does not exist!")
+
+        return inst, sample
+
+    def check_if_file(self, file_name):
+        """
+        REQUIRES ENDING!!!
+        :param file_name
+        :return: None if file does not exist, path if it does
+        """
+
+        inst, sample = self.filecheck(file_name)
+
+        file_path = self.data_path + "/" + inst + "/" + sample + "/" + file_name
+
+        if os.path.isfile(file_path):
+            return file_path
+        else:
+            return None
+
+    def get_save_path(self, file_name):
+        """
+        REQUIRES ENDING!!!
+        :param file_name
+        :return: None if file does not exist, path to save to if it does (gets created if necessary)
+        """
+        inst, sample = self.filecheck(file_name)
+
+        no_ending = file_name.split(".")[0]
+
+        file_path = self.prodata_path + "/" + inst + "/" + sample
+
+        if not os.path.isdir(file_path):
+            os.makedirs(file_path)
+
+        return file_path + "/" + no_ending + ".png"
+
+    def get_file_names(self, inst_list):
+        names = []
+        for inst in inst_list:
+            for sample_path in os.listdir(self.data_path + "/" + inst):
+                # could add a function, that checks if file is plottable
+                for file in os.listdir(self.data_path + "/" + inst + "/" + sample_path):
+                    if not file.endswith("notes.txt") or file.endswith(".bin") or file.endswith(".json"):
+                        names.append(file)
+
+        return names
+
 

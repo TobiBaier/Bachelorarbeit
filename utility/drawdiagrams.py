@@ -25,7 +25,9 @@ def config_window(params):
 
 
 def save_draw(params):
-    plt.legend()
+    if params["plot_kwargs"]["label"] is not None:
+        plt.legend()
+
     if params["save"]:
         if params["path"] is None:
             plt.savefig(params["title"] + ".png", dpi=params["dpi"])
@@ -95,7 +97,7 @@ class DrawDiagrams:
 
         params = self.plot_standards | kwargs
 
-        pprint(params)
+        # pprint(params)
 
         ax = config_window(params)
 
