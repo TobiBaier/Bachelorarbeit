@@ -91,6 +91,8 @@ class FileManager:
             else:
                 raise FileExistsError(f"A file already exists at {new_path + '/' + i}")
 
+            return files
+
     def filecheck(self, file_name):
         """
         extracts sample and instrument id from file name

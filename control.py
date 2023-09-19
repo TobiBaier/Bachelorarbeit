@@ -67,21 +67,6 @@ draw_presets = {
     }
 }
 
-"""a = GetData(data_presets)
-
-x = a.auto_read("spectrometer", "combi_scin_1")
-
-b = DrawDiagrams(draw_presets)
-
-b.make_plot("spectrometer", x, save=False, title="testing", label="more testing", c="red")"""
-
-'''
-To-Do:
-- einzelne Messdatei darstellen
-- alle Messdateien gleichzeitig rendern
-- Routine, um zwei Plots in einem zu erschaffen
-'''
-
 
 class Control:
     # instances
@@ -120,11 +105,20 @@ class Control:
         # draw and save the plot
         self.curr_draw.make_plot(inst, rec_data, draw=False, save=True, path=save_path, title=file_name.split(".")[0])
 
-    def plot_all_data(self, inst_list=None):
+    def plot_all_inst_data(self, inst_list=None):
         if inst_list is not None:
             names = self.curr_file.get_file_names(inst_list)
             for name in names:
                 self.auto_plot_data(name)
+
+    def plot_dir(self, dir):
+        for file_path in os.listdir(self.curr_file.data_path + "/" + dir):
+            if os.path.isdir(self.curr_file.data_path + "/" + dir + "/" + file_path):
+                print(dir + "/" + file_path)
+                self.plot_dir(dir + "/" + file_path)
+            else:
+                print(file_path)
+                self.auto_plot_data(file_path)
 
     def multi_plot(self, name_list, label_list, path, title=None, clist=["c", "m", "y", "r", "g", "b"]):
         path = self.curr_file.prodata_path + "/" + path
@@ -154,13 +148,14 @@ class Control:
         plt.show()
 
 
-dr = DrawDiagrams()
-fi = FileManager()
-da = GetData()
+def get_inst():
+    dr = DrawDiagrams()
+    fi = FileManager()
+    da = GetData()
 
-a = Control(dr, fi, da)
+    return Control(dr, fi, da)
 # a.auto_plot_data("spec_ppo1_sr_1")
-# a.plot_all_data(["uv-vis"])
+# a.plot_all_inst_data(["uv-vis"])
 
 '''
 name_list = ["uv-vis_pu_trans_fast", "uv-vis_ppo1_trans_fast", "uv-vis_combi14_trans_fast", "uv-vis_3hf1_trans_fast"]
