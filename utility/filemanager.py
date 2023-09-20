@@ -162,12 +162,16 @@ class FileManager:
                 if plottable(file_name):
                     if self.check_if_file(file_name + ".csv") is not None:
                         return file_name + ".csv"
+                else:
+                    return False
 
         if inst == "sev":
             if not file_name.endswith(".txt"):
                 if plottable(file_name):
                     if self.check_if_file(file_name + ".txt") is not None:
                         return file_name + ".txt"
+                else:
+                    return False
 
         return file_name
 

@@ -41,7 +41,7 @@ class GetData:
             "cols": None,
             "header": None,
             "swap_axes": True,
-            "skipfooter": None,
+            "skipfooter": 0,
         }
 
         self.txt_standards = {
@@ -49,7 +49,8 @@ class GetData:
             "delimiter": ";",
             "cols": None,
             "header": None,
-            "swap_axes": True
+            "swap_axes": True,
+            "skipfooter": 0,
         }
 
         self.presets = presets
