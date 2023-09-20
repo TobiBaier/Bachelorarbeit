@@ -172,6 +172,9 @@ class FileManager:
                         return file_name + ".txt"
                 else:
                     return False
+            else:
+                if not plottable(file_name):
+                    return False
 
         return file_name
 

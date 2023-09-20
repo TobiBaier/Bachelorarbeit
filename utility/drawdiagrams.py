@@ -10,7 +10,11 @@ def config_window(params):
         ax = params["ax"]
 
     if params["title"]:
-        ax.set_title(params["title"])
+        # ax.set_title(params["title"])
+        plt.title(params["title"], fontsize="small")
+    if params["suptitle"]:
+        # ax.set_suptitle(params["suptitle"])
+        plt.suptitle(params["suptitle"])
     if params["grid"]:
         ax.grid()
 
@@ -50,6 +54,7 @@ class DrawDiagrams:
             "path": None,
             "dpi": 400,
             "title": None,
+            "suptitle": None,
             "xlabel": "x",
             "ylabel": "y",
             "xbounds": None,

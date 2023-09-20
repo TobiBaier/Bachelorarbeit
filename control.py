@@ -2,6 +2,7 @@ from utility.getdata import GetData
 from utility.drawdiagrams import DrawDiagrams
 from utility.filemanager import FileManager
 import os
+import re
 import matplotlib.pyplot as plt
 
 data_presets = {
@@ -85,7 +86,54 @@ class Control:
         self.curr_data.load_presets(data_presets)
         self.curr_draw.load_presets(draw_presets)
 
-    def auto_plot_data(self, file_name):
+    def name_constructor(self, file_name):
+
+        inst, sample = self.curr_file.filecheck(file_name)
+
+        st_str = ""
+        t_str = None
+        # if inst == "sev":
+        #     st_str = st_str + "SEV-Spektrum einer "
+        # elif inst == "spec":
+        #     st_str = st_str + "Gitterspektrometer Messung einer "
+        # elif inst == "uv-vis":
+        #     st_str = st_str + "Cary-50 Messung einer "
+        # elif inst == "osc":
+        #     st_str = st_str + "Oszilloskop Messung einer "
+        # else:
+        #     st_str = st_str + "Messung einer "
+
+        st_str = "Grafik zu Daten aus: " + file_name
+
+        y = re.search(r"b+[\w]+g[\w]+s+([0-9]{3})", file_name)
+        if y is not None:
+            sample_description = y.group(0)
+            t_str = "Proben-Details: "
+
+            bubbles = sample_description[:2]
+            grind = sample_description[2:4]
+            size = sample_description[5:7]
+            size2 = sample_description[7]
+
+            if bubbles == "bn":
+                t_str = t_str + "keine Blasen, "
+            elif bubbles == "bc":
+                t_str = t_str + "Blasen mittig, "
+            elif bubbles == "br":
+                t_str = t_str + "Blasen am Rand, "
+
+            if grind == "g0":
+                t_str = t_str + "ungeschliffen, "
+            elif grind == "g1":
+                t_str = t_str + "eine Seite geschliffen, "
+            elif grind == "g2":
+                t_str = t_str + "beide Seiten geschliffen, "
+
+            t_str = t_str + size + "." + size2 + "mm dick (-> [" + sample_description + "])"
+
+        return st_str, t_str
+
+    def auto_plot_data(self, file_name, title=None, stitle=None):
         # add ending to file path if needed
         temp = file_name
         file_name = self.curr_file.check_ending(file_name)
@@ -109,8 +157,12 @@ class Control:
             save_path = self.curr_file.get_save_path(file_name)
             print(f"Saving plot to '{save_path}'.")
 
+            # get a title
+            if title is None and stitle is None:
+                stitle, title = self.name_constructor(file_name)
+
             # draw and save the plot
-            self.curr_draw.make_plot(inst, rec_data, draw=False, save=True, path=save_path, title=file_name.split(".")[0])
+            self.curr_draw.make_plot(inst, rec_data, draw=False, save=True, path=save_path, title=title, suptitle=stitle)
 
     def plot_all_inst_data(self, inst_list=None):
         if inst_list is not None:
@@ -118,14 +170,18 @@ class Control:
             for name in names:
                 self.auto_plot_data(name)
 
-    def plot_dir(self, dir):
-        for file_path in os.listdir(self.curr_file.data_path + "/" + dir):
-            if os.path.isdir(self.curr_file.data_path + "/" + dir + "/" + file_path):
-                print(dir + "/" + file_path)
-                self.plot_dir(dir + "/" + file_path)
+    def plot_dir(self, direc, extra_identifier=None):
+        for file_path in os.listdir(self.curr_file.path + "/" + direc):
+            if os.path.isdir(self.curr_file.path + "/" + direc + "/" + file_path):
+                print(direc + "/" + file_path)
+                self.plot_dir(direc + "/" + file_path)
             else:
                 print(file_path)
-                self.auto_plot_data(file_path)
+                if extra_identifier is None:
+                    self.auto_plot_data(file_path)
+                else:
+                    if extra_identifier in file_path:
+                        self.auto_plot_data(file_path)
 
     def multi_plot(self, name_list, label_list, path, title=None, clist=["c", "m", "y", "r", "g", "b"]):
         path = self.curr_file.prodata_path + "/" + path
