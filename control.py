@@ -47,6 +47,7 @@ draw_presets = {
             "marker": None,
             "c": "black",
             "label": None,
+            "lw": 1,
         },
         "xlabel": r"Wellenlänge/nm",
         "ylabel": "transmission / %",
