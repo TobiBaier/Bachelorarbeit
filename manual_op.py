@@ -3,20 +3,31 @@ curr_cont = get_inst()
 # curr_cont.auto_plot_data("sev_ppo1_na22_hist_1_3.txt")
 # curr_cont.plot_dir("sev/ppo1")
 # print(curr_cont.curr_file.ids)
-
-s = "sev_ppo1_na22_hist_1_3.txt"
-
 # curr_cont.auto_plot_data(s)
+# curr_cont.plot_dir("data/uv-vis/pu", extra_identifier=["040"])
+# print(curr_cont.curr_file.save_in_dir())
 
-# curr_cont.plot_dir("condensed_data/ppo1", extra_identifier="sev")
+
+names = curr_cont.get_names("data/uv-vis", ["pu", "_1", "fast"])
+labels = curr_cont.extract_label_from_path(names)
+
+title = "Vergleich Auswirkung Probendicke (bei PU)"
+path = "uv-vis_combis/size_comp_pu.png"
+
+# curr_cont.multi_plot(names, labels, path, title=title)
+
+
+
+
+
+
+
+
+
 
 # curr_cont.plot_dir("uv-vis")
 
-name_list = ["uv-vis_ppo1_trans_fast", "spec_ppo1_sr_1"]
-label_list = ["uv-vis", "spec"]
 
-curr_cont.multi_plot(name_list, label_list, path="uv-vis_combis/uv-vis_spec_ppo1.png",
-             title="Transmission and Emission of ppo1")
 
 '''
 the design for the spec plots looks shit -> no more measurement points?
@@ -28,7 +39,24 @@ add function to allow different presets in plots -> probably needs rework of con
 overhaul of filemanager (maybe combine a few functions?)
 '''
 
+'''
+curr_cont.multi_plot(name_list, label_list, path, title=title)
+
+title = "Vergleich Transmission PU mit versch. Substanzen"
+name_list = ["uv-vis_3hf1_bng2s069_trans_survey_1",
+             "uv-vis_combi14_bng2s086_trans_survey_1",
+             "uv-vis_ppo1_bcg2s082_trans_survey_1",
+             "uv-vis_ppo5_bcg2s067_trans_survey_1",
+             "uv-vis_pu_brg2s076_trans_survey_1"]
+label_list = ["3hf1_bng2s069",
+              "combi14_bng2s086",
+              "ppo1_bcg2s082",
+              "ppo5_bcg2s067",
+              "pu_brg2s076"]
+path = "uv-vis_combis/all_samples_21-09-23.png"
 
 
+curr_cont.multi_plot(name_list, label_list, path, title=title)
+'''
 
 

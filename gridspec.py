@@ -303,7 +303,7 @@ class GridSpec:
 
 
 def name_call():
-    return Grid_Spec()
+    return GridSpec()
 
 
 if __name__ == "__main__":
