@@ -8,14 +8,19 @@ curr_cont = get_inst()
 # print(curr_cont.curr_file.save_in_dir())
 
 
-names = curr_cont.get_names("data/uv-vis", ["pu", "_1", "fast"])
-labels = curr_cont.extract_label_from_path(names)
-
-title = "Vergleich Auswirkung Probendicke (bei PU)"
-path = "uv-vis_combis/size_comp_pu.png"
-
+# names = curr_cont.get_names("data/uv-vis", ["pu", "_1", "fast"])
+# labels = curr_cont.extract_label_from_path(names)
+# title = "Vergleich Auswirkung Probendicke (bei PU)"
+# path = "uv-vis_combis/size_comp_pu.png"
 # curr_cont.multi_plot(names, labels, path, title=title)
 
+names = [
+    "spec_ppo1_sr_1",
+    "uv-vis_ppo1_bcg2s082_trans_survey_1"
+]
+labels = curr_cont.extract_label_from_path(names)
+path = "zz_spec_uv/ppo1_trans_emi.png"
+curr_cont.twin_xscale_plot(names, labels, path)
 
 
 

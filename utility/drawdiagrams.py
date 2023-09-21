@@ -25,7 +25,7 @@ def config_window(params):
 
 
 def save_draw(params):
-    if params["plot_kwargs"]["label"] is not None:
+    if params["plot_kwargs"]["label"] is not None and params["draw_label"]:
         plt.legend()
 
     if params["save"]:

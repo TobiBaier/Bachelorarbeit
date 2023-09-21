@@ -4,6 +4,7 @@ from utility.filemanager import FileManager
 import os
 import re
 import matplotlib.pyplot as plt
+import numpy as np
 
 data_presets = {
     "sev": {
@@ -29,16 +30,18 @@ draw_presets = {
         "plot_type": "plot",
         "plot_kwargs": {  # NEEDS to contain ALL graphical plot infos
             "ls": "-",
-            "marker": "+",
-            "c": "blue",
-            "mec": "black",
-            "ms": 6,
+            "marker": None, # "+"
+            "c": "black",   # "blue"
+            # "mec" = "blue",
+            # "ms": 6,
+            "lw": 1,
             "label": None
         },
         "xlabel": r"Wellenlänge/nm",
         "ylabel": r"Zählrate/$\frac{1}{s}$",
         "grid": True,
         "ybounds": [0, None],
+        "draw_label": True,
     },
     "uv-vis": {
         "plot_type": "plot",
@@ -53,6 +56,7 @@ draw_presets = {
         "ylabel": "transmission / %",
         "grid": True,
         "ybounds": [0, None],
+        "draw_label": True,
     },
     "sev": {
         "plot_type": "plot",
@@ -68,6 +72,7 @@ draw_presets = {
         "grid": True,
         "ybounds": [0, None],
         "xbounds": [0, 1500],
+        "draw_label": True,
     }
 }
 
@@ -190,7 +195,9 @@ class Control:
                     if do_it:
                         self.auto_plot_data(file_path)
 
-    def multi_plot(self, name_list, label_list, path, title=None, clist=["c", "m", "y", "r", "g", "b"]):
+    def multi_plot(self, name_list, label_list, path, title=None, clist=None):
+        if clist is None:
+            clist = ["c", "m", "y", "r", "g", "b"]
         path = self.curr_file.prodata_path + "/" + path
 
         fig = plt.figure()
@@ -201,13 +208,12 @@ class Control:
         for name, c, label in zip(name_list, clist, label_list):
             file_name = self.curr_file.check_ending(name)
             file_path = self.curr_file.check_if_file(file_name)
-            print(file_name, file_path)
+            # print(file_name, file_path)
             if file_path is None:
                 raise FileNotFoundError(f"There is no data file called '{file_name}'!")
 
             inst = file_name.split("_")[0]
             rec_data = self.curr_data.auto_read(inst, file_path)
-
             self.curr_draw.make_plot(inst, rec_data, ax=ax, draw=False, save=False, title=None, c=c, label=label)
 
         ax.set_title(title)
@@ -240,12 +246,64 @@ class Control:
         for name in names:
             inst, sample = self.curr_file.filecheck(name)
             y = re.search(r"_b+[\w]+g[\w]+s+([0-9]{3})", name)
-            labels.append(sample + y.group(0))
+            try:
+                labels.append(sample + y.group(0))
+            except AttributeError:
+                labels.append(sample + "_" + name.split("_")[2])
 
         return labels
 
-    def dual_scale_plot(self, names, path):
-        pass
+    def twin_xscale_plot(self, names, labels, path, c=None):
+        if c is None:
+            c = ["k", "r"]
+        path = self.curr_file.prodata_path + "/" + path
+
+        inst_list = []
+        for name in names:
+            inst_list.append(name.split("_")[0])
+
+        inst1 = inst_list[0]
+        inst2 = None
+        for inst in inst_list:
+            if inst != inst1:
+                inst2 = inst
+                break
+
+        if inst2 is None:
+            raise NameError("You need to provide data from two different instruments! (Consider using multi_plot)")
+
+        fig = plt.figure()
+        ax1 = fig.add_subplot(111)
+        ax2 = ax1.twinx()
+
+        for name, label, inst in zip(names, labels, inst_list):
+            file_name = self.curr_file.check_ending(name)
+            file_path = self.curr_file.check_if_file(file_name)
+
+            rec_data = self.curr_data.auto_read(inst, file_path)
+
+            if inst == inst1:
+                ax = ax1
+                ci = c[0]
+            else:
+                ax = ax2
+                ci =c[1]
+
+            self.curr_draw.make_plot(inst, rec_data, ax=ax, draw=False, save=False, title=None, c=ci, label=label)
+
+        ax2.set_yticks(np.linspace(ax2.get_yticks()[0], ax2.get_yticks()[-1], len(ax1.get_yticks())))
+
+        ax1.set_ylabel(draw_presets[inst1]["ylabel"], color=c[0])
+        ax1.set_ybound([0, ax1.get_yticks()[-1]])
+        ax1.tick_params(axis="y", labelcolor=c[0])
+        ax2.set_ylabel(draw_presets[inst2]["ylabel"], color=c[1])
+        ax2.set_ybound([0, ax2.get_yticks()[-1]])
+        ax2.tick_params(axis="y", labelcolor=c[1])
+
+        fig.tight_layout()
+        # plt.legend()
+        plt.savefig(path, dpi=400)
+
 
 def get_inst():
     dr = DrawDiagrams()
