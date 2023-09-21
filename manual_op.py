@@ -4,11 +4,17 @@ curr_cont = get_inst()
 # curr_cont.plot_dir("sev/ppo1")
 # print(curr_cont.curr_file.ids)
 # curr_cont.auto_plot_data(s)
-# curr_cont.plot_dir("data/uv-vis")
+# curr_cont.plot_dir("data/uv-vis/pu", extra_identifier=["040"])
 # print(curr_cont.curr_file.save_in_dir())
 
-# names = curr_cont.get_names("data", ["uv-vis", "_1"])
-# labels = curr_cont.extract_label_from_path(names)
+
+names = curr_cont.get_names("data/uv-vis", ["pu", "_1", "fast"])
+labels = curr_cont.extract_label_from_path(names)
+
+title = "Vergleich Auswirkung Probendicke (bei PU)"
+path = "uv-vis_combis/size_comp_pu.png"
+
+# curr_cont.multi_plot(names, labels, path, title=title)
 
 
 
@@ -25,12 +31,6 @@ curr_cont = get_inst()
 
 
 '''
-title = "Vergleich Auswirkung Probendicke (bei PU)"
-name_list = ["uv-vis_pu_brg2s076_trans_survey_1",
-             "uv-vis_pu_bcg2s025_trans_survey_1"]
-label_list = ["pu_brg2s076", "pu_bcg2s025"]
-path = "uv-vis_combis/size_comp_pu.png"
-
 curr_cont.multi_plot(name_list, label_list, path, title=title)
 
 title = "Vergleich Transmission PU mit versch. Substanzen"

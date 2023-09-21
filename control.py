@@ -243,6 +243,9 @@ class Control:
 
         return labels
 
+    def dual_scale_plot(self, names, path):
+        pass
+
 def get_inst():
     dr = DrawDiagrams()
     fi = FileManager()
