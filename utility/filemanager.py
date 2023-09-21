@@ -88,10 +88,11 @@ class FileManager:
 
             if not os.path.isfile(new_path + "/" + i):
                 os.rename(self.sort_path + "/" + i, new_path + "/" + i)
+                print(f"Moved from {self.sort_path + '/' + i} to {new_path + '/' + i}")
             else:
                 raise FileExistsError(f"A file already exists at {new_path + '/' + i}")
 
-            return files
+        return files
 
     def filecheck(self, file_name):
         """
