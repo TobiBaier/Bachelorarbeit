@@ -14,17 +14,17 @@ curr_cont = get_inst()
 # path = "uv-vis_combis/size_comp_pu.png"
 # curr_cont.multi_plot(names, labels, path, title=title)
 
+# names = curr_cont.get_names("data/uv-vis", ["combi92", "fast"])
+# names.extend(curr_cont.get_names("data/uv-vis", ["combi14", "fast", "_1"]))
+# labels = curr_cont.extract_label_from_path(names)
+# print(names, labels)
+# title = "Vergleich verschiedene Combi92 Proben und Combi14"
+# path = "zz_uv-vis_combis/combi_comp.png"
+# curr_cont.multi_plot(names, labels, path, title=title)
+
 names = [
-    "spec_ppo1_sr_1",
-    "uv-vis_ppo1_bcg2s082_trans_survey_1"
+    
 ]
-labels = curr_cont.extract_label_from_path(names)
-path = "zz_spec_uv/ppo1_trans_emi.png"
-curr_cont.twin_xscale_plot(names, labels, path)
-
-
-
-
 
 
 
