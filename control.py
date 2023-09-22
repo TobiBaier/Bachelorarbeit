@@ -223,19 +223,29 @@ class Control:
 
         plt.show()
 
-    def get_names(self, direc, identifiers):
+    def get_names(self, direc, identifiers=None, or_identifiers=None):
         # supposed to return all names from a directory, fulfilling identifiers
+        # or_identifiers works the same way, with the difference, that only one has to be True
         names = []
         #print(direc)
         for file_path in os.listdir(self.curr_file.path + "/" + direc):
             if os.path.isdir(self.curr_file.path + "/" + direc + "/" + file_path):
-                names.extend(self.get_names(direc + "/" + file_path, identifiers=identifiers))
+                names.extend(self.get_names(direc + "/" + file_path, identifiers=identifiers, or_identifiers=or_identifiers))
             else:
                 do_it = True
-                for i in identifiers:
-                    if i not in file_path:
-                        do_it = False
-                        break
+                if or_identifiers is not None:
+                    for i in or_identifiers:
+                        if i in file_path:
+                            do_it = True
+                            break
+                        else:
+                            do_it = False
+
+                if identifiers is not None:
+                    for i in identifiers:
+                        if i not in file_path:
+                            do_it = False
+                            break
                 if do_it:
                     names.append(file_path)
 

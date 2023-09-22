@@ -22,10 +22,13 @@ curr_cont = get_inst()
 # path = "zz_uv-vis_combis/combi_comp.png"
 # curr_cont.multi_plot(names, labels, path, title=title)
 
-names = [
-    
-]
-
+names = curr_cont.get_names("data/spec", identifiers=["sr"], or_identifiers=["ppo1", "pu", "3hf1"])
+names.extend(curr_cont.get_names("data/uv-vis", identifiers=["_1", "fast"], or_identifiers=["ppo1", "pu", "3hf1"]))
+print(names)
+labels = curr_cont.extract_label_from_path(names)
+title = "read the description"
+path = "zz_spec_uv/lotsofspectracomp.png"
+curr_cont.twin_xscale_plot(names, labels, path)
 
 
 
