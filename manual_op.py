@@ -1,4 +1,4 @@
-from control import get_inst
+from control_old import get_inst
 curr_cont = get_inst()
 # curr_cont.auto_plot_data("sev_ppo1_na22_hist_1_3.txt")
 # curr_cont.plot_dir("sev/ppo1")
@@ -20,51 +20,23 @@ curr_cont = get_inst()
 # print(names, labels)
 # title = "Vergleich verschiedene Combi92 Proben und Combi14"
 # path = "zz_uv-vis_combis/combi_comp.png"
-# curr_cont.multi_plot(names, labels, path, title=title)
+# curr_cont.multi_plot(names, labels, path, title=title)"
 
-names = curr_cont.get_names("data/spec", identifiers=["sr"], or_identifiers=["ppo1", "pu", "3hf1"])
-names.extend(curr_cont.get_names("data/uv-vis", identifiers=["_1", "fast"], or_identifiers=["ppo1", "pu", "3hf1"]))
+names = curr_cont.get_names("data/spec", identifiers=["sr", "ppo1"])
+names.extend(curr_cont.get_names("data/uv-vis", identifiers=["_1", "fast", "ppo1"]))
 print(names)
 labels = curr_cont.extract_label_from_path(names)
+print(labels)
 title = "read the description"
 path = "zz_spec_uv/lotsofspectracomp.png"
-curr_cont.twin_xscale_plot(names, labels, path)
+curr_cont.twin_xscale_plot(names, labels, path, draw_label=False)
 
 
 
 
-# curr_cont.plot_dir("uv-vis")
 
 
 
-'''
-the design for the spec plots looks shit -> no more measurement points?
 
-somehow add twin-plot capability to allow for two instruments in one graph
- -> https://matplotlib.org/stable/gallery/subplots_axes_and_figures/two_scales.html
- 
-add function to allow different presets in plots -> probably needs rework of control class and
-overhaul of filemanager (maybe combine a few functions?)
-'''
-
-'''
-curr_cont.multi_plot(name_list, label_list, path, title=title)
-
-title = "Vergleich Transmission PU mit versch. Substanzen"
-name_list = ["uv-vis_3hf1_bng2s069_trans_survey_1",
-             "uv-vis_combi14_bng2s086_trans_survey_1",
-             "uv-vis_ppo1_bcg2s082_trans_survey_1",
-             "uv-vis_ppo5_bcg2s067_trans_survey_1",
-             "uv-vis_pu_brg2s076_trans_survey_1"]
-label_list = ["3hf1_bng2s069",
-              "combi14_bng2s086",
-              "ppo1_bcg2s082",
-              "ppo5_bcg2s067",
-              "pu_brg2s076"]
-path = "uv-vis_combis/all_samples_21-09-23.png"
-
-
-curr_cont.multi_plot(name_list, label_list, path, title=title)
-'''
 
 

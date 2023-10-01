@@ -107,7 +107,7 @@ class GetData:
 
         # read data using pandas -> all presets are handed over to the function (might add *params in the future)
         data = pd.read_csv(path, sep=params["delimiter"], skiprows=params["skip_lines"], header=params["header"],
-                           usecols=params["cols"], skipfooter=params["skipfooter"])
+                           usecols=params["cols"], skipfooter=params["skipfooter"], encoding='iso-8859-1')
 
         # convert data_frame to np arrays and return them
         if params["swap_axes"]:

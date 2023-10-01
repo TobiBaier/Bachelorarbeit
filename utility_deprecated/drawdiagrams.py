@@ -3,6 +3,7 @@ from pprint import pprint
 
 
 def config_window(params):
+
     if params["ax"] is None:
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -31,11 +32,14 @@ def save_draw(params):
     if params["save"]:
         if params["path"] is None:
             plt.savefig(params["title"] + ".png", dpi=params["dpi"])
+            print("Done Saving!")
         else:
             plt.savefig(params["path"], dpi=params["dpi"])
+            print("Done Saving!")
 
     if params["draw"]:
         plt.show()
+
 
 
 class DrawDiagrams:
@@ -49,7 +53,7 @@ class DrawDiagrams:
                 "mec": "black",
                 "ms": 6
             },
-            "draw": True,
+            "draw": False,
             "save": True,
             "path": None,
             "dpi": 400,
@@ -106,7 +110,7 @@ class DrawDiagrams:
             if key in params["plot_kwargs"]:
                 params["plot_kwargs"][key] = params[key]
 
-        ax.plot(*data, **params["plot_kwargs"])
+        diagram = ax.plot(*data, **params["plot_kwargs"])
 
         if params["xbounds"] is not None:
             ax.set_xbound(params["xbounds"])
@@ -114,6 +118,8 @@ class DrawDiagrams:
             ax.set_ybound(params["ybounds"])
 
         save_draw(params)
+
+        return diagram
 
     def draw_scatter(self, data, **kwargs):
         pass

@@ -200,7 +200,7 @@ class GridSpec:
             writer.writerows(self.current_spectrum)
 
     """
-    utility functions for system dialogs
+    utility_deprecated functions for system dialogs
     """
 
     def current_params(self):
