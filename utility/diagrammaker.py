@@ -9,6 +9,7 @@ needs to be added:
 
 import matplotlib.pyplot as plt
 import json
+import os
 
 
 def config_window(params: dict):
@@ -85,13 +86,13 @@ class DiagramMaker:
         """
 
         try:
-            with open("config/plot_standards.json", "r") as of:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/plot_standards.json", "r") as of:
                 self.plot_standards = json.load(of)
         except FileNotFoundError:
             raise FileNotFoundError("Could not load config/plot_standards.json because file does not exists!")
 
         try:
-            with open("config/draw_presets.json", "r") as of:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/draw_presets.json", "r") as of:
                 self.presets = json.load(of)
         except FileNotFoundError:
             raise FileNotFoundError("Could not load config/draw_presets.json because file does not exists!")
@@ -102,7 +103,7 @@ class DiagramMaker:
         if self.presets is None:
             print("Draw presets are empty!")
 
-    def make_plot(self, plot_preset: str, data, **kwargs):
+    def make_diagram(self, plot_preset: str, data, **kwargs):
         """
         Makes a plot with preset parameters
         // requires presets to be not None

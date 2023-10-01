@@ -1,0 +1,35 @@
+{
+    "crit": {
+        "not_allowed_endings": [
+            ".bin",
+            "notes.txt",
+            ".json"
+        ],
+        "osc": {
+            "contains": [
+                "wave"
+            ],
+            "ending": ".txt"
+        },
+        "sev": {
+            "contains": [
+                "hist"
+            ],
+            "ending": ".txt"
+        },
+        "spec": {
+            "contains": [],
+            "ending": ".csv"
+        },
+        "uv-vis": {
+            "contains": [],
+            "ending": ".csv"
+        }
+    },
+    "ids": [
+        "sev",
+        "spec",
+        "osc",
+        "uv-vis"
+    ]
+}

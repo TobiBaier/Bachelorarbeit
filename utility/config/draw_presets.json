@@ -1,0 +1,78 @@
+{
+    "osc": {
+        "draw_label": true,
+        "grid": true,
+        "plot_kwargs": {
+            "c": "black",
+            "label": null,
+            "linewidth": 0.5,
+            "ls": "-",
+            "marker": null
+        },
+        "plot_type": "plot",
+        "xlabel": "time",
+        "ybounds": [
+            null,
+            null
+        ],
+        "ylabel": "pulse height"
+    },
+    "sev": {
+        "draw_label": true,
+        "grid": true,
+        "plot_kwargs": {
+            "c": "black",
+            "label": null,
+            "linewidth": 1,
+            "ls": "-",
+            "marker": null
+        },
+        "plot_type": "plot",
+        "xbounds": [
+            0,
+            1500
+        ],
+        "xlabel": "energy/channels",
+        "ybounds": [
+            0,
+            null
+        ],
+        "ylabel": "counts"
+    },
+    "spec": {
+        "draw_label": true,
+        "grid": true,
+        "plot_kwargs": {
+            "c": "black",
+            "label": null,
+            "ls": "-",
+            "lw": 1,
+            "marker": null
+        },
+        "plot_type": "plot",
+        "xlabel": "Wellenlänge/nm",
+        "ybounds": [
+            0,
+            null
+        ],
+        "ylabel": "Zählrate/$\\frac{1}{s}$"
+    },
+    "uv-vis": {
+        "draw_label": true,
+        "grid": true,
+        "plot_kwargs": {
+            "c": "black",
+            "label": null,
+            "ls": "-",
+            "lw": 1,
+            "marker": null
+        },
+        "plot_type": "plot",
+        "xlabel": "Wellenlänge/nm",
+        "ybounds": [
+            0,
+            null
+        ],
+        "ylabel": "transmission / %"
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "ax": null,
+    "dpi": 400,
+    "draw": false,
+    "grid": false,
+    "path": null,
+    "plot_kwargs": {
+        "c": "blue",
+        "fmt": "-+",
+        "mec": "black",
+        "ms": 6
+    },
+    "save": true,
+    "suptitle": null,
+    "title": null,
+    "xbounds": null,
+    "xlabel": "x",
+    "ybounds": null,
+    "ylabel": "y"
+}

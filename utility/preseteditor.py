@@ -173,6 +173,26 @@ data_presets = {
 '''
 file_inst = {
     "ids": ["sev", "spec", "osc", "uv-vis"],
+    "crit": {
+        "not_allowed_endings": [".bin", "notes.txt", ".json"],
+        "sev": {
+            "ending": ".txt",
+            "contains": ["hist"],
+        },
+        "spec": {
+            "ending": ".csv",
+            "contains": [],
+        },
+        "uv-vis": {
+            "ending": ".csv",
+            "contains": [],
+        },
+        "osc": {
+            "ending": ".txt",
+            "contains": ["wave"],
+        },
+
+    }
 }
 
 save_to_json(plot_standards, "config/plot_standards.json")

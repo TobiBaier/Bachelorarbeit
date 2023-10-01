@@ -21,19 +21,19 @@ class DataLoader:
         """
 
         try:
-            with open("config/csv_standards.json", "r") as of:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/csv_standards.json", "r") as of:
                 self.csv_standards = json.load(of)
         except FileNotFoundError:
             raise FileNotFoundError("Could not load config/csv_standards.json because file does not exists!")
 
         try:
-            with open("config/txt_standards.json", "r") as of:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/txt_standards.json", "r") as of:
                 self.txt_standards = json.load(of)
         except FileNotFoundError:
             raise FileNotFoundError("Could not load config/txt_standards.json because file does not exists!")
 
         try:
-            with open("config/data_presets.json", "r") as of:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/data_presets.json", "r") as of:
                 self.presets = json.load(of)
         except FileNotFoundError:
             raise FileNotFoundError("Could not load config/data_presets.json because file does not exists!")
