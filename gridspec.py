@@ -36,6 +36,7 @@ class GridSpec:
         self.spectra = []
         self.current_spectrum = None
         self.file_name = "spectrum"
+        self.save_path = "C:/Users/baier/OneDrive/Uni/Bachelorarbeit/sortme/"
 
         # measurement parameters
         self.start_wl = 400
@@ -61,6 +62,7 @@ class GridSpec:
         time.sleep(2)
 
     def get_wavelength(self):
+        self.ser_spec.flushInput()
         self.ser_spec.write("?NM\r".encode())
         ret = self.ser_spec.readline()
 
@@ -102,7 +104,11 @@ class GridSpec:
             if data is None:
                 raise ValueError("There was no feedback from the Photodetector!")
 
-            count = float(re.findall(r"[\d]*[.][\d]", data.decode())[0])
+            try:
+                count = float(re.findall(r"[\d]*[.][\d]", data.decode())[0])
+            except IndexError:
+                count = 0
+                print("had Indexerror: " + data.decode())
 
             return count
 
@@ -114,9 +120,16 @@ class GridSpec:
                 if len(data) > self.wait_time:
                     break
                 else:
-                    temp = self.ser_photo.readline().decode()
-                    count = float(re.findall(r"[\d]*[.][\d]", temp)[0])
-                    data = np.append(data, count)
+                    if self.ser_photo.inWaiting():
+                        temp = self.ser_photo.readline().decode()
+                        try:
+                            count = float(re.findall(r"[\d]*[.][\d]", temp)[0])
+                            data = np.append(data, count)
+                        except IndexError:
+                            print("had indexerror: " + temp)
+                            pass
+                    else:
+                        print("nothing in waiting")
 
             return np.sum(data)
 
@@ -129,6 +142,7 @@ class GridSpec:
         """
         # reformat wavelength
         wl_str = f"{wl:.2f}"
+        self.ser_spec.flushInput()
 
         # send wavelength to spectrometer
         comm = wl_str + " <GOTO>" + "\r"
@@ -170,7 +184,7 @@ class GridSpec:
         ax.set_title(self.file_name)
         ax.grid()
 
-        plt.savefig(self.file_name + ".png", dpi=400)
+        # plt.savefig(self.file_name + ".png", dpi=400)
         plt.show()
 
     def load_values(self):
@@ -184,8 +198,14 @@ class GridSpec:
         return np.array(draw_arr)
 
     def save_values(self):
-        dt = datetime.fromtimestamp(time.time())
-        fn = self.file_name + "on" + dt.strftime("%m_%d_%Yat%H_%M")
+        print("Construct a data name:")
+        fn = "spec_"
+        fn = fn + input("Sample ID: ") + "_"
+        fn = fn + input("Sample Code: ")
+        add_info = input("additional infos: ")
+        if add_info != "":
+            fn = fn + "_" + add_info
+        fn = fn + str(int(self.delta_wl)) + "step"
 
         print(f"The measured spectrum will be saved as: {fn}")
         inp = input("Change name? (y/n):")
@@ -193,14 +213,14 @@ class GridSpec:
         if inp == "y":
             self.file_name = input("Please enter a new name (can include directory, no file ending): ")
         elif inp == "n":
-            pass
+            self.file_name = fn
 
-        with open(self.file_name + ".csv", "w", newline="") as savefile:
+        with open(self.save_path + self.file_name + ".csv", "w", newline="") as savefile:
             writer = csv.writer(savefile, delimiter=";")
             writer.writerows(self.current_spectrum)
 
     """
-    utility_deprecated functions for system dialogs
+    utility functions for system dialogs
     """
 
     def current_params(self):
@@ -263,7 +283,7 @@ class GridSpec:
     main measurement control function
     """
 
-    def measure_spectrum(self, live_update=False, sv=True):
+    def measure_spectrum(self, live_update=True, sv=True):
         """
         Asks user for measurement parameters and then starts program
         :return:
@@ -293,6 +313,8 @@ class GridSpec:
 
             self.current_spectrum[i][0] = actual_wl
             self.current_spectrum[i][1] = mean_count
+
+        print("Process finished without errors!")
 
         self.save_values()
         self.draw_spectrum()

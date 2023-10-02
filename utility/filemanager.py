@@ -52,7 +52,7 @@ class FileManager:
             lines = idlist.readlines()
             for line in lines:
                 # finds all lines of type " id: "[word]""
-                x = re.findall(r'[id: "]*[\w]*["]', line)
+                x = re.findall(r'[id: "]+[\w]*[-]*[\w]+["]', line)
                 if x:
                     # remove "id" with split and "" with strip
                     sample_ids.append(x[0].split(" id: ")[1].strip('\"'))

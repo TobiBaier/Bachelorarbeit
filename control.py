@@ -15,7 +15,7 @@ import numpy as np
 
 def title_constructor(filename):
     t_str = None
-    st_str = "Diagram zu Daten aus: " + filename
+    st_str = "Diagramm zu Daten aus: " + filename
 
     y = re.search(r"_b+[\w]+g[\w]+s+([0-9]{3})", filename)
     if y is not None:
