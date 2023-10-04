@@ -113,7 +113,7 @@ class FileManager:
         if inst in self.inst_ids:
             if sample in self.sample_ids:
                 if not filename.endswith(self.file_criteria[inst]["ending"]):
-                    filename = filename + ".txt"
+                    filename = filename + self.file_criteria[inst]["ending"]
                 else:
                     pass
 

@@ -11,6 +11,7 @@ import os
 import re
 import matplotlib.pyplot as plt
 import numpy as np
+from pprint import pprint
 
 
 def title_constructor(filename):
@@ -84,7 +85,7 @@ class Control:
 
         return labels
 
-    def search_in_dir(self, direc, identifiers=None, or_identifiers=None):
+    def search_in_dir(self, direc, identifiers=None, or_identifiers=None, not_identifiers=None):
         """
         returns list of names in directory, that fulfill conditions
 
@@ -101,7 +102,9 @@ class Control:
             # if path is a directory as well, recall current functions with subdirectory
             if os.path.isdir(self.c_file.path + "/" + direc + "/" + filepath):
                 names.extend(self.search_in_dir(direc + "/" + filepath,
-                                                identifiers=identifiers, or_identifiers=or_identifiers))
+                                                identifiers=identifiers,
+                                                or_identifiers=or_identifiers,
+                                                not_identifiers=not_identifiers))
             # check if conditions are fulfilled
             else:
                 # or conditions
@@ -121,7 +124,14 @@ class Control:
                             add_name = False
                             break
 
-                # add name if all condtions are fulfilled
+                # not condition
+                if not_identifiers is not None:
+                    for i in not_identifiers:
+                        if i in filepath:
+                            add_name = False
+                            break
+
+                # add name if all conditions are fulfilled
                 if add_name and self.c_file.check_filename_format(filepath):
                     names.append(filepath)
 
@@ -190,8 +200,9 @@ class Control:
         # plot names
         for name in names:
             self.auto_plot_data(name)
+            plt.close()
 
-    def multi_plot(self, names, labels, path, title=None, clist=None, **kwargs):
+    def multi_plot(self, names, labels, path, title=None, clist=None, lslist=None, norm=False, **kwargs):
         """
         plots multiple data sets of the same instrument in one diagram
 
@@ -199,7 +210,9 @@ class Control:
         :param labels: labels for each diagram
         :param path: path to save the final diagram to (will be in prodata directory)
         :param title: optional plot title
-        :param clist: optional color list (standard: ["c", "m", "y", "r", "g", "b"])
+        :param clist: optional color list (standard: ["c", "m", "y", "r", "g", "b", "gray", "purple"])
+        :param lslist: list of linestyles (can be int -> n-1 position will be dashed)
+        :param norm: norm all plots to their maximum y-value if True
         :param kwargs: plot kwargs
         :return: the multi diagram
         """
@@ -212,7 +225,26 @@ class Control:
 
         # update color list if necessary
         if clist is None:
-            clist = ["c", "m", "y", "r", "g", "b"]
+            clist = ["c", "m", "y", "r", "g", "b", "gray", "purple"]
+
+        # check lslist len, if given
+        if lslist is not None:
+            if type(lslist) != int:
+                if len(names) != len(lslist):
+                    print("lslist length does not match names list -> setting ls='-'!")
+                    lslist = None
+            else:
+                sp = lslist
+                lslist = []
+                for i in range(len(names)):
+                    if i == sp:
+                        lslist.append("--")
+                    else:
+                        lslist.append("-")
+        if lslist is None:
+            lslist = []
+            for i in range(len(names)):
+                lslist.append("-")
 
         # get save path
         path = self.c_file.prodata_path + "/" + path
@@ -226,7 +258,7 @@ class Control:
         clist = clist[:len(names)]
 
         # iterate over plots
-        for name, label, color in zip(names, labels, clist):
+        for name, label, color, ls in zip(names, labels, clist, lslist):
             # get filename and path
             filename = self.c_file.check_filename_format(name)
             filepath = self.c_file.get_datafile_path(name)
@@ -238,9 +270,14 @@ class Control:
             inst = self.c_file.get_inst_and_sample(filename)[0]
             rec_data = self.c_data.auto_read(inst, filepath)
 
+            # norm data
+            if norm:
+                rec_data[1] = rec_data[1] / np.max(rec_data[1])
+
             # update kwargs
             kwargs["label"] = label
             kwargs["c"] = color
+            kwargs["ls"] = ls
 
             # draw one diagram
             self.c_draw.make_diagram(inst, rec_data, **kwargs)
@@ -249,32 +286,47 @@ class Control:
         ax.set_title(title)
         ax.grid(True)
 
+        # change ax label, if norm
+        if norm:
+            ax.set_ylabel("normierte Zählrate")
+
         # save/show plot
         plt.savefig(path, dpi=400)
-        plt.show()
+        # plt.show()
 
-    def twin_x_scale_plot(self, names, labels, path, kwargs):
+    def twin_x_scale_plot(self, names, labels, path, style=None, **kwargs):
         """
-        plots data from two different instruments in one diagram (uses same x axis)
+        plots data from two different instruments in one diagram (uses same x-axis)
+        you can provide style options in a dictionary
 
         :param names: names of data for the plot
         :param labels: labels for each diagram
         :param path: path to save the final diagram to (will be in prodata directory)
+        :param style: dict of type {"ls1": "-", "ls2": "-", "c1": "k", "c2": "r",}
+                    -> can also take (correctly sized !!!!) arrays as input
         :param kwargs: plot kwargs
         :return: the twin diagram
         """
 
         # plot settings need to be updated, so that one plot and not many are produced
         standards = {
-            "ax": None, "draw": False, "save": False, "title": None, "label": None
+            "ax": None, "draw": False, "save": False, "title": None, "label": None, "draw_label": False,
         }
         kwargs = standards | kwargs
 
-        # update colors
-        if "c" in kwargs:
-            c = kwargs["c"]
+        # update the style settings
+        standard_style = {
+            "ls1": "-",
+            "ls2": "-",
+            "c1": "k",
+            "c2": "r",
+        }
+        using_standards = False
+        if style is None:
+            style = standard_style
+            using_standards = True
         else:
-            c = ["k", "r"]
+            style = standard_style | style
 
         # isolate the two instruments used
         inst_list = []
@@ -298,39 +350,58 @@ class Control:
         ax1 = fig.add_subplot(111)
         ax2 = ax1.twinx()
 
-        # save diagrams to build a legend later on
-        dias = []
+        # save diagrams and labels to build a legend later on
+        labs = []
+        lns = []
 
         # iterate over all names etc.
         for name, label, inst in zip(names, labels, inst_list):
             # get filename and path
+            print(name)
             file_name = self.c_file.check_filename_format(name)
             file_path = self.c_file.get_datafile_path(file_name)
 
             # load data
             rec_data = self.c_data.auto_read(inst, file_path)
 
-            # switch to correct color and plot space
+            # switch to correct color, linestyle and plot space
             if inst == inst1:
                 ax = ax1
-                ci = c[0 % len(c)]
+                inst_str = "1"
             else:
                 ax = ax2
-                ci = c[1 % len(c)]
+                inst_str = "2"
+
+            # switch to the according linestyle for the instrument
+            ci = style["c" + inst_str]
+            if type(ci) == list:
+                style["c" + inst_str] = ci[1:]
+                ci = ci[0]
+            lsi = style["ls" + inst_str]
+            if type(lsi) == list:
+                style["ls" + inst_str] = lsi[1:]
+                lsi = lsi[0]
 
             # update plot kwargs
-            kwargs["label"] = label
+            kwargs["label"] = label + f" ({inst})"
             kwargs["c"] = ci
             kwargs["ax"] = ax
+            # print(lsi)
+            kwargs["ls"] = lsi
 
-            # append resulting diagram
-            dias.append(self.c_draw.make_diagram(inst, rec_data, **kwargs))
+            # append resulting diagram and label (for later legend construction)
+            labs.append(kwargs["label"])
+            lns = lns + self.c_draw.make_diagram(inst, rec_data, **kwargs)
 
         # calculate tick distance, so that grids overlay
         ax2.set_yticks(np.linspace(ax2.get_yticks()[0], ax2.get_yticks()[-1], len(ax1.get_yticks())))
 
         # configure plots (labels, bound, ticks)
-        ax1.set_ylabel(self.c_draw.presets[inst1]["ylabel"], color=c[0])
+        if using_standards:
+            c = ["k", "r"]
+        else:
+            c = ["k", "k"]
+        ax1.set_ylabel(self.c_draw.presets[inst1]["ylabel"], color=c[1])
         ax1.set_ybound([0, ax1.get_yticks()[-1]])
         ax1.tick_params(axis="y", labelcolor=c[0])
         ax2.set_ylabel(self.c_draw.presets[inst2]["ylabel"], color=c[1])
@@ -340,11 +411,10 @@ class Control:
         fig.tight_layout()
 
         # make legend for entire plot
-        lns = dias[1] + dias[0]
-        labs = [l.get_label() for l in lns]
         ax1.legend(lns, labs)
 
         # save plot
+        path = self.c_file.prodata_path + "/" + path
         plt.savefig(path, dpi=400)
         plt.show()
 

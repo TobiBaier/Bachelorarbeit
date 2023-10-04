@@ -44,9 +44,23 @@ class GridSpec:
         self.delta_wl = 5
 
     '''
+    FUNCTION ALIASES (for easier calling)
+    '''
+    def goto(self, wl):
+        self.goto_wavelength(wl)
+
+    def get(self):
+        self.get_wavelength()
+
+    def loop(self, single_value=True):
+        self.cont_photo(single_value=single_value)
+
+    def measure(self, lu=True, sv=True):
+        self.measure_spectrum(live_update=lu, sv=sv)
+
+    '''
     DEPENDING ON YOUR PC, YOU MAY HAVE TO CHANGE THE KWARGS IN THE FUNCTION BELOW!!!
     '''
-
     def init_serials(self, win_photo="COM4", win_spec="COM3", lnx_photo="/dev/ttyACMO", lnx_spec="/dev/ttyUSB0"):
         # Windows System
         if os.name == "nt":
@@ -71,7 +85,6 @@ class GridSpec:
     '''
     communication functions (with spectrometer and photodetector
     '''
-
     def cont_photo(self, single_value=True):
         while True:
             print(self.read_photo(single_value=single_value))
@@ -163,7 +176,6 @@ class GridSpec:
     """
     functions to save and draw spectrum
     """
-
     def draw_spectrum(self, load_save=False):
         if not load_save:
             draw_arr = np.swapaxes(self.current_spectrum, 0, 1)
@@ -222,7 +234,6 @@ class GridSpec:
     """
     utility functions for system dialogs
     """
-
     def current_params(self):
         print("----------")
         print("These are the parameters currently saved in the system:")
@@ -282,7 +293,6 @@ class GridSpec:
     """
     main measurement control function
     """
-
     def measure_spectrum(self, live_update=True, sv=True):
         """
         Asks user for measurement parameters and then starts program
