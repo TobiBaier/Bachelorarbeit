@@ -418,6 +418,57 @@ class Control:
         plt.savefig(path, dpi=400)
         plt.show()
 
+    def math_plot(self, names, labels, path, **kwargs):
+        # plot settings need to be updated, so that one plot and not many are produced
+        standards = {
+            "ax": None, "draw": False, "save": False, "title": None, "label": None
+        }
+        kwargs = standards | kwargs
+
+        # get save path
+        path = self.c_file.prodata_path + "/" + path
+
+        # configure window
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        kwargs["ax"] = ax
+
+        data = []
+        for name, label in zip(names, labels):
+            filename = self.c_file.check_filename_format(name)
+            filepath = self.c_file.get_datafile_path(name)
+
+            if filepath is None:
+                raise FileNotFoundError(f"There is no data file called '{filename}'!")
+
+            # load data
+            inst = self.c_file.get_inst_and_sample(filename)[0]
+            rec_data = self.c_data.auto_read(inst, filepath)
+
+            # update kwargs
+            kwargs["label"] = label
+
+            rec_data[1] = rec_data[1]/np.linalg.norm(rec_data[1])
+            data.append(rec_data)
+
+            # draw one diagram
+
+        d = []
+        print(data[0])
+        d.append(data[0][0])
+        d.append(data[0][1] - data[1][1])
+
+        self.c_draw.make_diagram(inst, d, **kwargs)
+
+        # configure plot
+        ax.set_title(kwargs["title"])
+        ax.grid(True)
+
+        # save/show plot
+        plt.savefig(path, dpi=400)
+        plt.show()
+
+
 def get_inst():
     dr = DiagramMaker()
     fi = FileManager("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")

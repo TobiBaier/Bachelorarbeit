@@ -186,7 +186,7 @@ class FileManager:
             else:
                 raise FileExistsError(f"A file already exists at {new_path + '/' + file}")
 
-            return files
+        return files
 
     def condense_data(self):
         for inst in self.inst_ids:

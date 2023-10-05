@@ -5,7 +5,6 @@ import time
 import serial
 import os
 import csv
-from datetime import datetime
 
 
 def init_serial(prt):
@@ -104,7 +103,7 @@ class GridSpec:
         # collect only one value (meaning as fast as possible)
         # wait until new data has arrived
         if single_value:
-            for i in range(100):
+            '''for i in range(100):
                 time.sleep(self.photo_update_time)
                 if self.ser_photo.inWaiting():
                     # save incoming data
@@ -115,13 +114,16 @@ class GridSpec:
 
             # if waiting time is too big (~10s), error is raised
             if data is None:
-                raise ValueError("There was no feedback from the Photodetector!")
+                raise ValueError("There was no feedback from the Photodetector!")'''
 
-            try:
-                count = float(re.findall(r"[\d]*[.][\d]", data.decode())[0])
+            data = self.ser_photo.readline()
+            count = float(data.decode())
+
+            """try:
+                count = float(re.findall(r"[\d]+[.][\d]", data.decode())[0])
             except IndexError:
                 count = 0
-                print("had Indexerror: " + data.decode())
+                print("had Indexerror: " + data.decode())"""
 
             return count
 
@@ -130,20 +132,18 @@ class GridSpec:
             data = np.array([])
             time.sleep(self.wait_time)
             while True:
-                if len(data) > self.wait_time:
+                if len(data) >= self.wait_time:
                     break
                 else:
-                    if self.ser_photo.inWaiting():
-                        temp = self.ser_photo.readline().decode()
-                        try:
-                            count = float(re.findall(r"[\d]*[.][\d]", temp)[0])
-                            data = np.append(data, count)
-                        except IndexError:
-                            print("had indexerror: " + temp)
-                            pass
-                    else:
-                        print("nothing in waiting")
-
+                    temp = self.ser_photo.readline().decode()
+                    data = np.append(data, float(temp))
+                    """try:
+                        count = float(re.findall(r"[\d]*[.][\d]", temp)[0])
+                        data = np.append(data, count)
+                    except IndexError:
+                        print("had indexerror: " + temp)
+                        pass"""
+            print(data)
             return np.sum(data)
 
     def goto_wavelength(self, wl):

@@ -6,6 +6,9 @@ c = get_inst()
 
 # c.c_file.sort_to_dirs()
 
+# c.plot_dir("data/spec/uv-led")
+# c.plot_dir("data/spec/ppo1")
+
 #names = c.search_in_dir("data/spec", identifiers=["uv"], or_identifiers=["led", "masked"])
 #labels = c.extract_labels_from_path(names)
 #pprint(names)
@@ -39,28 +42,43 @@ labels = c.extract_labels_from_path(names)
 for name, label in zip(names, labels):
     sample = c.c_file.get_inst_and_sample(name)[1]
     t = re.search(r"_b+[\w]+g[\w]+s+([0-9]{3})", name).group(0)
-    uv_name = c.search_in_dir("data/uv-vis", identifiers=[sample, "_good", "fast", t])
+    uv_name = c.search_in_dir("data/uv-vis", identifiers=[sample, "_good", "survey", t])
 
     a = [name]
     a.extend(uv_name)
-    a.append("spec_uv-led_4600mV")
+    # a.append("spec_uv-led_4600mV")
     b = [label]
     b.append(label)
-    b.append("uv-led")
+    # b.append("uv-led")
 
-    style = {
-        "ls1": ["-", "--"]
-    }
+    #style = {
+    #    "ls1": ["-", "--"]
+    #}
 
-    c.twin_x_scale_plot(a, b, "zz_spec_uv/" + sample + "_with_uv.png", title=sample + t + " in spec and cary", style=style)
-
+    c.twin_x_scale_plot(a, b, "zz_spec_uv/" + sample + ".png", title=sample + t + " in spec and cary",)
 """
 
+"""
 names = c.search_in_dir("data/spec", identifiers=["uv_4600"], or_identifiers=["combi14", "combi92"])
 names.append("spec_uv-led_4600mV")
 labels = c.extract_labels_from_path(names)
 c.multi_plot(names, labels, "zz_spec_combis/combi_samples.png", title="Combi Proben", lslist=2, norm=False)
 
+"""
+"""
+names = c.search_in_dir("data/spec/ppo1", identifiers=["107mW"])
+print(names)
+labels = []
+for name in names:
+    labels.append(re.search(r"[\d]+mm", name).group(0))
+
+title = "ppo1_bcg2s022 illuminated by uv-led at different distances (normed)"
+c.multi_plot(names, labels, path="zz_spec_combis/ppo1_diff_distances_norm.png", title=title, norm=True)"""
+
+names = c.search_in_dir("data/spec", identifiers=["7mm", "17mW"])
+labels = c.extract_labels_from_path(names)
+print(names)
+c.math_plot(names, labels, path="zz_spec_combis/uv-diff.png", title="Spektrum der UV-LED von ppo1-Messung abgezogen", ybounds=None)
 
 
 
