@@ -401,7 +401,7 @@ class Control:
             c = ["k", "r"]
         else:
             c = ["k", "k"]
-        ax1.set_ylabel(self.c_draw.presets[inst1]["ylabel"], color=c[1])
+        ax1.set_ylabel(self.c_draw.presets[inst1]["ylabel"], color=c[0])
         ax1.set_ybound([0, ax1.get_yticks()[-1]])
         ax1.tick_params(axis="y", labelcolor=c[0])
         ax2.set_ylabel(self.c_draw.presets[inst2]["ylabel"], color=c[1])
