@@ -4,16 +4,35 @@ from pprint import pprint
 
 c = get_inst()
 
-c.c_file.sort_to_dirs()
-c.plot_dir("data/spec", identifiers=["ap1000"])
+# c.c_file.sort_to_dirs()
+# c.plot_dir("data/spec/uv-led")
 # c.plot_dir("data/uv-vis/ej260")
 # c.plot_dir("data/spec/ppo1")
 
-#names = c.search_in_dir("data/spec", identifiers=["uv"], or_identifiers=["led", "masked"])
-#labels = c.extract_labels_from_path(names)
-#pprint(names)
-#c.multi_plot(names, labels, "zz_spec_combis/all_samples_norm.png", title="All samples so far", norm=True)
+names = c.search_in_dir("data/spec", identifiers=["good", "ap1000"], or_identifiers=["ej260", "popop", "combi92", "pu", "ppo1"])
+pprint(names)
+style = {
+    "c": ["cyan", "xkcd:electric blue", "black", "gray", "red"]
+}
+labels = c.extract_labels_from_path(names)
+c.multi_plot(names, labels, "zz_spec_combis/broken_detector.png", title="Ist das Spektrometer kaputt?", style=style)
 
+
+
+
+
+
+
+
+
+
+
+
+"""names = c.search_in_dir("data/spec", identifiers=["uv"], or_identifiers=["led", "masked"])
+labels = c.extract_labels_from_path(names)
+pprint(names)
+c.multi_plot(names, labels, "zz_spec_combis/all_samples_norm.png", title="All samples so far", norm=True)
+"""
 """names = c.search_in_dir("data/spec", identifiers=["uv", "masked"])
 labels = c.extract_labels_from_path(names)
 uv_name = c.search_in_dir("data/spec/uv-led", identifiers=["uv"])
@@ -74,12 +93,7 @@ for name in names:
 
 title = "ppo1_bcg2s022 illuminated by uv-led at different distances (normed)"
 c.multi_plot(names, labels, path="zz_spec_combis/ppo1_diff_distances_norm.png", title=title, norm=True)"""
-"""
-names = c.search_in_dir("data/spec", identifiers=["7mm", "17mW"])
-labels = c.extract_labels_from_path(names)
-print(names)
-c.math_plot(names, labels, path="zz_spec_combis/uv-diff.png", title="Spektrum der UV-LED von ppo1-Messung abgezogen", ybounds=None)
-"""
+
 """
 names_spec = ["spec_ej260_sr_5step", "spec_ej260_uv_4600mV_masked_5step"]
 labels_spec = ["EJ260 (Sr)", "EJ260 (UV)"]
@@ -98,9 +112,18 @@ for i in range(len(names_spec)):
     c.twin_x_scale_plot([names_spec[i], name_uvv], [labels_spec[i], "EJ260 transmission"], path=paths_spec[i] + "_with_transmission",
                         xbounds=[300, 750])
 """
-
-"""names = c.search_in_dir("data/spec/uv-led", identifiers=["aprun"])
-labels = c.extract_labels_from_path(names)
-path = "zz_spec_combis/uv_tube_aperture.png"
-c.multi_plot(names, labels, path, title="Verschiedene Blendenöffnungen vor der LED", norm=True)
 """
+names = c.search_in_dir("data/spec/uv-led", identifiers=["1000ap"])
+pprint(names)
+labels = c.extract_labels_from_path(names)
+labels = [
+    "100µm",
+    "1000µm",
+    "300µm",
+    "500µm"
+]
+path = "zz_spec_combis/aperture/entry_aperture.png"
+c.multi_plot(names, labels, path, suptitle="Verschiedene Eingangs-Blendenöffnungen am Spektrometer (normiert)",
+             norm=False, draw_label=False, title="(rechter Peak nimmt mit Öffnungsweite zusammen ab)")
+"""
+

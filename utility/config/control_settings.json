@@ -1,0 +1,48 @@
+{
+    "auto_plot": {
+        "suptitle": null,
+        "title": null
+    },
+    "multi_plot": {
+        "outer_format": {
+            "ax": null,
+            "norm": null,
+            "suptitle": null,
+            "title": null
+        },
+        "style": {
+            "c": [
+                "c",
+                "m",
+                "y",
+                "r",
+                "g",
+                "b",
+                "gray",
+                "purple"
+            ],
+            "draw": false,
+            "label": null,
+            "ls": "-",
+            "save": false
+        }
+    },
+    "twin_xscale": {
+        "outer_format": {
+            "ax": null,
+            "norm": null,
+            "suptitle": null,
+            "title": null
+        },
+        "style": {
+            "c": [
+                "k",
+                "r"
+            ],
+            "draw": false,
+            "label": null,
+            "ls": "-",
+            "save": false
+        }
+    }
+}

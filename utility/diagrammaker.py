@@ -124,6 +124,8 @@ class DiagramMaker:
                 temp = self.presets[plot_preset].copy()
                 # remove 'plot_type' key from preset-copy-dictionary
                 temp.pop("plot_type")
+                if "plot_kwargs" in kwargs:
+                    kwargs["plot_kwargs"] = temp["plot_kwargs"] | kwargs["plot_kwargs"]
                 # call according plot function and return the return (overwrites presets here)
                 return self.draw_plot(data, **temp | kwargs)
 
@@ -131,11 +133,15 @@ class DiagramMaker:
             elif self.presets[plot_preset]["plot_type"] == "scatter":
                 temp = self.presets[plot_preset].copy()
                 temp.pop("plot_type")
+                if "plot_kwargs" in kwargs:
+                    kwargs["plot_kwargs"] = temp["plot_kwargs"] | kwargs["plot_kwargs"]
                 return self.draw_scatter(data, **temp | kwargs)
 
             elif self.presets[plot_preset]["plot_type"] == "errorbar":
                 temp = self.presets[plot_preset].copy()
                 temp.pop("plot_type")
+                if "plot_kwargs" in kwargs:
+                    kwargs["plot_kwargs"] = temp["plot_kwargs"] | kwargs["plot_kwargs"]
                 return self.draw_errorbar(data, **temp | kwargs)
 
             # raise error, if plot type does not exist

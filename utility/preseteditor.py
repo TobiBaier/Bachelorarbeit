@@ -65,6 +65,7 @@ draw_presets = {
         },
         "xlabel": r"Wellenlänge/nm",
         "ylabel": r"Zählrate/$\frac{1}{s}$",
+        "norm_ylabel": "normierte Zählrate",
         "grid": True,
         "ybounds": [0, None],
         "draw_label": True,
@@ -80,6 +81,7 @@ draw_presets = {
         },
         "xlabel": r"Wellenlänge/nm",
         "ylabel": "transmission / %",
+        "norm_ylabel": "normed transmission rate",
         "grid": True,
         "ybounds": [0, None],
         "draw_label": True,
@@ -95,6 +97,7 @@ draw_presets = {
         },
         "xlabel": r"energy/channels",
         "ylabel": "counts",
+        "norm_ylabel": "normed counts",
         "grid": True,
         "ybounds": [0, None],
         "xbounds": [0, 1500],
@@ -111,6 +114,7 @@ draw_presets = {
         },
         "xlabel": r"time",
         "ylabel": "pulse height",
+        "norm_ylabel": "normed pulse height",
         "grid": True,
         "ybounds": [None, None],
         "draw_label": True,
@@ -195,9 +199,50 @@ file_inst = {
     }
 }
 
+'''
+    Control presets
+'''
+control_settings = {
+    "multi_plot": {
+        "outer_format": {
+            "title": None,
+            "suptitle": None,
+            "ax": None,
+            "norm": None,
+        },
+        "style": {
+            "draw": False,
+            "save": False,
+            "label": None,
+            "c": ["c", "m", "y", "r", "g", "b", "gray", "purple"],
+            "ls": "-",
+        }
+    },
+    "twin_xscale": {
+        "outer_format": {
+            "title": None,
+            "suptitle": None,
+            "ax": None,
+            "norm": None,
+        },
+        "style": {
+            "draw": False,
+            "save": False,
+            "label": None,
+            "c": ["k", "r"],
+            "ls": "-",
+        }
+    },
+    "auto_plot": {
+        "title": None,
+        "suptitle": None,
+    }
+}
+
 save_to_json(plot_standards, "config/plot_standards.json")
 save_to_json(draw_presets, "config/draw_presets.json")
 save_to_json(txt_standards, "config/txt_standards.json")
 save_to_json(csv_standards, "config/csv_standards.json")
 save_to_json(data_presets, "config/data_presets.json")
 save_to_json(file_inst, "config/file_inst.json")
+save_to_json(control_settings, "config/control_settings.json")

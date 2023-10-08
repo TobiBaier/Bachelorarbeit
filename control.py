@@ -11,6 +11,7 @@ import os
 import re
 import matplotlib.pyplot as plt
 import numpy as np
+import json
 from pprint import pprint
 
 
@@ -57,11 +58,30 @@ class Control:
         self.c_file = c_file
         self.c_draw = c_draw
 
+        # standard settings
+        self.mp_settings = None
+        self.tx_settings = None
+        self.ap_settings = None
+
+        # load settings
+        self.config()
+
+    def config(self):
+        try:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/utility/config/control_settings.json", "r") as of:
+                settings = json.load(of)
+        except FileNotFoundError:
+            raise FileNotFoundError("Could not load config/control_settings.json because file does not exists!")
+
+        self.mp_settings = settings["multi_plot"]
+        self.tx_settings = settings["twin_xscale"]
+        self.ap_settings = settings["auto_plot"]
+
     """
     --------------------------------------------------------------------------
     UTILITY FUNCTIONS
     """
-    def extract_labels_from_path(self, names):
+    def extract_labels_from_path(self, names, re_str=None):
         """
         takes list of filenames and returns their labels (either sample description or info text)
 
@@ -72,8 +92,16 @@ class Control:
         labels = []
         for name in names:
             inst, sample = self.c_file.get_inst_and_sample(name)
-            if inst is None and sample is None:
+            if re_str is not None:
+                y = re.search(re_str, name)
+                try:
+                    labels.append(y.group(0))
+                except AttributeError:
+                    labels.append("no info found")
+
+            elif inst is None and sample is None:
                 pass
+
             else:
                 y = re.search(r"_b+[\w]+g[\w]+s+([0-9]{3})", name)
                 try:
@@ -149,10 +177,9 @@ class Control:
         :param kwargs: kwargs handed over to the drawing function -> allows for changes
         :return: the diagram
         """
-        if "title" not in kwargs:
-            kwargs["title"] = None
-        if "suptitle" not in kwargs:
-            kwargs["suptitle"] = None
+
+        # update standard settings
+        kwargs = self.ap_settings | kwargs
 
         # add ending if needed
         temp = filename
@@ -185,6 +212,44 @@ class Control:
             # make the plot
             return self.c_draw.make_diagram(inst, rec_data, **kwargs)
 
+    def create_combiplot(self, names, outer_format, style):
+
+        if type(outer_format["ax"]) != list:
+            outer_format["ax"] = [outer_format["ax"]] * len(names)
+        if type(outer_format["inst"]) != list:
+            outer_format["inst"] = [outer_format["inst"]] * len(names)
+
+        dgs = []
+        # print(outer_format["ax"])
+        for i, name in enumerate(names):
+
+            config = {}
+
+            for key in style:
+                if type(style[key]) != list:
+                    config[key] = style[key]
+                else:
+                    config[key] = style[key][i]
+
+            filename = self.c_file.check_filename_format(name)
+            filepath = self.c_file.get_datafile_path(filename)
+
+            rec_data = self.c_data.auto_read(outer_format["inst"][i], filepath)
+
+            if outer_format["norm"] == "max":
+                rec_data[1] = rec_data[1] / np.max(rec_data[1])
+            elif outer_format["norm"] == "vector":
+                rec_data[1] = rec_data[1] / np.linalg.norm(rec_data[1])
+
+            pprint(config)
+
+            dgs = dgs + self.c_draw.make_diagram(outer_format["inst"][i], rec_data, ax=outer_format["ax"][i], **config)
+
+        plt.suptitle(outer_format["suptitle"])
+        plt.title(outer_format["title"])
+
+        return dgs
+
     def plot_dir(self, direc, identifiers=None, or_identifiers=None):
         """
         plots all data in directory, that fulfills conditions
@@ -202,133 +267,75 @@ class Control:
             self.auto_plot_data(name)
             plt.close()
 
-    def multi_plot(self, names, labels, path, title=None, clist=None, lslist=None, norm=False, **kwargs):
+    def multi_plot(self, names, labels, path, style=None, **kwargs):
         """
         plots multiple data sets of the same instrument in one diagram
 
         :param names: names of data for the plot
         :param labels: labels for each diagram
         :param path: path to save the final diagram to (will be in prodata directory)
-        :param title: optional plot title
-        :param clist: optional color list (standard: ["c", "m", "y", "r", "g", "b", "gray", "purple"])
-        :param lslist: list of linestyles (can be int -> n-1 position will be dashed)
-        :param norm: norm all plots to their maximum y-value if True
-        :param kwargs: plot kwargs
+        :param style: should contain lists or entries to overwrite standard plot settings (c, ls, marker...)
+        :param kwargs: plot kwargs (norm, title, suptitle)
         :return: the multi diagram
         """
 
-        # plot settings need to be updated, so that one plot and not many are produced
-        standards = {
-            "ax": None, "draw": False, "save": False, "title": None, "label": None
-        }
-        kwargs = standards | kwargs
+        if style is None:
+            style = {}
+        style = self.mp_settings["style"] | style
 
-        # update color list if necessary
-        if clist is None:
-            clist = ["c", "m", "y", "r", "g", "b", "gray", "purple"]
+        # compare outer_format with kwargs (cant use |, because only predefined keys are allowed)
+        outer_format = self.mp_settings["outer_format"]
+        for key in kwargs:
+            if key in outer_format:
+                outer_format[key] = kwargs[key]
 
-        # check lslist len, if given
-        if lslist is not None:
-            if type(lslist) != int:
-                if len(names) != len(lslist):
-                    print("lslist length does not match names list -> setting ls='-'!")
-                    lslist = None
-            else:
-                sp = lslist
-                lslist = []
-                for i in range(len(names)):
-                    if i == sp:
-                        lslist.append("--")
-                    else:
-                        lslist.append("-")
-        if lslist is None:
-            lslist = []
-            for i in range(len(names)):
-                lslist.append("-")
+        # fully construct style dictionary
+        style["label"] = labels
+
+        # fully construct outer_format dictionary
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        outer_format["ax"] = ax
+        inst = self.c_file.get_inst_and_sample(names[0])[0]
+        outer_format["inst"] = inst
+
+        # call combi_plot to draw diagrams
+        self.create_combiplot(names, outer_format, style)
+
+        # adjust plot parameters
+        if outer_format["norm"] is not None:
+            ax.set_ylabel(self.c_draw.plot_standards[outer_format["inst"]]["norm_ylabel"])
+        ax.grid(True)
 
         # get save path
         path = self.c_file.prodata_path + "/" + path
 
-        # configure window
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        kwargs["ax"] = ax
-
-        # cut color list to needed length
-        clist = clist[:len(names)]
-
-        # iterate over plots
-        for name, label, color, ls in zip(names, labels, clist, lslist):
-            # get filename and path
-            filename = self.c_file.check_filename_format(name)
-            filepath = self.c_file.get_datafile_path(name)
-
-            if filepath is None:
-                raise FileNotFoundError(f"There is no data file called '{filename}'!")
-
-            # load data
-            inst = self.c_file.get_inst_and_sample(filename)[0]
-            rec_data = self.c_data.auto_read(inst, filepath)
-
-            # norm data
-            if norm:
-                rec_data[1] = rec_data[1] / np.max(rec_data[1])
-
-            # update kwargs
-            kwargs["label"] = label
-            kwargs["c"] = color
-            kwargs["ls"] = ls
-
-            # draw one diagram
-            self.c_draw.make_diagram(inst, rec_data, **kwargs)
-
-        # configure plot
-        ax.set_title(title)
-        ax.grid(True)
-
-        # change ax label, if norm
-        if norm:
-            ax.set_ylabel("normierte Zählrate")
-
-        # save/show plot
+        # draw and save plot
+        ax.legend()
         plt.savefig(path, dpi=400)
-        # plt.show()
 
     def twin_x_scale_plot(self, names, labels, path, style=None, **kwargs):
         """
-        plots data from two different instruments in one diagram (uses same x-axis)
-        you can provide style options in a dictionary
 
-        :param names: names of data for the plot
-        :param labels: labels for each diagram
-        :param path: path to save the final diagram to (will be in prodata directory)
-        :param style: dict of type {"ls1": "-", "ls2": "-", "c1": "k", "c2": "r",}
-                    -> can also take (correctly sized !!!!) arrays as input
-        :param kwargs: plot kwargs
-        :return: the twin diagram
+        :param names:
+        :param labels:
+        :param path:
+
+        :param style:
+        :param kwargs:
+        :return:
         """
 
-        # plot settings need to be updated, so that one plot and not many are produced
-        standards = {
-            "ax": None, "draw": False, "save": False, "title": None, "label": None, "draw_label": False,
-        }
-        kwargs = standards | kwargs
-
-        # update the style settings
-        standard_style = {
-            "ls1": "-",
-            "ls2": "-",
-            "c1": "k",
-            "c2": "r",
-        }
-        using_standards = False
         if style is None:
-            style = standard_style
-            using_standards = True
-        else:
-            style = standard_style | style
+            style = {}
+        style = self.tx_settings["style"] | style
 
-        # isolate the two instruments used
+        outer_format = self.tx_settings["outer_format"]
+        for key in kwargs:
+            if key in outer_format:
+                outer_format[key] = kwargs[key]
+
+        # get both instruments
         inst_list = []
         for name in names:
             inst_list.append(self.c_file.get_inst_and_sample(name)[0])
@@ -345,59 +352,47 @@ class Control:
         if inst2 is None:
             raise NameError("You need to provide data from two different instruments! (Consider using multi_plot)")
 
-        # create the plot space
+        # special cases for colors and linestyles
+        if "c1" in kwargs and "c2" in kwargs:
+            c = []
+            for inst in inst_list:
+                if inst == inst1:
+                    c.append(kwargs["c1"])
+                else:
+                    c.append(kwargs["c2"])
+            style["c"] = c
+        
+        if "ls1" in kwargs and "ls2" in kwargs:
+            ls = []
+            for inst in inst_list:
+                if inst == inst1:
+                    ls.append(kwargs["ls1"])
+                else:
+                    ls.append(kwargs["ls2"])
+            style["ls"] = ls
+        
+        # construct outer_format
+        outer_format["inst"] = inst_list
         fig = plt.figure()
         ax1 = fig.add_subplot(111)
         ax2 = ax1.twinx()
-
-        # save diagrams and labels to build a legend later on
-        labs = []
-        lns = []
-
-        # iterate over all names etc.
-        for name, label, inst in zip(names, labels, inst_list):
-            # get filename and path
-            print(name)
-            file_name = self.c_file.check_filename_format(name)
-            file_path = self.c_file.get_datafile_path(file_name)
-
-            # load data
-            rec_data = self.c_data.auto_read(inst, file_path)
-
-            # switch to correct color, linestyle and plot space
+        axlist = []
+        for inst in inst_list:
             if inst == inst1:
-                ax = ax1
-                inst_str = "1"
+                axlist.append(ax1)
             else:
-                ax = ax2
-                inst_str = "2"
+                axlist.append(ax2)
+        outer_format["ax"] = axlist
 
-            # switch to the according linestyle for the instrument
-            ci = style["c" + inst_str]
-            if type(ci) == list:
-                style["c" + inst_str] = ci[1:]
-                ci = ci[0]
-            lsi = style["ls" + inst_str]
-            if type(lsi) == list:
-                style["ls" + inst_str] = lsi[1:]
-                lsi = lsi[0]
+        style["label"] = labels
 
-            # update plot kwargs
-            kwargs["label"] = label + f" ({inst})"
-            kwargs["c"] = ci
-            kwargs["ax"] = ax
-            # print(lsi)
-            kwargs["ls"] = lsi
+        # call combi_plot to draw diagrams
+        lns = self.create_combiplot(names, outer_format, style)
 
-            # append resulting diagram and label (for later legend construction)
-            labs.append(kwargs["label"])
-            lns = lns + self.c_draw.make_diagram(inst, rec_data, **kwargs)
-
-        # calculate tick distance, so that grids overlay
         ax2.set_yticks(np.linspace(ax2.get_yticks()[0], ax2.get_yticks()[-1], len(ax1.get_yticks())))
 
         # configure plots (labels, bound, ticks)
-        if using_standards:
+        if style["c"] == self.tx_settings[style]["c"]:
             c = ["k", "r"]
         else:
             c = ["k", "k"]
@@ -407,66 +402,14 @@ class Control:
         ax2.set_ylabel(self.c_draw.presets[inst2]["ylabel"], color=c[1])
         ax2.set_ybound([0, ax2.get_yticks()[-1]])
         ax2.tick_params(axis="y", labelcolor=c[1])
-
         fig.tight_layout()
 
         # make legend for entire plot
-        ax1.legend(lns, labs)
+        ax1.legend(lns, labels)
 
         # save plot
         path = self.c_file.prodata_path + "/" + path
         plt.savefig(path, dpi=400)
-        plt.show()
-
-    def math_plot(self, names, labels, path, **kwargs):
-        # plot settings need to be updated, so that one plot and not many are produced
-        standards = {
-            "ax": None, "draw": False, "save": False, "title": None, "label": None
-        }
-        kwargs = standards | kwargs
-
-        # get save path
-        path = self.c_file.prodata_path + "/" + path
-
-        # configure window
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        kwargs["ax"] = ax
-
-        data = []
-        for name, label in zip(names, labels):
-            filename = self.c_file.check_filename_format(name)
-            filepath = self.c_file.get_datafile_path(name)
-
-            if filepath is None:
-                raise FileNotFoundError(f"There is no data file called '{filename}'!")
-
-            # load data
-            inst = self.c_file.get_inst_and_sample(filename)[0]
-            rec_data = self.c_data.auto_read(inst, filepath)
-
-            # update kwargs
-            kwargs["label"] = label
-
-            rec_data[1] = rec_data[1]/np.linalg.norm(rec_data[1])
-            data.append(rec_data)
-
-            # draw one diagram
-
-        d = []
-        print(data[0])
-        d.append(data[0][0])
-        d.append(data[0][1] - data[1][1])
-
-        self.c_draw.make_diagram(inst, d, **kwargs)
-
-        # configure plot
-        ax.set_title(kwargs["title"])
-        ax.grid(True)
-
-        # save/show plot
-        plt.savefig(path, dpi=400)
-        plt.show()
 
 
 def get_inst():
