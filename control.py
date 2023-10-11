@@ -103,7 +103,7 @@ class Control:
                 pass
 
             else:
-                y = re.search(r"_b+[\w]+g[\w]+s+([0-9]{3})", name)
+                y = re.search(r"[_b\w]{3}[g\d]{2}s([0-9]{3})", name)
                 try:
                     # append the sample description if it exists
                     labels.append(sample + y.group(0))
@@ -385,14 +385,14 @@ class Control:
         outer_format["ax"] = axlist
 
         style["label"] = labels
-
+        print(labels)
         # call combi_plot to draw diagrams
         lns = self.create_combiplot(names, outer_format, style)
 
         ax2.set_yticks(np.linspace(ax2.get_yticks()[0], ax2.get_yticks()[-1], len(ax1.get_yticks())))
 
         # configure plots (labels, bound, ticks)
-        if style["c"] == self.tx_settings[style]["c"]:
+        if style["c"] == self.tx_settings["style"]["c"]:
             c = ["k", "r"]
         else:
             c = ["k", "k"]

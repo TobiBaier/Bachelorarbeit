@@ -231,6 +231,7 @@ control_settings = {
             "label": None,
             "c": ["k", "r"],
             "ls": "-",
+            "draw_label": False,
         }
     },
     "auto_plot": {
