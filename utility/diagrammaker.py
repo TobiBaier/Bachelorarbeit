@@ -33,7 +33,7 @@ def config_window(params: dict):
     if params["title"]:
         plt.title(params["title"], fontsize="small")
     if params["suptitle"]:
-        plt.suptitle(params["suptitle"])
+        plt.suptitle(params["suptitle"], fontsize="medium")
     if params["grid"]:
         ax.grid()
 

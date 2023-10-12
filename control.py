@@ -15,37 +15,7 @@ import json
 from pprint import pprint
 
 
-def title_constructor(filename):
-    t_str = None
-    st_str = "Diagramm zu Daten aus: " + filename
 
-    y = re.search(r"_b+[\w]+g[\w]+s+([0-9]{3})", filename)
-    if y is not None:
-        sample_description = y.group(0)
-        t_str = "Proben-Details: "
-
-        bubbles = sample_description[1:3]
-        grind = sample_description[3:5]
-        size = sample_description[6:8]
-        size2 = sample_description[8]
-
-        if bubbles == "bn":
-            t_str = t_str + "keine Blasen, "
-        elif bubbles == "bc":
-            t_str = t_str + "Blasen mittig, "
-        elif bubbles == "br":
-            t_str = t_str + "Blasen am Rand, "
-
-        if grind == "g0":
-            t_str = t_str + "ungeschliffen, "
-        elif grind == "g1":
-            t_str = t_str + "eine Seite geschliffen, "
-        elif grind == "g2":
-            t_str = t_str + "beide Seiten geschliffen, "
-
-        t_str = t_str + size + "." + size2 + "mm dick (-> [" + sample_description + "])"
-
-    return st_str, t_str
 
 
 class Control:
@@ -81,10 +51,57 @@ class Control:
     --------------------------------------------------------------------------
     UTILITY FUNCTIONS
     """
+
+    def title_constructor(self, filename):
+        t_str = None
+        st_str = ""
+
+        inst, sample = self.c_file.get_inst_and_sample(filename)
+        if inst == "spec":
+            st_str = "emission spectrum of: "
+        if inst == "uv-vis":
+            st_str = "transmission spectrum of: "
+        if inst == "sev":
+            st_str = "SEV histogram of: "
+        if inst == "osc":
+            st_str = "waveform of: "
+
+        st_str = st_str + self.c_file.sample_desciptions[sample]
+
+
+        y = re.search(r"[_b\w]{3}[g\d]{2}s([0-9]{3})", filename)
+        if y is not None:
+            sample_description = y.group(0)
+            t_str = "Sample-Details: "
+
+            bubbles = sample_description[1:3]
+            grind = sample_description[3:5]
+            size = sample_description[6:8]
+            size2 = sample_description[8]
+
+            if bubbles == "bn":
+                t_str = t_str + "no bubbles, "
+            elif bubbles == "bc":
+                t_str = t_str + "central bubbles, "
+            elif bubbles == "br":
+                t_str = t_str + "bubbles on egdes, "
+
+            if grind == "g0":
+                t_str = t_str + "unground, "
+            elif grind == "g1":
+                t_str = t_str + "one side sanded, "
+            elif grind == "g2":
+                t_str = t_str + "both sides sanded, "
+
+            t_str = t_str + size + "." + size2 + "mm thick (-> [" + sample_description + "])"
+
+        return st_str, t_str
+
     def extract_labels_from_path(self, names, re_str=None):
         """
         takes list of filenames and returns their labels (either sample description or info text)
 
+        :param re_str: search using a regex string
         :param names: list of filenames (can include filepath)
         :return: labels
         """
@@ -113,7 +130,7 @@ class Control:
 
         return labels
 
-    def search_in_dir(self, direc, identifiers=None, or_identifiers=None, not_identifiers=None):
+    def search_in_dir(self, direc, identifiers=None, or_identifiers=None, not_identifiers=None, no_filecheck=False):
         """
         returns list of names in directory, that fulfill conditions
 
@@ -122,7 +139,6 @@ class Control:
         :param or_identifiers: list, AT LEAST ONE string has to be in the name
         :return: the list of names
         """
-
         names = []
 
         # iterate through directory
@@ -132,7 +148,8 @@ class Control:
                 names.extend(self.search_in_dir(direc + "/" + filepath,
                                                 identifiers=identifiers,
                                                 or_identifiers=or_identifiers,
-                                                not_identifiers=not_identifiers))
+                                                not_identifiers=not_identifiers,
+                                                no_filecheck=no_filecheck))
             # check if conditions are fulfilled
             else:
                 # or conditions
@@ -162,6 +179,9 @@ class Control:
                 # add name if all conditions are fulfilled
                 if add_name and self.c_file.check_filename_format(filepath):
                     names.append(filepath)
+                elif no_filecheck and add_name:
+                    names.append(filepath)
+
 
         return names
 
@@ -207,7 +227,7 @@ class Control:
 
             # add automatic titles (only if neither is given)
             if kwargs["title"] is None and kwargs["suptitle"] is None:
-                kwargs["suptitle"], kwargs["title"] = title_constructor(filename)
+                kwargs["suptitle"], kwargs["title"] = self.title_constructor(filename)
 
             # make the plot
             return self.c_draw.make_diagram(inst, rec_data, **kwargs)

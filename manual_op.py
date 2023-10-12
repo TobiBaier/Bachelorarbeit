@@ -4,7 +4,7 @@ from pprint import pprint
 
 c = get_inst()
 
-# c.c_file.sort_to_dirs()
+c.c_file.sort_to_dirs()
 # c.plot_dir("data/spec/uv-led")
 # c.plot_dir("data/uv-vis/ej260")
 # c.plot_dir("data/spec")
@@ -27,9 +27,21 @@ for name, uv_name, label in zip(names, uv_names, labels):
     sample = c.c_file.get_inst_and_sample(name)[1]
     c.twin_x_scale_plot([name, uv_name], ["spec", "uv-vis"], "zz_spec_uv/with_popop_bis/"+sample+".png", title=sample)"""
 
-c.plot_dir("data/sev")
+#c.plot_dir("data/sev", identifiers=["good"])
+#c.plot_dir("data/spec", identifiers=["good"])
+#c.plot_dir("data/uv-vis", identifiers=["good"])
+
+names = c.search_in_dir("data/uv-vis", identifiers=["good", "fast"], or_identifiers=["ppo1", "ppo5"])
+pprint(names)
+labels = c.extract_labels_from_path(names)
+c.multi_plot(names, labels, "zz_uv-vis_combis/ppo_1and5.png", title="Spectrum of: PPO (1%/5%)")
 
 
+
+"""pprint(c.search_in_dir("processed_data/spec", identifiers=["good"], no_filecheck=True))
+c.c_file.copy_to_new_dictionary(c.search_in_dir("processed_data/spec", identifiers=["good"], no_filecheck=True), "zz_good_data/spec")
+c.c_file.copy_to_new_dictionary(c.search_in_dir("processed_data/sev", identifiers=["good"], no_filecheck=True), "zz_good_data/sev")
+c.c_file.copy_to_new_dictionary(c.search_in_dir("processed_data/uv-vis", identifiers=["good"], no_filecheck=True), "zz_good_data/uv-vis")"""
 
 
 

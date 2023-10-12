@@ -43,6 +43,9 @@ class FileManager:
         # load all ids
         self.sample_ids, self.inst_ids = self.load_ids()
 
+        # load sample descriptions
+        self.sample_desciptions = self.load_descriptions()
+
         # load file criteria
         self.file_criteria = load_criteria()
 
@@ -64,6 +67,19 @@ class FileManager:
             raise FileNotFoundError("Could not load config/file_inst.json because file does not exists!")
 
         return sample_ids, inst_ids
+
+    def load_descriptions(self):
+        description = {}
+        last_line = ""
+        with open(self.path + "/" + self.cat_name, "r") as of:
+            lines = of.readlines()
+            for line in lines:
+                for id in self.sample_ids:
+                    if id in line and "id:" in line:
+                        description[id] = last_line.split("\n")[0]
+                last_line = line
+
+        return description
 
     """
     --------------------------------------------------------------------------
@@ -206,6 +222,13 @@ class FileManager:
                             if not file.endswith("notes.txt"):
                                 shutil.copyfile(file, self.condata_path + "/" + sample + "/" + filepath)
 
+    def copy_to_new_dictionary(self, names, path):
+        path = self.prodata_path + "/" + path
+        if not os.path.isdir(path):
+            os.makedirs(path)
 
-
-
+        for name in names:
+            origin_path = self.get_datafile_path(name.split(".")[0]).split(".")[0] + ".png"
+            origin_path = origin_path.replace("data", "processed_data")
+            print(origin_path, path)
+            shutil.copyfile(origin_path, path + "/" + origin_path.split("/")[-1])

@@ -32,7 +32,7 @@
         "plot_type": "plot",
         "xbounds": [
             0,
-            1500
+            null
         ],
         "xlabel": "energy/channels",
         "ybounds": [
@@ -44,7 +44,7 @@
     "spec": {
         "draw_label": true,
         "grid": true,
-        "norm_ylabel": "normierte Zählrate",
+        "norm_ylabel": "normed count rate",
         "plot_kwargs": {
             "c": "black",
             "label": null,
@@ -53,12 +53,12 @@
             "marker": null
         },
         "plot_type": "plot",
-        "xlabel": "Wellenlänge/nm",
+        "xlabel": "wavelength/nm",
         "ybounds": [
             0,
             null
         ],
-        "ylabel": "Zählrate/$\\frac{1}{s}$"
+        "ylabel": "count rate/$\\frac{1}{s}$"
     },
     "uv-vis": {
         "draw_label": true,
@@ -72,7 +72,7 @@
             "marker": null
         },
         "plot_type": "plot",
-        "xlabel": "Wellenlänge/nm",
+        "xlabel": "wavelength/nm",
         "ybounds": [
             0,
             null
