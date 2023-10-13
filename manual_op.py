@@ -9,11 +9,26 @@ c.c_file.sort_to_dirs()
 # c.plot_dir("data/uv-vis/ej260")
 # c.plot_dir("data/spec")
 
-"""names = c.search_in_dir("data/spec", identifiers=["2step"])
+# c.plot_dir("data/spec", identifiers=["filter"])
+"""
+color mapping:
+    3hf1: 'xkcd:bright green'
+    bis105: 'xkcd:electric blue'
+    combi14: 'xkcd:neon green'
+    combi92: 'xkcd:light teal',
+    popop105: 'xkcd:dark blue' 
+    ppo1: 'xkcd:light violet', 
+    ppo5: 'xkcd:neon purple', 
+    pu: 'gray'
+"""
+
+names = c.search_in_dir("data/spec", identifiers=["filter", "good"], not_identifiers=["uv-led"])
 pprint(names)
-style = {"c": ["xkcd:pale green", "xkcd:electric blue", "xkcd:lime", "xkcd:light cyan", "xkcd:neon blue", "xkcd:cobalt blue", "xkcd:dark blue", "gray"]}
+style = {"c": ["xkcd:bright green", "xkcd:electric blue", "xkcd:neon green", "xkcd:light teal",
+               "xkcd:dark blue", "xkcd:light violet", "xkcd:neon purple", "gray"]}
 labels = c.extract_labels_from_path(names)
-c.multi_plot(names, labels, "zz_spec_combis/all_samples_highres.png", title="all samples measured (same circumstances)", style=style)"""
+c.multi_plot(names, labels, "zz_spec_combis/all_samples.png", title="all samples measured (same circumstances)",
+             style=style, show_final_plot=True)
 
 """names = c.search_in_dir("data/spec", identifiers=["good"])
 labels = c.extract_labels_from_path(names)
@@ -31,10 +46,10 @@ for name, uv_name, label in zip(names, uv_names, labels):
 #c.plot_dir("data/spec", identifiers=["good"])
 #c.plot_dir("data/uv-vis", identifiers=["good"])
 
-names = c.search_in_dir("data/uv-vis", identifiers=["good", "fast"], or_identifiers=["ppo1", "ppo5"])
+"""names = c.search_in_dir("data/uv-vis", identifiers=["good", "fast"], or_identifiers=["ppo1", "ppo5"])
 pprint(names)
 labels = c.extract_labels_from_path(names)
-c.multi_plot(names, labels, "zz_uv-vis_combis/ppo_1and5.png", title="Spectrum of: PPO (1%/5%)")
+c.multi_plot(names, labels, "zz_uv-vis_combis/ppo_1and5.png", title="Spectrum of: PPO (1%/5%)")"""
 
 
 

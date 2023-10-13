@@ -60,7 +60,7 @@ class GridSpec:
     '''
     DEPENDING ON YOUR PC, YOU MAY HAVE TO CHANGE THE KWARGS IN THE FUNCTION BELOW!!!
     '''
-    def init_serials(self, win_photo="COM7", win_spec="COM3", lnx_photo="/dev/ttyACMO", lnx_spec="/dev/ttyUSB0"):
+    def init_serials(self, win_photo="COM4", win_spec="COM3", lnx_photo="/dev/ttyACMO", lnx_spec="/dev/ttyUSB0"):
         # Windows System
         if os.name == "nt":
             self.ser_photo = init_serial(win_photo)
