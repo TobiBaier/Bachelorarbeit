@@ -22,12 +22,11 @@ color mapping:
     pu: 'gray'
 """
 
-names = c.search_in_dir("data/spec", identifiers=["filter", "good"], not_identifiers=["uv-led"])
+names = c.search_in_dir("data/spec", identifiers=["filter", "good"], or_identifiers=["ppo1", "pu", "combi92"], not_identifiers=["uv-led"])
 pprint(names)
-style = {"c": ["xkcd:bright green", "xkcd:electric blue", "xkcd:neon green", "xkcd:light teal",
-               "xkcd:dark blue", "xkcd:light violet", "xkcd:neon purple", "gray"]}
+style = {"c": ['xkcd:light teal', 'xkcd:light violet', 'gray']}
 labels = c.extract_labels_from_path(names)
-c.multi_plot(names, labels, "zz_spec_combis/all_samples.png", title="all samples measured (same circumstances)",
+c.multi_plot(names, labels, "zz_spec_combis/3hf_evolution.png", title="All steps until PPO (1%) + 3HF (0.01%) sample",
              style=style, show_final_plot=True)
 
 """names = c.search_in_dir("data/spec", identifiers=["good"])

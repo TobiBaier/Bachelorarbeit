@@ -23,26 +23,28 @@ def plot_calib_data(channels, counts):
 
     plt.show()
 
-plot_calib_data(*calib_data)
+# plot_calib_data(*calib_data)
 
-def energy_scaling_calib(c1, c2, channels, counts, e1=511, e2=1050):
+def energy_scaling_na22(c1, c2, channels, counts, e1=511, e2=1050):
     f = (c2 - c1) / (e2 - e1)
 
     energy = channels * f
 
+    return energy
+
+calib_energy = energy_scaling_na22(690, 1530, *calib_data)
+
+# plot_calib_data(*sample_data)
+
+sample_energy = energy_scaling_na22(295, 770, *sample_data)
+
+def shift_spectrum(energy, counts, shift):
     fig = plt.figure()
     ax = fig.add_subplot(111)
 
-    ax.plot(energy, counts, label="calibration data")
+    ax.plot(energy + (511-shift), counts, label="calibration data")
     ax.legend()
 
     plt.show()
 
-    return energy
-
-# energy_scaling_calib()
-
-
-
-
-
+shift_spectrum(calib_energy, calib_data[1], 1081)
