@@ -4,12 +4,13 @@ from pprint import pprint
 
 c = get_inst()
 
-c.c_file.sort_to_dirs()
+# c.c_file.sort_to_dirs()
 # c.plot_dir("data/spec/uv-led")
-# c.plot_dir("data/uv-vis/ej260")
+c.plot_dir("data/uv-vis")
 # c.plot_dir("data/spec")
 
-# c.plot_dir("data/spec", identifiers=["filter"])
+# c.plot_dir("data", identifiers=["ebis110"])
+
 """
 color mapping:
     3hf1: 'xkcd:bright green'
@@ -22,11 +23,11 @@ color mapping:
     pu: 'gray'
 """
 
-names = c.search_in_dir("data/spec", identifiers=["filter", "good"], or_identifiers=["ppo1", "pu", "combi92"], not_identifiers=["uv-led"])
+names = c.search_in_dir("data/spec", identifiers=["good"], or_identifiers=["eppo1", "_ep", "ebis110"], not_identifiers=["uv-led"])
 pprint(names)
-style = {"c": ['xkcd:light teal', 'xkcd:light violet', 'gray']}
+style = {"c": ['xkcd:electric blue', 'gray', 'xkcd:light violet']}
 labels = c.extract_labels_from_path(names)
-c.multi_plot(names, labels, "zz_spec_combis/3hf_evolution.png", title="All steps until PPO (1%) + 3HF (0.01%) sample",
+c.multi_plot(names, labels, "zz_spec_combis/epoxy_samples.png", title="UV-LED on epoxy: pure, 1%PPO, 1%PPO+0.1%Bis-MSB",
              style=style, show_final_plot=True)
 
 """names = c.search_in_dir("data/spec", identifiers=["good"])

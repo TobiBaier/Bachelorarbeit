@@ -30,6 +30,10 @@ daten["coeff_pmma"] = (0.59985585 * daten["coeff_carbon"][2] +
                        0.08053401 * daten["coeff_hydrogen"][2] +
                        0.31961015 * daten["coeff_oxygen"][2])
 
+daten["coeff_polyethylene"] = 0
+
+# daten["coeff_salt"] = ()
+
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
@@ -39,10 +43,12 @@ ax = fig.add_subplot(111)
 
 # ax.plot(daten["coeff_tissue"][0], daten["coeff_tissue"][2], label="tissue")
 
-ax.plot(daten["coeff_tissue"][0], daten["coeff_pu"] / daten["coeff_tissue"][2], label="Polyurethan")
+# ax.plot(daten["coeff_tissue"][0], daten["coeff_pu"] / daten["coeff_tissue"][2], label="Polyurethan")
 ax.plot(daten["coeff_tissue"][0], daten["coeff_pv"][2] / daten["coeff_tissue"][2], label="Polyvinyl")
 ax.plot(daten["coeff_tissue"][0], daten["coeff_epoxy"] / daten["coeff_tissue"][2], label="Epoxidharz")
-ax.plot(daten["coeff_tissue"][0], daten["coeff_pmma"] / daten["coeff_tissue"][2], label="PMMA")
+# ax.plot(daten["coeff_tissue"][0], daten["coeff_pmma"] / daten["coeff_tissue"][2], label="PMMA")
+
+
 
 # ax.set_yscale('log')
 ax.set_xscale('log')
