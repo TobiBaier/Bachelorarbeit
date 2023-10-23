@@ -44,34 +44,32 @@ def consistency_check(data):
 
     for key in data:
         new_entries[key] = [np.array([]), np.array([]), np.array([])]
-
     for key1 in data:
+        print(key1)
         for key2 in data:
-            for ie, e1 in enumerate(data[key1][0]):
-                # wenn Eintrag aus 1 nicht in 2, dann wird gespeichert, dass 1 in 2 ergänzt werden muss
-                if e1 not in data[key2][0]:
-                    new_entries[key2][0] = np.append(new_entries[key2][0], e1)
-                    for i in range(len(data[key2][0]) - 1):
-                        if data[key2][0][i] < e1 <= data[key2][0][i+1]:
-                            new_entries[key2][1] = np.append(new_entries[key2][1],
-                                                             linreg(data[key2][0][i], data[key2][1][i],
-                                                                    data[key2][0][i+1], data[key2][1][i+1],
-                                                                    e1))
-                            new_entries[key2][2] = np.append(new_entries[key2][2],
-                                                             linreg(data[key2][0][i], data[key2][2][i],
-                                                                    data[key2][0][i+1], data[key2][2][i+1],
-                                                                    e1))
+            temp1 = []
+            temp2 = []
+            temp3 = []
+            for ie, e2 in enumerate(data[key2][0]):
+                if e2 not in data[key1][0]:
+                    temp1.append(e2)
+                    for i in range(len(data[key1][0])-1):
+                        if data[key1][0][i] < e2 <= data[key1][0][i+1]:
+                            temp2.append(linreg(np.log(data[key1][0][i]), data[key1][1][i],
+                                                np.log(data[key1][0][i+1]), data[key1][1][i+1], np.log(e2)))
+                            temp3.append(linreg(np.log(data[key1][0][i]), data[key1][2][i],
+                                                np.log(data[key1][0][i + 1]), data[key1][2][i + 1], np.log(e2)))
 
+
+            data[key1][0] = np.append(data[key1][0], temp1)
+            data[key1][1] = np.append(data[key1][1], temp2)
+            data[key1][2] = np.append(data[key1][2], temp3)
 
     s = data.copy()
     for key in s:
-        for i in range(3):
-            data[key][i] = np.append(data[key][i], new_entries[key][i])
-
         ind = np.argsort(data[key][0])
         for i in range(3):
             data[key][i] = data[key][i][ind]
-
 
     return data
 
@@ -80,16 +78,55 @@ daten = consistency_check(daten)
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-ax.plot(daten["carbon"][0], daten["carbon"][1] + daten["chlorine"][1],  label="both")
-ax.plot(daten["carbon"][0], daten["carbon"][1], label="carbon")
-ax.plot(daten["chlorine"][0], daten["chlorine"][1], label="chlorine")
+daten["pu"] = (0.627922665 * daten["carbon"][2] +
+                     0.090842816 * daten["hydrogen"][2] +
+                     0.0505004 * daten["nitrogen"][2] +
+                     0.230734119 * daten["oxygen"][2])
+daten["epoxy"] = (0.8438475 * daten["carbon"][2] +
+                        0.0758647 * daten["hydrogen"][2] +
+                        0.0802878 * daten["oxygen"][2])
+daten["pmma"] = (0.59985585 * daten["carbon"][2] +
+                       0.08053401 * daten["hydrogen"][2] +
+                       0.31961015 * daten["oxygen"][2])
+daten["salt"] = (0.3933723 * daten["sodium"][2] +
+                 0.6066277 * daten["chlorine"][2])
 
-ax.set_yscale('log')
+b = mass_fractions([22.989769, 10.811, 15.999], [2, 4, 7])
+daten["borax"] = b[0] * daten["sodium"][2] + b[1] * daten["boron"][2] + b[2] * daten["oxygen"][2]
+
+c = mass_fractions([40.078, 12.011, 15.999], [1,1,3])
+daten["caco3"] = c[0] * daten["calcium"][2] + c[1] * daten["carbon"][2] + c[2] * daten["oxygen"][2]
+
+p = mass_fractions([12.011, 1.00784, 35.453], [2, 3, 1])
+daten["pvc"] = p[0] * daten["carbon"][2] + p[1] * daten["hydrogen"][2] + p[2] * daten["chlorine"][2]
+
+pf = mass_fractions([12.011, 18.998403], [8, 18])
+daten["PF5080"] = pf[0] * daten["carbon"][2] + pf[1] * daten["flourine"][2]
+
+
+
+# ax.plot(daten["tissue"][0], daten["pu"]/daten["tissue"][2], label="pu")
+ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="epoxy")
+# ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["pmma"])/daten["tissue"][2], label="pmma")
+# ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["salt"])/daten["tissue"][2], label="salt")
+# ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["borax"])/daten["tissue"][2], label="borax")
+# ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["caco3"])/daten["tissue"][2], label="caco3")
+ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["pvc"])/daten["tissue"][2], label="pvc")
+ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["PF5080"])/daten["tissue"][2], label="PF5080")
+
+#ax.plot(daten["tissue"][0], daten["pu"], label="pu")
+#ax.plot(daten["tissue"][0], daten["epoxy"], label="epoxy")
+#ax.plot(daten["tissue"][0], daten["tissue"][2], label="tissue")
+
+
+
+
+# ax.set_yscale('log')
 ax.set_xscale('log')
 
-"""ax.set_xlabel("Photonenenergie / MeV")
+ax.set_xlabel("Photonenenergie / MeV")
 ax.set_ylabel(r"Verhältnis $(\frac{\mu_{en}}{\rho})_{Detektor}$  /  $(\frac{\mu_{en}}{\rho}_{Gewebe})$")
-ax.set_title("Proportionalitätsfaktor zwischen Detektor- und Gewebedosis")"""
+ax.set_title("Proportionalitätsfaktor zwischen Detektor- und Gewebedosis")
 
 ax.legend()
 plt.show()
