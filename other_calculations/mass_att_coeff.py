@@ -115,17 +115,27 @@ daten["sio2"] = si[0] * daten["oxygen"][2] + si[1] * daten["silicon"][2]
 chf = mass_fractions([12.011, 1.00784, 35.453], [1, 1, 3])
 daten["chloroform"] = chf[0] * daten["carbon"][2] + chf[1] * daten["hydrogen"][2] + chf[2] * daten["chlorine"][2]
 
+epoa = mass_fractions([12.011, 1.00784, 15.999], [21, 24, 4])
+daten["epoa"] = epoa[0] * daten["carbon"][2] + epoa[1] * daten["hydrogen"][2] + epoa[2] * daten["oxygen"][2]
+
+epob = mass_fractions([12.011, 1.00784, 15.999, 14.0067], [6, 16, 1, 2])
+daten["epob"] = epob[0] * daten["carbon"][2] + epob[1] * daten["hydrogen"][2] + epob[2] * daten["oxygen"][2] + epob[3] * daten["nitrogen"][2]
+
+daten["epoxy"] = daten["epoa"] * 100/135 + daten["epob"] * 35/135
+
 # ax.plot(daten["tissue"][0], daten["pu"]/daten["tissue"][2], label="pu")
-ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxy (pur)")
+ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxy")
+# ax.plot(daten["tissue"][0], daten["polysterene"][2]/daten["tissue"][2], label="PS")
+# ax.plot(daten["tissue"][0], daten["vinyltoulene"][2]/daten["tissue"][2], label="PVT")
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["pmma"])/daten["tissue"][2], label="pmma")
-ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tissue"][2], label="mit 7% NaCl")
+ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tissue"][2], label="mit 2% NaCl")
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["borax"])/daten["tissue"][2], label="borax")
-ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["caco3"])/daten["tissue"][2], label="mit 7% CaCO3")
-ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["pvc"])/daten["tissue"][2], label="mit 8% PVC")
+# ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["caco3"])/daten["tissue"][2], label="mit 7% CaCO3")
+ax.plot(daten["tissue"][0], (0.935*daten["epoxy"]+0.065*daten["pvc"])/daten["tissue"][2], label="mit 6.5% PVC")
 # ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["PF5080"])/daten["tissue"][2], label="PF5080")
 # ax.plot(daten["tissue"][0], (0.91*daten["water"]+0.09*daten["glucose"]/daten["tissue"][2]), label="tonic water")
-ax.plot(daten["tissue"][0], (0.9*daten["epoxy"]+0.1*daten["sio2"])/daten["tissue"][2], label="mit 10% SiO2")
-ax.plot(daten["tissue"][0], (0.95*daten["epoxy"]+0.05*daten["chloroform"])/daten["tissue"][2], label="mit 3% Chloroform")
+# ax.plot(daten["tissue"][0], (0.9*daten["epoxy"]+0.1*daten["sio2"])/daten["tissue"][2], label="mit 10% SiO2")
+# ax.plot(daten["tissue"][0], (0.95*daten["epoxy"]+0.05*daten["chloroform"])/daten["tissue"][2], label="mit 3% Chloroform")
 
 
 
