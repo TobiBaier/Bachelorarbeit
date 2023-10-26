@@ -103,23 +103,38 @@ daten["pvc"] = p[0] * daten["carbon"][2] + p[1] * daten["hydrogen"][2] + p[2] * 
 pf = mass_fractions([12.011, 18.998403], [8, 18])
 daten["PF5080"] = pf[0] * daten["carbon"][2] + pf[1] * daten["flourine"][2]
 
+g = mass_fractions([12.011, 1.00784, 15.999], [6, 12, 6])
+daten["glucose"] = g[0] * daten["carbon"][2] + g[1] * daten["hydrogen"][2] + g[2] * daten["oxygen"][2]
 
+w = mass_fractions([1.00784, 15.999], [2, 1])
+daten["water"] = w[0] * daten["hydrogen"][2] + w[1] * daten["oxygen"][2]
+
+si = mass_fractions([15.999, 28.0855], [2, 1])
+daten["sio2"] = si[0] * daten["oxygen"][2] + si[1] * daten["silicon"][2]
+
+chf = mass_fractions([12.011, 1.00784, 35.453], [1, 1, 3])
+daten["chloroform"] = chf[0] * daten["carbon"][2] + chf[1] * daten["hydrogen"][2] + chf[2] * daten["chlorine"][2]
 
 # ax.plot(daten["tissue"][0], daten["pu"]/daten["tissue"][2], label="pu")
-ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="epoxy")
+ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxy (pur)")
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["pmma"])/daten["tissue"][2], label="pmma")
-# ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["salt"])/daten["tissue"][2], label="salt")
+ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tissue"][2], label="mit 7% NaCl")
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["borax"])/daten["tissue"][2], label="borax")
-# ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["caco3"])/daten["tissue"][2], label="caco3")
-ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["pvc"])/daten["tissue"][2], label="pvc")
-ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["PF5080"])/daten["tissue"][2], label="PF5080")
+ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["caco3"])/daten["tissue"][2], label="mit 7% CaCO3")
+ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["pvc"])/daten["tissue"][2], label="mit 8% PVC")
+# ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["PF5080"])/daten["tissue"][2], label="PF5080")
+# ax.plot(daten["tissue"][0], (0.91*daten["water"]+0.09*daten["glucose"]/daten["tissue"][2]), label="tonic water")
+ax.plot(daten["tissue"][0], (0.9*daten["epoxy"]+0.1*daten["sio2"])/daten["tissue"][2], label="mit 10% SiO2")
+ax.plot(daten["tissue"][0], (0.95*daten["epoxy"]+0.05*daten["chloroform"])/daten["tissue"][2], label="mit 3% Chloroform")
+
+
 
 #ax.plot(daten["tissue"][0], daten["pu"], label="pu")
 #ax.plot(daten["tissue"][0], daten["epoxy"], label="epoxy")
 #ax.plot(daten["tissue"][0], daten["tissue"][2], label="tissue")
 
-
-
+# ax.set_xlim([0.01, 10])
+# ax.set_ylim([0.01, 2])
 
 # ax.set_yscale('log')
 ax.set_xscale('log')
@@ -129,6 +144,7 @@ ax.set_ylabel(r"Verhältnis $(\frac{\mu_{en}}{\rho})_{Detektor}$  /  $(\frac{\mu
 ax.set_title("Proportionalitätsfaktor zwischen Detektor- und Gewebedosis")
 
 ax.legend()
+plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit/ergebnisse/different_additives.png", dpi=400)
 plt.show()
 """
 daten["coeff_pu"] = (0.627922665 * daten["coeff_carbon"][2] +

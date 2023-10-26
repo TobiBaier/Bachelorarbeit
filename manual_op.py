@@ -4,10 +4,10 @@ from pprint import pprint
 
 c = get_inst()
 
-# c.c_file.sort_to_dirs()
+c.c_file.sort_to_dirs()
 # c.plot_dir("data/spec/uv-led")
-c.plot_dir("data/uv-vis")
-# c.plot_dir("data/spec")
+# c.plot_dir("data/uv-vis")
+# c.plot_dir("data/spec", identifiers=["good"])
 
 # c.plot_dir("data", identifiers=["ebis110"])
 
@@ -21,16 +21,31 @@ color mapping:
     ppo1: 'xkcd:light violet', 
     ppo5: 'xkcd:neon purple', 
     pu: 'gray'
+    ebis110: "xkcd:electric_blue"
+    ebis510: "xkcd:cobalt"
+    ebis0201: "robin's egg blue"
+    e3hf110: xkcd:neon green
+    e3hf101: xkcd:light teal
+    ej200: "xkcd:charcoal"
 """
 
-names = c.search_in_dir("data/spec", identifiers=["good"], or_identifiers=["eppo1", "_ep", "ebis110"], not_identifiers=["uv-led"])
+names = c.search_in_dir("data/sev",
+                        identifiers=["good", "hist"],
+                        or_identifiers=["e3hf101", "eppo1"],
+                        not_identifiers=["uv-led"])
+names.append("sev_ej260_bng2s100_na22_530_15min_hist.txt")
 pprint(names)
-style = {"c": ['xkcd:electric blue', 'gray', 'xkcd:light violet']}
+# style = {"c": ["xkcd:robin's egg blue", 'xkcd:electric blue', "xkcd:cobalt","xkcd:light violet", "xkcd:charcoal"]}
+style = {"c": ["xkcd:light teal", 'xkcd:neon green', "xkcd:light violet", "xkcd:charcoal"]}
 labels = c.extract_labels_from_path(names)
-c.multi_plot(names, labels, "zz_spec_combis/epoxy_samples.png", title="UV-LED on epoxy: pure, 1%PPO, 1%PPO+0.1%Bis-MSB",
+c.multi_plot(names, labels,
+             "zz_sev_combis/epoxy_all_3hf_samples_and_ej260_actualchannels.png",
+             title="Na-22 source, 15min irradiation",
              style=style, show_final_plot=True)
 
-"""names = c.search_in_dir("data/spec", identifiers=["good"])
+"""
+"Transmission spectrum: 1%PPO+0.1%Bis, 0.2%PPO+0.01%Bis, 5%PPO+0.1%Bis"
+names = c.search_in_dir("data/spec", identifiers=["good"])
 labels = c.extract_labels_from_path(names)
 uv_names = []
 for label in labels:
