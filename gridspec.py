@@ -5,6 +5,8 @@ import time
 import serial
 import os
 import csv
+import json
+from pprint import pprint
 
 
 def init_serial(prt):
@@ -20,11 +22,10 @@ def init_serial(prt):
 
 class GridSpec:
 
-    def __init__(self, step_time=1, wait_time=1, nAvg=4):
+    def __init__(self, step_time=0.25, wait_time=1, nAvg=4):
         self.step_time = step_time  # waiting for servo/grid
         self.wait_time = wait_time  # waiting during measurement (cumulative values) // maybe rename ??
         self.nAvg = nAvg
-        self.photo_update_time = 0.1
 
         # vars for serial ports
         self.ser_photo = None
@@ -34,12 +35,17 @@ class GridSpec:
         # list with saved spectra (in current instance)
         self.spectra = []
         self.current_spectrum = None
-        self.file_name = "spectrum"
-        self.save_path = "C:/Users/baier/OneDrive/Uni/Bachelorarbeit/sortme/"
+        self.file_name = "new_spectrum"
+
+        # ------------------------------------------------------------------------
+        # HIER DEN Standard-DATEIPFAD ZUM SPEICHERN ANPASSEN!
+        self.save_path = "/run/user/1000/gvfs/sftp:host=sftp.zih.tu-dresden.de/glw/aspabl/Studenten/Baier/Messungen/sortme/"
+        self.get_paths()
+        # ------------------------------------------------------------------------
 
         # measurement parameters
-        self.start_wl = 400
-        self.stop_wl = 420
+        self.start_wl = 250
+        self.stop_wl = 750
         self.delta_wl = 5
 
     '''
@@ -60,7 +66,7 @@ class GridSpec:
     '''
     DEPENDING ON YOUR PC, YOU MAY HAVE TO CHANGE THE KWARGS IN THE FUNCTION BELOW!!!
     '''
-    def init_serials(self, win_photo="COM4", win_spec="COM3", lnx_photo="/dev/ttyACMO", lnx_spec="/dev/ttyUSB0"):
+    def init_serials(self, win_photo="COM4", win_spec="COM3", lnx_photo="/dev/ttyACM0", lnx_spec="/dev/ttyUSB0"):
         # Windows System
         if os.name == "nt":
             self.ser_photo = init_serial(win_photo)
@@ -74,77 +80,15 @@ class GridSpec:
         # wait short time to make sure devices are ready
         time.sleep(2)
 
+    """
+    Spectrometer Functions
+    """
     def get_wavelength(self):
         self.ser_spec.flushInput()
         self.ser_spec.write("?NM\r".encode())
         ret = self.ser_spec.readline()
 
         print(ret.decode())
-
-    '''
-    communication functions (with spectrometer and photodetector
-    '''
-    def cont_photo(self, single_value=True):
-        while True:
-            print(self.read_photo(single_value=single_value))
-
-    def read_photo(self, single_value=True):
-        """
-        soll tun:
-        check, ob daten im Buffer sind
-        wenn ja, Daten aus Zeile auslesen und zurückgeben
-        wenn nein, gebe False zurück
-        :return:
-        """
-        # clear data from photo serial port (to get most new data)
-        self.ser_photo.flushInput()
-        data = None
-
-        # collect only one value (meaning as fast as possible)
-        # wait until new data has arrived
-        if single_value:
-            '''for i in range(100):
-                time.sleep(self.photo_update_time)
-                if self.ser_photo.inWaiting():
-                    # save incoming data
-                    data = self.ser_photo.readline()
-                    break
-                else:
-                    data = None
-
-            # if waiting time is too big (~10s), error is raised
-            if data is None:
-                raise ValueError("There was no feedback from the Photodetector!")'''
-
-            data = self.ser_photo.readline()
-            count = float(data.decode())
-
-            """try:
-                count = float(re.findall(r"[\d]+[.][\d]", data.decode())[0])
-            except IndexError:
-                count = 0
-                print("had Indexerror: " + data.decode())"""
-
-            return count
-
-        # cumulative measurement
-        else:
-            data = np.array([])
-            time.sleep(self.wait_time)
-            while True:
-                if len(data) >= self.wait_time:
-                    break
-                else:
-                    temp = self.ser_photo.readline().decode()
-                    data = np.append(data, float(temp))
-                    """try:
-                        count = float(re.findall(r"[\d]*[.][\d]", temp)[0])
-                        data = np.append(data, count)
-                    except IndexError:
-                        print("had indexerror: " + temp)
-                        pass"""
-            print(data)
-            return np.sum(data)
 
     def goto_wavelength(self, wl):
         """
@@ -172,6 +116,45 @@ class GridSpec:
         self.ser_spec.readline()
 
         return curr_wl
+
+    '''
+    Photodetector functions
+    '''
+    def cont_photo(self, single_value=True):
+        while True:
+            print(self.read_photo(single_value=single_value))
+
+    def read_photo(self, single_value=True):
+        """
+        soll tun:
+        check, ob daten im Buffer sind
+        wenn ja, Daten aus Zeile auslesen und zurückgeben
+        wenn nein, gebe False zurück
+        :return:
+        """
+        # clear data from photo serial port (to get most new data)
+        self.ser_photo.flushInput()
+        data = None
+
+        # collect only one value (meaning as fast as possible)
+        # wait until new data has arrived
+        if single_value:
+            data = self.ser_photo.readline()
+            count = float(data.decode())
+            return count
+
+        # cumulative measurement
+        else:
+            data = np.array([])
+            time.sleep(self.wait_time)
+            while True:
+                if len(data) >= self.wait_time:
+                    break
+                else:
+                    temp = self.ser_photo.readline().decode()
+                    data = np.append(data, float(temp))
+            print(data)
+            return np.sum(data)
 
     """
     functions to save and draw spectrum
@@ -210,26 +193,56 @@ class GridSpec:
         return np.array(draw_arr)
 
     def save_values(self):
-        print("Construct a data name:")
-        fn = "spec_"
-        fn = fn + input("Sample ID: ") + "_"
-        fn = fn + input("Sample Code: ")
-        add_info = input("additional infos: ")
-        if add_info != "":
-            fn = fn + "_" + add_info
-        fn = fn + str(int(self.delta_wl)) + "step"
+        fn = "new_spectrum"
 
-        print(f"The measured spectrum will be saved as: {fn}")
+        print(f"The measured spectrum will be saved as: {fn}.csv")
         inp = input("Change name? (y/n):")
 
         if inp == "y":
             self.file_name = input("Please enter a new name (can include directory, no file ending): ")
         elif inp == "n":
             self.file_name = fn
+        else:
+            self.file_name = fn
 
         with open(self.save_path + self.file_name + ".csv", "w", newline="") as savefile:
             writer = csv.writer(savefile, delimiter=";")
             writer.writerows(self.current_spectrum)
+
+    def get_paths(self):
+        with open("data_paths.json", "r") as of:
+            data = json.load(of)
+
+        print("")
+        print("Aktuell ist folgender Pfad zum Speichern ausgewählt:")
+        print(f"{data['latest_path']}: {data[data['latest_path']]}")
+
+        self.save_path = data[data['latest_path']]
+        data.pop("latest_path")
+
+        print("")
+        print("Im System sind die folgenden weiteren Pfade hinterlegt ")
+        pprint(data)
+        p = input("Geben Sie den Namen des Pfads ein, um den aktuellen zu überschreiben (sonst einfach Enter):")
+
+        if p in data:
+            self.save_path = data[p]
+
+        print("")
+        print(f"The save path has been updated to: {self.save_path}")
+
+    def add_path(self):
+        with open("data_paths.json", "r") as of:
+            data = json.load(of)
+
+        print(f"Adding '{self.save_path}' to library!")
+        key = input("Please enter a key: ")
+
+        data[key] = self.save_path
+
+        j_data = json.dumps(data, indent=4, sort_keys=True, separators=(",", ": "), ensure_ascii=False)
+        with open("data_paths.json", "w") as of:
+            of.write(j_data)
 
     """
     utility functions for system dialogs
