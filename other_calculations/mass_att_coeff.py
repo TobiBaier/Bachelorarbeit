@@ -5,6 +5,17 @@ import os
 import re
 from pprint import pprint
 
+"""
+NOTIZ ZM ADDITIONSSCHEMA:
+
+Even assuming Bragg additivity for the stopping power (that now appears in the denominator of the 
+integral), simple additivity for μen/ρ or - as suggested by Attix (1984) 
+- for g is formally incorrect. When the numerical values of g are relatively small, 
+the errors in μen/ρ incurred by using simple additivity schemes are usually small, a consequence 
+partially mitigating the use additivity, particularly for photon energies below 20 MeV. 
+However, additivity has not been used in the present work. 
+"""
+
 paths = os.scandir("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/mass_att_coeff")
 
 daten = {}
@@ -123,8 +134,17 @@ daten["epob"] = epob[0] * daten["carbon"][2] + epob[1] * daten["hydrogen"][2] + 
 
 daten["epoxy"] = daten["epoa"] * 100/135 + daten["epob"] * 35/135
 
+ppo = mass_fractions([12.011, 1.00784, 14.0067, 15.999], [15, 11, 1, 1])
+daten["ppo"] = ppo[0] * daten["carbon"][2] + ppo[1] * daten["hydrogen"][2] + ppo[2] * daten["nitrogen"][2] + ppo[3] * daten["oxygen"][2]
+
+bis = ppo = mass_fractions([12.011, 1.00784], [24, 22])
+daten["bis"] = bis[0] * daten["carbon"][2] + bis[1] * daten["hydrogen"][2]
+
+daten["doped_epoxy"] = (15/15.165) * daten["epoxy"] + (0.15/15.165) * daten["ppo"] + (0.015/15.165) * daten["bis"]
+
 # ax.plot(daten["tissue"][0], daten["pu"]/daten["tissue"][2], label="pu")
 ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxy")
+ax.plot(daten["tissue"][0], daten["doped_epoxy"]/daten["tissue"][2], label="doped Epoxy")
 # ax.plot(daten["tissue"][0], daten["polysterene"][2]/daten["tissue"][2], label="PS")
 # ax.plot(daten["tissue"][0], daten["vinyltoulene"][2]/daten["tissue"][2], label="PVT")
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["pmma"])/daten["tissue"][2], label="pmma")
@@ -132,6 +152,7 @@ ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tiss
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["borax"])/daten["tissue"][2], label="borax")
 # ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["caco3"])/daten["tissue"][2], label="mit 7% CaCO3")
 ax.plot(daten["tissue"][0], (0.935*daten["epoxy"]+0.065*daten["pvc"])/daten["tissue"][2], label="mit 6.5% PVC")
+ax.plot(daten["tissue"][0], (0.935*daten["doped_epoxy"]+0.065*daten["pvc"])/daten["tissue"][2], label="mit 6.5% PVC (doped)")
 # ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["PF5080"])/daten["tissue"][2], label="PF5080")
 # ax.plot(daten["tissue"][0], (0.91*daten["water"]+0.09*daten["glucose"]/daten["tissue"][2]), label="tonic water")
 # ax.plot(daten["tissue"][0], (0.9*daten["epoxy"]+0.1*daten["sio2"])/daten["tissue"][2], label="mit 10% SiO2")

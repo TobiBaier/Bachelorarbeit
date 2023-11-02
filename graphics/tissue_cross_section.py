@@ -37,5 +37,5 @@ ax.grid()
 
 
 
-plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images", dpi=400)
-plt.show()
+plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/tissue_cross_section.pdf")
+# plt.show()
