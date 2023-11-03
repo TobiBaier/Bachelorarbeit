@@ -22,7 +22,10 @@ color mapping:
     ppo5: 'xkcd:neon purple', 
     pu: 'gray'
     ebis110: "xkcd:electric_blue"
+    sebis110: "xkcd:dusky blue"
+    pvcebis110: "xkcd:lightblue"
     ebis510: "xkcd:cobalt"
+    ebis105: "xkcd:dark indigo"
     ebis0201: "robin's egg blue"
     e3hf110: xkcd:neon green
     e3hf101: xkcd:light teal
@@ -31,16 +34,17 @@ color mapping:
 
 names = c.search_in_dir("data/sev",
                         identifiers=["good", "hist"],
-                        or_identifiers=["e3hf101", "eppo1"],
+                        or_identifiers=["ebis110", "sebis110", "pvcebis110"],
                         not_identifiers=["uv-led"])
-names.append("sev_ej260_bng2s100_na22_530_15min_hist.txt")
+
+# names.append("sev_ej260_bng2s100_na22_530_15min_hist.txt")
 pprint(names)
-# style = {"c": ["xkcd:robin's egg blue", 'xkcd:electric blue', "xkcd:cobalt","xkcd:light violet", "xkcd:charcoal"]}
-style = {"c": ["xkcd:light teal", 'xkcd:neon green', "xkcd:light violet", "xkcd:charcoal"]}
+style = {"c": ["xkcd:electric blue", "xkcd:dusky blue", "xkcd:lightblue"]}
+# style = {"c": ["xkcd:light teal", 'xkcd:neon green', "xkcd:light violet", "xkcd:charcoal"]}
 labels = c.extract_labels_from_path(names)
 c.multi_plot(names, labels,
-             "zz_sev_combis/epoxy_all_3hf_samples_and_ej260_actualchannels.png",
-             title="Na-22 source, 15min irradiation",
+             "zz_sev_combis/epoxy/density_additives.png",
+             title="Samples with 2%NaCl and 8%PVC added",
              style=style, show_final_plot=True)
 
 """

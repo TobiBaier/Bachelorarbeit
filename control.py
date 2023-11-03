@@ -437,7 +437,8 @@ class Control:
 
 def get_inst():
     dr = DiagramMaker()
-    fi = FileManager("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+    # fi = FileManager("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+    fi = FileManager("/run/user/1000/gvfs/sftp:host=sftp.zih.tu-dresden.de/glw/aspabl/Studenten/Baier/Messungen")
     da = DataLoader()
 
     return Control(dr, fi, da)
