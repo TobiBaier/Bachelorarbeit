@@ -47,6 +47,8 @@ plot_standards = {
     "ylabel": "y",
     "xbounds": None,
     "ybounds": None,
+    "xscale": "linear",
+    "yscale": "linear",
     "grid": False,
 }
 

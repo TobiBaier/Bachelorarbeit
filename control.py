@@ -249,7 +249,10 @@ class Control:
                 if type(style[key]) != list:
                     config[key] = style[key]
                 else:
-                    config[key] = style[key][i]
+                    if key == "xbounds" or key == "ybounds":
+                        config[key] = style[key]
+                    else:
+                        config[key] = style[key][i]
 
             filename = self.c_file.check_filename_format(name)
             filepath = self.c_file.get_datafile_path(filename)

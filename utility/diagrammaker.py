@@ -177,6 +177,11 @@ class DiagramMaker:
         if params["ybounds"] is not None:
             ax.set_ybound(params["ybounds"])
 
+        if params["xscale"] is not None:
+            ax.set_xscale(params["xscale"])
+        if params["yscale"] is not None:
+            ax.set_yscale(params["yscale"])
+
         # save/draw/both diagram
         save_draw(params)
 
