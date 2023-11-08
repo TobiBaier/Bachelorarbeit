@@ -15,32 +15,21 @@ Worauf zu achten ist:
 
 """
 
-
-
-
 mpl.use('Qt5Agg')
 
 locale.setlocale(locale.LC_ALL, "")
-# plt.rcParams["axes.formatter.use_locale"] = True
-# print(locale.getlocale(locale.LC_NUMERIC))
 
 c = get_inst("Z:\Studenten\Baier\Messungen")
-
 file_name = c.search_in_dir("data/sev", identifiers=["ej200", "hist"])[0]
-
 data = c.c_data.auto_read("sev", c.c_file.get_datafile_path(file_name), bin_ret=True)
 
 fig = plt.figure()
 ax = fig.add_subplot()
 
-print(len(data[1]))
-
 ax.grid(visible=True, color="#87878790", zorder=-1, lw=1)
 
-# ax.plot(*data, lw=1, label="EJ200")
 bin_size = data[0][1] - data[0][0]
 ax.stairs(*data, zorder=100, label="EJ200")
-# ax.stairs(data[1], np.append(data[0], data[0][-1]+bin_size), zorder=100, label="EJ200")
 
 ax.set_xbound([np.min(data[0]), np.max(data[0])])
 ax.set_xbound([0, 1250])
