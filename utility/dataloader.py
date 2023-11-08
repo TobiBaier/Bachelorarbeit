@@ -1,6 +1,7 @@
 import os
 import json
 import pandas as pd
+import numpy as np
 
 
 class DataLoader:
@@ -106,12 +107,23 @@ class DataLoader:
             swap_bool = True
         params.pop("swap_axes")
 
+        # same procedure for bin return
+        bin_ret = False
+        if params["bin_ret"]:
+            bin_ret = params.pop("bin_ret")
+
         # read data using pandas -> all presets are handed over to the function (might add *params in the future)
         data = pd.read_csv(path, **params)
 
         # convert data_frame to np arrays and return them
         if swap_bool:
-            return data.to_numpy().swapaxes(0, 1)
+            if not bin_ret:
+                return data.to_numpy().swapaxes(0, 1)
+            else:
+                x, y = data.to_numpy().swapaxes(0, 1)
+                bin_width = x[1] - x[0]
+                x = x - 0.5 * bin_width
+                return y, np.append(x, x[-1]+bin_width)
         else:
             return data.to_numpy()
 
