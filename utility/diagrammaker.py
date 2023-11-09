@@ -10,9 +10,14 @@ needs to be added:
 import matplotlib.pyplot as plt
 import json
 import os
+import matplotlib as mpl
+from pprint import pprint
+import locale
 
+mpl.use('Qt5Agg')
+locale.setlocale(locale.LC_ALL, "")
 
-def config_window(params: dict):
+def create_window(params: dict):
     """
     utility_deprecated function that will configure certain presets for a plot window (or better: a subplot)
     will set: a subplot (if not existing), title, suptitle, grid, x/y-label
@@ -22,13 +27,13 @@ def config_window(params: dict):
     """
 
     # create or load subplot
-    if params["ax"] is None:
+    if params["ax_config"]["ax"] is None:
         fig = plt.figure()
         ax = fig.add_subplot(111)
     else:
-        ax = params["ax"]
+        ax = params["ax_config"]["ax"]
 
-    # set title, suptitle, grid if given
+    """# set title, suptitle, grid if given
     # title is BELOW suptitle and therefore smaller
     if params["title"]:
         plt.title(params["title"], fontsize="small")
@@ -39,11 +44,53 @@ def config_window(params: dict):
 
     # configure axis labels
     ax.set_xlabel(params["xlabel"])
-    ax.set_ylabel(params["ylabel"])
+    ax.set_ylabel(params["ylabel"])"""
 
     # return configured plot
     return ax
 
+def config_window(ax, params: dict):
+    """
+    scrolls through dict and uses contents to call predetermined functions
+
+    :return: a formatted window
+    """
+
+    ax_config = params["ax_config"]
+
+    if "title" in ax_config:
+        plt.title(ax_config["title"], fontsize="small")
+    if "suptitle" in ax_config:
+        plt.suptitle(ax_config["suptitle"], fontsize="medium")
+
+    if "grid" in ax_config:
+        ax.grid(**params["grid_kwargs"])
+
+    if "xlabel" in ax_config:
+        ax.set_xlabel(ax_config["xlabel"])
+    if "ylabel" in ax_config:
+        ax.set_ylabel(ax_config["ylabel"])
+
+    if "xscale" in ax_config:
+        ax.set_xscale(ax_config["xscale"])
+    if "yscale" in ax_config:
+        ax.set_yscale(ax_config["yscale"])
+
+    if "xbounds" in ax_config:
+        ax.set_xbound(ax_config["xbounds"])
+    if "ybounds" in ax_config:
+        ax.set_ybound(ax_config["ybounds"])
+
+    if "tick_kwargs" in params:
+        ax.tick_params(**params["tick_kwargs"])
+    try:
+        if "ticklabel_kwargs" in params:
+            ax.ticklabel_format(**params["ticklabel_kwargs"])
+    except AttributeError:
+        path = ax_config["path"]
+        print(f"Falling back to normal notation for image with path: {path}")
+
+    return ax
 
 def save_draw(params: dict):
     """
@@ -52,18 +99,20 @@ def save_draw(params: dict):
 
     :param params: dictionary containing plot information
     """
-    if params["plot_kwargs"]["label"] is not None and params["draw_label"]:
+    ax_config = params["ax_config"]
+
+    if params["plot_kwargs"]["label"] is not None and ax_config["draw_label"]:
         plt.legend()
 
-    if params["save"]:
-        if params["path"] is None:
-            plt.savefig(params["title"] + ".png", dpi=params["dpi"])
+    if ax_config["save"]:
+        if ax_config["path"] is None:
+            plt.savefig(ax_config["title"] + ".png", dpi=ax_config["dpi"])
             print("Done Saving!")
         else:
-            plt.savefig(params["path"], dpi=params["dpi"])
+            plt.savefig(ax_config["path"], dpi=ax_config["dpi"])
             print("Done Saving!")
 
-    if params["draw"]:
+    if ax_config["draw"]:
         plt.show()
 
 
@@ -73,6 +122,7 @@ class DiagramMaker:
         self.plot_standards = None
         self.errorbar_standards = None
         self.scatter_standards = None
+        self.hist_standards = None
         self.presets = None
 
         self.config()
@@ -92,6 +142,12 @@ class DiagramMaker:
             raise FileNotFoundError("Could not load config/plot_standards.json because file does not exists!")
 
         try:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/hist_standards.json", "r") as of:
+                self.hist_standards = json.load(of)
+        except FileNotFoundError:
+            raise FileNotFoundError("Could not load config/plot_standards.json because file does not exists!")
+
+        try:
             with open(os.path.abspath(os.path.dirname(__file__)) + "/config/draw_presets.json", "r") as of:
                 self.presets = json.load(of)
         except FileNotFoundError:
@@ -100,6 +156,8 @@ class DiagramMaker:
         # Program will not halt if dicts are empty, but will warn the user
         if self.plot_standards is None:
             print("Plot standards are empty!")
+        if self.hist_standards is None:
+            print("Hist standards are empty!")
         if self.presets is None:
             print("Draw presets are empty!")
 
@@ -124,8 +182,8 @@ class DiagramMaker:
                 temp = self.presets[plot_preset].copy()
                 # remove 'plot_type' key from preset-copy-dictionary
                 temp.pop("plot_type")
-                if "plot_kwargs" in kwargs:
-                    kwargs["plot_kwargs"] = temp["plot_kwargs"] | kwargs["plot_kwargs"]
+                for key in kwargs:
+                    kwargs[key] = temp[key] | kwargs[key]
                 # call according plot function and return the return (overwrites presets here)
                 return self.draw_plot(data, **temp | kwargs)
 
@@ -133,16 +191,23 @@ class DiagramMaker:
             elif self.presets[plot_preset]["plot_type"] == "scatter":
                 temp = self.presets[plot_preset].copy()
                 temp.pop("plot_type")
-                if "plot_kwargs" in kwargs:
-                    kwargs["plot_kwargs"] = temp["plot_kwargs"] | kwargs["plot_kwargs"]
+                for key in kwargs:
+                    kwargs[key] = temp[key] | kwargs[key]
                 return self.draw_scatter(data, **temp | kwargs)
 
             elif self.presets[plot_preset]["plot_type"] == "errorbar":
                 temp = self.presets[plot_preset].copy()
                 temp.pop("plot_type")
-                if "plot_kwargs" in kwargs:
-                    kwargs["plot_kwargs"] = temp["plot_kwargs"] | kwargs["plot_kwargs"]
+                for key in kwargs:
+                    kwargs[key] = temp[key] | kwargs[key]
                 return self.draw_errorbar(data, **temp | kwargs)
+
+            elif self.presets[plot_preset]["plot_type"] == "hist":
+                temp = self.presets[plot_preset].copy()
+                temp.pop("plot_type")
+                for key in kwargs:
+                    kwargs[key] = temp[key] | kwargs[key]
+                return self.draw_hist(data, **temp | kwargs)
 
             # raise error, if plot type does not exist
             else:
@@ -158,34 +223,48 @@ class DiagramMaker:
         """
 
         # overwrite the standards with provided kwargs (final parameters)
-        params = self.plot_standards | kwargs
+        params = {}
+        for key in self.plot_standards:
+            if key in kwargs:
+                params[key] = self.plot_standards[key] | kwargs[key]
+            else:
+                params[key] = self.plot_standards[key]
 
         # configure the window with according utility_deprecated function
-        ax = config_window(params)
-
-        # move all plot_kwargs from params into according dictionary (can only change a value, not add new key!)
-        for key in params:
-            if key in params["plot_kwargs"]:
-                params["plot_kwargs"][key] = params[key]
+        ax = create_window(params)
 
         # draw diagram
         diagram = ax.plot(*data, **params["plot_kwargs"])
 
-        # set bounds (important to do AFTER drawing, else it will be overwritten)
-        if params["xbounds"] is not None:
-            ax.set_xbound(params["xbounds"])
-        if params["ybounds"] is not None:
-            ax.set_ybound(params["ybounds"])
-
-        if params["xscale"] is not None:
-            ax.set_xscale(params["xscale"])
-        if params["yscale"] is not None:
-            ax.set_yscale(params["yscale"])
+        ax = config_window(ax, params)
 
         # save/draw/both diagram
         save_draw(params)
 
         # return the resulting object
+        return diagram
+
+    def draw_hist(self, data, **kwargs):
+        # overwrite the standards with provided kwargs (final parameters)
+        params = {}
+        for key in self.hist_standards:
+            if key in kwargs:
+                # print(self.plot_standards[key], kwargs[key])
+                params[key] = self.hist_standards[key] | kwargs[key]
+            else:
+                # print(key)
+                params[key] = self.hist_standards[key]
+
+        # configure the window with according utility_deprecated function
+        ax = create_window(params)
+        # print(data)
+        pprint(params["plot_kwargs"])
+        diagram = ax.stairs(*data, **params["plot_kwargs"])
+
+        ax = config_window(ax, params)
+
+        save_draw(params)
+
         return diagram
 
     def draw_scatter(self, data, **kwargs):

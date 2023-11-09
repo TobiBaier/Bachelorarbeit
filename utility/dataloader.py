@@ -109,7 +109,7 @@ class DataLoader:
 
         # same procedure for bin return
         bin_ret = False
-        if params["bin_ret"]:
+        if "bin_ret" in params:
             bin_ret = params.pop("bin_ret")
 
         # read data using pandas -> all presets are handed over to the function (might add *params in the future)

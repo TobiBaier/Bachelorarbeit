@@ -1,82 +1,89 @@
 {
     "osc": {
-        "draw_label": true,
-        "grid": true,
-        "norm_ylabel": "normed pulse height",
+        "plot_type": "plot",
+        "ax_config": {
+            "draw_label": true,
+            "grid": true,
+            "norm_ylabel": "normed pulse height",
+            "xlabel": "time",
+            "ybounds": [
+                null,
+                null
+            ],
+            "ylabel": "pulse height"
+        },
         "plot_kwargs": {
             "c": "black",
             "label": null,
             "linewidth": 0.5,
             "ls": "-",
             "marker": null
-        },
-        "plot_type": "plot",
-        "xlabel": "time",
-        "ybounds": [
-            null,
-            null
-        ],
-        "ylabel": "pulse height"
+        }
     },
     "sev": {
-        "draw_label": true,
-        "grid": true,
-        "norm_ylabel": "normed counts",
+        "plot_type": "hist",
+        "ax_config": {
+            "draw_label": true,
+            "grid": true,
+            "norm_ylabel": "gezaehlte Ereignisse (normiert)",
+            "xbounds": [
+                0,
+                null
+            ],
+            "xlabel": "Energie / keV",
+            "ybounds": [
+                0,
+                null
+            ],
+            "ylabel": "gezaehlte Ereignisse"
+        },
         "plot_kwargs": {
-            "c": "black",
+            "color": "xkcd:electric blue",
             "label": null,
             "linewidth": 1,
-            "ls": "-",
-            "marker": null
-        },
-        "plot_type": "plot",
-        "xbounds": [
-            0,
-            null
-        ],
-        "xlabel": "energy/channels",
-        "ybounds": [
-            0,
-            null
-        ],
-        "ylabel": "counts"
+            "ls": "-"
+        }
     },
     "spec": {
-        "draw_label": true,
-        "grid": true,
-        "norm_ylabel": "normed count rate",
+        "plot_type": "plot",
+        "ax_config": {
+            "draw_label": true,
+            "grid": true,
+            "norm_ylabel": "gezaehlte Ereignisse (normiert)",
+            "xlabel": "$\\lambda$/nm",
+            "ybounds": [
+                0,
+                null
+            ],
+            "ylabel": "gezaehlte Ereignisse"
+        },
         "plot_kwargs": {
-            "c": "black",
+            "color": "black",
             "label": null,
             "ls": "-",
             "lw": 1,
             "marker": null
-        },
-        "plot_type": "plot",
-        "xlabel": "wavelength/nm",
-        "ybounds": [
-            0,
-            null
-        ],
-        "ylabel": "count rate/$\\frac{1}{s}$"
+        }
     },
     "uv-vis": {
-        "draw_label": true,
-        "grid": true,
-        "norm_ylabel": "normed transmission rate",
+        "plot_type": "plot",
+        "ax_config": {
+            "draw_label": true,
+            "grid": true,
+            "norm_ylabel": "normed transmission rate",
+            "xlabel": "wavelength/nm",
+            "ybounds": [
+                0,
+                null
+            ],
+            "ylabel": "transmission / %"
+        },
         "plot_kwargs": {
             "c": "black",
             "label": null,
             "ls": "-",
             "lw": 1,
             "marker": null
-        },
-        "plot_type": "plot",
-        "xlabel": "wavelength/nm",
-        "ybounds": [
-            0,
-            null
-        ],
-        "ylabel": "transmission / %"
+        }
     }
 }

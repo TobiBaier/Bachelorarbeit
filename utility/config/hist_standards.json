@@ -27,7 +27,7 @@
     },
     "ticklabel_kwargs": {
         "style": "sci",
-        "useMathText": false,
+        "useMathText": true,
         "useLocale": true
     },
     "grid_kwargs": {

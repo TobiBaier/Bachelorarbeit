@@ -216,8 +216,8 @@ class Control:
             savepath = self.c_file.get_savefile_path(filename)
 
             # enter path into kwargs if not already given
-            if "path" not in kwargs:
-                kwargs["path"] = savepath
+            if "path" not in kwargs["ax_config"]:
+                kwargs["ax_config"]["path"] = savepath
 
             print(f"... Saving plot to '{savepath}'.")
 
@@ -226,19 +226,19 @@ class Control:
             rec_data = self.c_data.auto_read(inst, filepath)
 
             # add automatic titles (only if neither is given)
-            if kwargs["title"] is None and kwargs["suptitle"] is None:
-                kwargs["suptitle"], kwargs["title"] = self.title_constructor(filename)
+            if kwargs["ax_config"]["title"] is None and kwargs["ax_config"]["suptitle"] is None:
+                kwargs["ax_config"]["suptitle"], kwargs["ax_config"]["title"] = self.title_constructor(filename)
 
             # make the plot
             return self.c_draw.make_diagram(inst, rec_data, **kwargs)
 
     def create_combiplot(self, names, outer_format, style):
 
-        if type(outer_format["ax"]) != list:
-            outer_format["ax"] = [outer_format["ax"]] * len(names)
+        #if type(outer_format["ax"]) != list:
+        #    outer_format["ax"] = [outer_format["ax"]] * len(names)
         if type(outer_format["inst"]) != list:
             outer_format["inst"] = [outer_format["inst"]] * len(names)
-
+        ax = outer_format["ax"]
         dgs = []
         # print(outer_format["ax"])
         for i, name in enumerate(names):
@@ -246,13 +246,15 @@ class Control:
             config = {}
 
             for key in style:
-                if type(style[key]) != list:
-                    config[key] = style[key]
-                else:
-                    if key == "xbounds" or key == "ybounds":
-                        config[key] = style[key]
+                config[key] = {}
+                for inner_key in style[key]:
+                    if type(style[key][inner_key]) != list:
+                        config[key][inner_key] = style[key][inner_key]
                     else:
-                        config[key] = style[key][i]
+                        if inner_key == "xbounds" or inner_key == "ybounds":
+                            config[key][inner_key] = style[key][inner_key]
+                        else:
+                            config[key][inner_key] = style[key][inner_key][i]
 
             filename = self.c_file.check_filename_format(name)
             filepath = self.c_file.get_datafile_path(filename)
@@ -264,9 +266,9 @@ class Control:
             elif outer_format["norm"] == "vector":
                 rec_data[1] = rec_data[1] / np.linalg.norm(rec_data[1])
 
-            pprint(config)
+            config["ax_config"]["ax"] = ax
 
-            dgs = dgs + self.c_draw.make_diagram(outer_format["inst"][i], rec_data, ax=outer_format["ax"][i], **config)
+            dgs = dgs + [self.c_draw.make_diagram(outer_format["inst"][i], rec_data, **config)]
 
         plt.suptitle(outer_format["suptitle"])
         plt.title(outer_format["title"])
@@ -304,7 +306,12 @@ class Control:
 
         if style is None:
             style = {}
-        style = self.mp_settings["style"] | style
+        for key in style:
+            if key in self.mp_settings["style"]:
+                style[key] = self.mp_settings["style"][key] | style[key]
+        for key in self.mp_settings["style"]:
+            if key not in style:
+                style[key] = self.mp_settings["style"][key]
 
         # compare outer_format with kwargs (cant use |, because only predefined keys are allowed)
         outer_format = self.mp_settings["outer_format"]
@@ -313,7 +320,7 @@ class Control:
                 outer_format[key] = kwargs[key]
 
         # fully construct style dictionary
-        style["label"] = labels
+        style["plot_kwargs"]["label"] = labels
 
         # fully construct outer_format dictionary
         fig = plt.figure()
@@ -328,7 +335,7 @@ class Control:
         # adjust plot parameters
         if outer_format["norm"] is not None:
             ax.set_ylabel(self.c_draw.plot_standards[outer_format["inst"]]["norm_ylabel"])
-        ax.grid(True)
+        # ax.grid(True)
 
         # get save path
         path = self.c_file.prodata_path + "/" + path
@@ -436,6 +443,12 @@ class Control:
         # save plot
         path = self.c_file.prodata_path + "/" + path
         plt.savefig(path, dpi=400)
+
+    def draw_by_name(self, name, draw_kwargs=None):
+        path = self.c_file.get_datafile_path(name)
+        inst = self.c_file.get_inst_and_sample(name)[0]
+        data = self.c_data.auto_read(inst, path)
+        self.c_draw.make_diagram(inst, data, **draw_kwargs)
 
 
 def get_inst(path="/run/user/1000/gvfs/sftp:host=sftp.zih.tu-dresden.de/glw/aspabl/Studenten/Baier/Messungen"):

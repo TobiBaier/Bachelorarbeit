@@ -2,14 +2,22 @@ from control import get_inst
 import re
 from pprint import pprint
 
-c = get_inst()
+c = get_inst("Z:\Studenten\Baier\Messungen")
 
 c.c_file.sort_to_dirs()
 # c.plot_dir("data/spec/uv-led")
 # c.plot_dir("data/uv-vis")
-# c.plot_dir("data/spec", identifiers=["good"])
+# c.plot_dir("data/sev/ej200", identifiers=["good"])
 
-# c.plot_dir("data", identifiers=["ebis110"])
+name = c.search_in_dir("data/spec/ej200", identifiers=["good"])[0]
+c.draw_by_name(name, draw_kwargs={
+    "ax_config":{
+        "save": False,
+        "draw": True,
+        "yscale": "linear"
+    }
+})
+
 
 """
 color mapping:
@@ -32,23 +40,29 @@ color mapping:
     ej200: "xkcd:charcoal"
 """
 
-names = c.search_in_dir("data/sev",
+"""names = c.search_in_dir("data/sev",
                         identifiers=["hist",  "am241", "hight", "100s"],
                         or_identifiers=["pvcebis", "ebis",],
                         not_identifiers=["250K", "500K", "sebis"])
 
 # names.append("sev_ej260_bng2s100_na22_530_15min_hist.txt")
 pprint(names)
-style = {"c": ["xkcd:electric blue", "xkcd:dusky blue", "xkcd:lightblue"],
-         "xbounds": [0, 2500],
-         "ybounds": [0, None],
-         "yscale": "log"}
+style = {
+    "plot_kwargs": {
+        "color": ["xkcd:electric blue", "xkcd:dusky blue", "xkcd:lightblue"],
+    },
+    "ax_config":{
+        "xbounds": [0, 2500],
+        "ybounds": [0, None],
+        "yscale": "log"
+    }
+}
 # style = {"c": ["xkcd:light teal", 'xkcd:neon green', "xkcd:light violet", "xkcd:charcoal"]}
 labels = c.extract_labels_from_path(names)
 c.multi_plot(names, labels,
-             "zz_sev_combis/epoxy/lowgamma/am_pvc_comparison_roomtemp_log.png",
+             "zz_sev_combis/epoxy/lowgamma/testitest.png",
              title="10cm source distance, 100s, room temp, americium214 irradiation",
-             style=style, show_final_plot=True, )
+             style=style, show_final_plot=True, )"""
 
 """
 "Transmission spectrum: 1%PPO+0.1%Bis, 0.2%PPO+0.01%Bis, 5%PPO+0.1%Bis"

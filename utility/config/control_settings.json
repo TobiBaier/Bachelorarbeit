@@ -1,7 +1,9 @@
 {
     "auto_plot": {
-        "suptitle": null,
-        "title": null
+        "ax_config": {
+            "suptitle": null,
+            "title": null
+        }
     },
     "multi_plot": {
         "outer_format": {
@@ -11,20 +13,24 @@
             "title": null
         },
         "style": {
-            "c": [
-                "c",
-                "m",
-                "y",
-                "r",
-                "g",
-                "b",
-                "gray",
-                "purple"
-            ],
-            "draw": false,
-            "label": null,
-            "ls": "-",
-            "save": false
+            "ax_config": {
+                "draw": false,
+                "save": false
+            },
+            "plot_kwargs": {
+                "color":   [
+                    "c",
+                    "m",
+                    "y",
+                    "r",
+                    "g",
+                    "b",
+                    "gray",
+                    "purple"
+                ],
+                "label": null,
+                "ls": "-"
+            }
         }
     },
     "twin_xscale": {

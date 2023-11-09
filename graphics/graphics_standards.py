@@ -3,6 +3,7 @@ from control import get_inst
 import locale
 import numpy as np
 import matplotlib as mpl
+mpl.use('Qt5Agg')
 
 """
 Worauf zu achten ist:

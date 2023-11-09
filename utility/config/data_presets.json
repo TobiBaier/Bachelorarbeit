@@ -14,7 +14,8 @@
         "usecols": [
             0,
             1
-        ]
+        ],
+        "bin_ret": true
     },
     "spec": {
         "data_type": "csv",
