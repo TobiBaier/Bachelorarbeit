@@ -9,13 +9,14 @@ c.c_file.sort_to_dirs()
 # c.plot_dir("data/uv-vis")
 # c.plot_dir("data/sev/ej200", identifiers=["good"])
 
-name = c.search_in_dir("data/sev/pvcebis110", identifiers=["ba133", "900s", "hist", "hight"])[0]
+name = c.search_in_dir("data/sev/pvcebis110", identifiers=["cm244", "100s", "hist", "lowt"])[0]
 print(name)
 c.draw_by_name(name, draw_kwargs={
     "ax_config":{
         "save": False,
         "draw": True,
-        "yscale": "linear"
+        "yscale": "linear",
+        "xlabel": "Kanäle"
     }
 })
 

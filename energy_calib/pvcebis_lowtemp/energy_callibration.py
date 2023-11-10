@@ -159,7 +159,7 @@ def load_peaks(file):
 
 if __name__ == "__main__":
     peaks = load_peaks("Peaks.json")
-    linear_cutoff = [1900, 800]
+    linear_cutoff = [300, 300]
     fit = fit_line(peaks, linear_cutoff)
     print_fit(peaks, fit, linear_cutoff)
     plot_fit(peaks, fit, linear_cutoff)

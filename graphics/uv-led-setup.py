@@ -78,7 +78,7 @@ ax.plot([570,520], [0.26,0], "--", color="gray")
 ax.set_xlabel(r"$\lambda$/nm")
 ax.set_xbound([250, 650])
 ax.tick_params(axis="both", labelcolor="black", direction="in", top=True)
-ax.ticklabel_format(axis="y", style="plain", useMathText=False, useLocale=True)
+ax.ticklabel_format(axis="y", useLocale=True)
 ax.set_ylabel("gezaehlte Ereignisse", color="black")
 ax.set_ybound([0, None])
 
@@ -88,7 +88,10 @@ def formatter(y, pos):
     # Find the number of decimal places required
     decimalplaces = int(np.log10(y))  # =0 for numbers >=1
     # Insert that number into a format string
-    formatstring = r'{}$\cdot 10^{{{}}}$'.format(np.round(y/(10**decimalplaces),1), decimalplaces)
+    a = np.int_(np.floor(y/(10**decimalplaces)))
+    print(np.round(y/(10**decimalplaces), 1))
+    b = np.int_((np.round(y/(10**decimalplaces), 1) - np.floor(y/(10**decimalplaces))) * 10)
+    formatstring = r'{},{}$\cdot 10^{{{}}}$'.format(a, b, decimalplaces)
     # Return the formatted tick label
     return formatstring
 
@@ -101,7 +104,6 @@ mirror_ax.set_ybound([0, None])
 
 ax.grid(visible=True, color="#87878790", zorder=-1, lw=1)
 
-plt.show()
-
+plt.savefig("Z:/Studenten/Baier/Latex/images/uv-led_filter_comparison.pdf")
 
 

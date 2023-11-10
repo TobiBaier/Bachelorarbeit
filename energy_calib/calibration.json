@@ -1,0 +1,60 @@
+{
+  "ebis110": {
+    "mass": 0.0042595,
+    "roomtemp": {
+      "linear": [11.5, 0.06052632],
+      "quadratic": [18.088329753747086, 0.01660411743115977, 7.32036639305232e-05],
+      "switch": 300,
+      "spec_cutoff": 86,
+      "distance": 10,
+      "filenames": [
+        "sev_ebis110_bng2s111_am241_10cm_100s_1800V_hight_hist_1000K",
+        "sev_ebis110_bng2s111_am241_10cm_300s_1800V_hight_hist_1000K",
+        "sev_ebis110_bng2s111_cm244_10cm_100s_1800V_hight_hist_1000K",
+        "sev_ebis110_bng2s111_cm244_10cm_300s_1800V_hight_hist_1000K",
+        "sev_ebis110_bng2s111_na22_10cm_900s_1800V_hight_hist_1000K"
+      ]
+
+    },
+    "lowtemp": {
+      "linear": [11.5, 0.06052632],
+      "quadratic": [18.088329753747086, 0.01660411743115977, 7.32036639305232e-05],
+      "spec_cutoff": 0,
+      "time": 100,
+      "distance": 10
+    }
+  },
+  "pvcebis110": {
+    "mass": 0.0041043,
+    "roomtemp": {
+      "linear": [11.5, 0.06764706],
+      "quadratic": [18.625624913500413, 0.02014289273352661, 7.917361015000467e-05],
+      "switch" : 300,
+      "spec_cutoff": 98,
+      "time": 100,
+      "distance": 10,
+      "filenames": [
+        "sev_pvcebis110_bng2s103_am241_10cm_100s_1800V_hight_hist",
+        "sev_pvcebis110_bng2s103_ba133_10cm_100s_hight_hist",
+        "sev_pvcebis110_bng2s103_ba133_10cm_300s_hight_hist",
+        "sev_pvcebis110_bng2s103_ba133_10cm_900s_hight_hist",
+        "sev_pvcebis110_bng2s103_cm244_10cm_100s_1800V_hight_hist",
+        "sev_pvcebis110_bng2s103_na22_10cm_900s_1800V_hight_hist"
+      ]
+    },
+    "lowtemp": {
+      "linear": [11.5, 0.07876712],
+      "quadratic": [17.73028613612462, 0.03723188238017375, 6.92254015124958e-05],
+      "switch": 300,
+      "spec_cutoff": 88,
+      "time": 100,
+      "distance": 10,
+      "filenames": [
+        "sev_pvcebis110_bng2s103_am241_10cm_100s_1800V_lowt_hist",
+        "sev_pvcebis110_bng2s103_am241_10cm_300s_1800V_lowt_hist",
+        "sev_pvcebis110_bng2s103_cm244_10cm_100s_1800V_lowt_hist",
+        "sev_pvcebis110_bng2s103_na22_10cm_900s_1800V_lowt_hist"
+      ]
+    }
+  }
+}
