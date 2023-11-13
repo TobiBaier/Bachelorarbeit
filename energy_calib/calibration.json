@@ -17,11 +17,19 @@
 
     },
     "lowtemp": {
-      "linear": [11.5, 0.06052632],
-      "quadratic": [18.088329753747086, 0.01660411743115977, 7.32036639305232e-05],
-      "spec_cutoff": 0,
+      "linear": [11.5, 0.10550459],
+      "quadratic": [28.89198228, 0.01044196, 0.00019324],
+      "switch": 300,
+      "spec_cutoff": 51,
       "time": 100,
-      "distance": 10
+      "distance": 10,
+      "filenames": [
+        "sev_ebis110_bng2s111_am241_10cm_100s_1800V_lowt_hist",
+        "sev_ebis110_bng2s111_am241_10cm_300s_1800V_lowt_hist",
+        "sev_ebis110_bng2s111_cm244_10cm_100s_1800V_lowt_hist",
+        "sev_ebis110_bng2s111_cm244_10cm_300s_1800V_lowt_hist",
+        "sev_ebis110_bng2s111_na22_10cm_900s_1800V_hight_hist_1000K"
+      ]
     }
   },
   "pvcebis110": {

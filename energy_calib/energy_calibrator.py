@@ -6,8 +6,8 @@ import json
 import re
 import numpy as np
 
-c = get_inst("Z:\Studenten\Baier\Messungen")
-
+# c = get_inst("Z:\Studenten\Baier\Messungen")
+c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
 with open("calibration.json", "r") as of:
     data_dict = json.load(of)
@@ -50,19 +50,33 @@ def E_calib(data, temp):
 
         dose = dose * 1000 * 1.602176487E-19 / mass
 
-        print(f"Sample {sample_name} got irradiated by {iso_name} for {irr_time}s: dose = {dose*10**6} muSV, dose rate: {8600*(dose*10**6)/int(irr_time)} muSv/h")
+        print(f"Sample {sample_name} got irradiated by {iso_name} for {irr_time}s at {temp}: dose = {dose*10**6} muSV, dose rate: {8600*(dose*10**6)/int(irr_time)} muSv/h")
 
 
-        ax.stairs(e_vals, e_bins, label=f"{iso_name} for {irr_time}")
+        # ax.stairs(e_vals, e_bins, label=f"{iso_name} for {irr_time}")
 
     ax.legend()
-    plt.show()
+    # plt.show()
 
 
 E_calib(data_dict["pvcebis110"], "roomtemp")
+print("")
 E_calib(data_dict["pvcebis110"], "lowtemp")
+print("")
 E_calib(data_dict["ebis110"], "roomtemp")
+print("")
+E_calib(data_dict["ebis110"], "lowtemp")
 
+"""
+Messnotizen 
+ebis110
+ - kalte Messung als allererstes, Na als letztes in der Reihe -> Detektor bis dahin vllt schon sehr kalt?
+ - stärktes nichtlineares Verhalten?
+ - vllt funktioniert Detektor bei geringen Temperaturen tatsächlich besser und die Kante ist echt?
+ 
+
+
+"""
 
 
 

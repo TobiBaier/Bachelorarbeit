@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import json
 import re
 import matplotlib as mpl
-mpl.use("Qt5Agg")
 
 def plot_fit(peaks, fit, linear_cutoff):
     for ch, kanal in enumerate(fit):

@@ -2,14 +2,17 @@ from control import get_inst
 import re
 from pprint import pprint
 
-c = get_inst("Z:\Studenten\Baier\Messungen")
+# c = get_inst("Z:\Studenten\Baier\Messungen")
+c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
 c.c_file.sort_to_dirs()
 # c.plot_dir("data/spec/uv-led")
 # c.plot_dir("data/uv-vis")
 # c.plot_dir("data/sev/ej200", identifiers=["good"])
 
-name = c.search_in_dir("data/sev/pvcebis110", identifiers=["cm244", "100s", "hist", "lowt"])[0]
+name = c.search_in_dir("data/sev/ebis110",
+                       identifiers=["na22", "900s", "hist", "lowt"],
+                       not_identifiers=["250K", "500K"])[0]
 print(name)
 c.draw_by_name(name, draw_kwargs={
     "ax_config":{
@@ -43,10 +46,11 @@ color mapping:
 """
 
 """names = c.search_in_dir("data/sev",
-                        identifiers=["hist",  "am241", "hight", "100s"],
+                        identifiers=["hist", "hight", "100s"],
                         or_identifiers=["pvcebis", "ebis",],
-                        not_identifiers=["250K", "500K", "sebis"])
-
+                        not_identifiers=["250K", "500K", "sebis", "na22"])"""
+"""names = ["sev_ebis110_bng2s111_am241_10cm_100s_1800V_lowt_hist.txt",
+         "sev_ebis110_bng2s111_cm244_10cm_100s_1800V_lowt_hist.txt"]
 # names.append("sev_ej260_bng2s100_na22_530_15min_hist.txt")
 pprint(names)
 style = {
@@ -62,7 +66,7 @@ style = {
 # style = {"c": ["xkcd:light teal", 'xkcd:neon green', "xkcd:light violet", "xkcd:charcoal"]}
 labels = c.extract_labels_from_path(names)
 c.multi_plot(names, labels,
-             "zz_sev_combis/epoxy/lowgamma/testitest.png",
+             "zz_sev_combis/testitest.png",
              title="10cm source distance, 100s, room temp, americium214 irradiation",
              style=style, show_final_plot=True, )"""
 

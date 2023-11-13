@@ -5,6 +5,7 @@ import json
 import re
 import matplotlib as mpl
 
+
 def plot_fit(peaks, fit, linear_cutoff):
     for ch, kanal in enumerate(fit):
         fig, plot = plt.subplots(1,1)
