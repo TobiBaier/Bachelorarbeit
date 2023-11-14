@@ -444,7 +444,7 @@ class Control:
         path = self.c_file.prodata_path + "/" + path
         plt.savefig(path, dpi=400)
 
-    def draw_by_name(self, name, draw_kwargs=None):
+    def draw_by_name(self, name, draw_kwargs={}):
         path = self.c_file.get_datafile_path(name)
         inst = self.c_file.get_inst_and_sample(name)[0]
         data = self.c_data.auto_read(inst, path)

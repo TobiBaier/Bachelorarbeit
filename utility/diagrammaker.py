@@ -14,7 +14,7 @@ import matplotlib as mpl
 from pprint import pprint
 import locale
 
-mpl.use('Qt5Agg')
+#mpl.use('Qt5Agg')
 locale.setlocale(locale.LC_ALL, "")
 
 def create_window(params: dict):
