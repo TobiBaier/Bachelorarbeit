@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from utility.dataloader import DataLoader
 from utility.diagrammaker import DiagramMaker
+import matplotlib.ticker
 
 d = DataLoader()
 
@@ -31,11 +32,17 @@ ax.set_ylabel(r"$(\mu / \rho)$ / cm$^2$ g$^{-1}$")
 ax.set_xscale("log")
 ax.set_yscale("log")
 
+locmaj = matplotlib.ticker.LogLocator(base=10,numticks=12)
+ax.xaxis.set_major_locator(locmaj)
+
+locmin = matplotlib.ticker.LogLocator(base=10.0,subs=(0.2,0.4,0.6,0.8),numticks=12)
+ax.xaxis.set_minor_locator(locmin)
+ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
 
 ax.legend()
 ax.grid()
 
 
 
-plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/tissue_cross_section.pdf")
-# plt.show()
+# plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/tissue_cross_section.pdf")
+plt.show()

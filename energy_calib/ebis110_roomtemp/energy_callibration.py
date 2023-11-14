@@ -3,6 +3,7 @@ from numpy.polynomial import Polynomial
 import matplotlib.pyplot as plt
 import json
 import re
+import matplotlib as mpl
 
 def plot_fit(peaks, fit, linear_cutoff):
     for ch, kanal in enumerate(fit):
@@ -157,7 +158,7 @@ def load_peaks(file):
 
 if __name__ == "__main__":
     peaks = load_peaks("Peaks.json")
-    linear_cutoff = [1900, 2000]
+    linear_cutoff = [300, 300]
     fit = fit_line(peaks, linear_cutoff)
     print_fit(peaks, fit, linear_cutoff)
     plot_fit(peaks, fit, linear_cutoff)
