@@ -189,7 +189,7 @@ class Control:
     --------------------------------------------------------------------------
     PLOT FUNCTIONS
     """
-    def auto_plot_data(self, filename, **kwargs):
+    def auto_plot_data(self, filename, auto_title=True, **kwargs):
         """
         Extracts data from a given file and plots it according to the configured presets // also does ending check
 
@@ -199,7 +199,9 @@ class Control:
         """
 
         # update standard settings
-        kwargs = self.ap_settings | kwargs
+        for key in kwargs:
+            if key in self.ap_settings:
+                kwargs[key] = self.ap_settings[key] | kwargs[key]
 
         # add ending if needed
         temp = filename
@@ -219,14 +221,15 @@ class Control:
             if "path" not in kwargs["ax_config"]:
                 kwargs["ax_config"]["path"] = savepath
 
-            print(f"... Saving plot to '{savepath}'.")
+            sp = kwargs["ax_config"]["path"]
+            print(f"... Saving plot to '{sp}'.")
 
             # get instrument and data to plot
             inst = self.c_file.get_inst_and_sample(filename)[0]
             rec_data = self.c_data.auto_read(inst, filepath)
 
             # add automatic titles (only if neither is given)
-            if kwargs["ax_config"]["title"] is None and kwargs["ax_config"]["suptitle"] is None:
+            if kwargs["ax_config"]["title"] is None and kwargs["ax_config"]["suptitle"] is None and auto_title:
                 kwargs["ax_config"]["suptitle"], kwargs["ax_config"]["title"] = self.title_constructor(filename)
 
             # make the plot

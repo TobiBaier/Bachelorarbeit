@@ -18,7 +18,8 @@
     "plot_kwargs": {
         "color": "black",
         "lw": 1,
-        "zorder": 100
+        "zorder": 100,
+        "label": null
     },
     "tick_kwargs": {
         "direction": "in",

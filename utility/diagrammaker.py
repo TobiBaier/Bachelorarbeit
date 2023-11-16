@@ -33,19 +33,6 @@ def create_window(params: dict):
     else:
         ax = params["ax_config"]["ax"]
 
-    """# set title, suptitle, grid if given
-    # title is BELOW suptitle and therefore smaller
-    if params["title"]:
-        plt.title(params["title"], fontsize="small")
-    if params["suptitle"]:
-        plt.suptitle(params["suptitle"], fontsize="medium")
-    if params["grid"]:
-        ax.grid()
-
-    # configure axis labels
-    ax.set_xlabel(params["xlabel"])
-    ax.set_ylabel(params["ylabel"])"""
-
     # return configured plot
     return ax
 
@@ -110,7 +97,7 @@ def save_draw(params: dict):
             print("Done Saving!")
         else:
             plt.savefig(ax_config["path"], dpi=ax_config["dpi"])
-            print("Done Saving!")
+            print("Done Saving!1")
 
     if ax_config["draw"]:
         plt.show()
@@ -255,10 +242,9 @@ class DiagramMaker:
                 # print(key)
                 params[key] = self.hist_standards[key]
 
-        # configure the window with according utility_deprecated function
+        # configure the window with according utility function
         ax = create_window(params)
         # print(data)
-        pprint(params["plot_kwargs"])
         diagram = ax.stairs(*data, **params["plot_kwargs"])
 
         ax = config_window(ax, params)

@@ -19,8 +19,8 @@ partially mitigating the use additivity, particularly for photon energies below 
 However, additivity has not been used in the present work. 
 """
 
-paths = os.scandir("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/mass_att_coeff")
-
+# paths = os.scandir("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/mass_att_coeff")
+paths = os.scandir("Z:\Studenten\Baier\mass_att_coeffs")
 """
 Du dummer Idiot, trag einfach die notwendigen Energien bei NIST ein und hol dir alles fehlende *facepalm*
 https://physics.nist.gov/PhysRefData/Xcom/html/xcom1.html
@@ -172,6 +172,7 @@ ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tiss
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["borax"])/daten["tissue"][2], label="borax")
 # ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["caco3"])/daten["tissue"][2], label="mit 7% CaCO3")
 ax.plot(daten["tissue"][0], (0.943*daten["epoxy"]+0.057*daten["pvc"])/daten["tissue"][2], label="mit 5.7% PVC")
+ax.plot(daten["tissue"][0], (0.995*daten["vinyltoulene"][2]+0.005*daten["lead"][2])/daten["tissue"][2], label="PVT mit 0.5% Pb")
 # ax.plot(daten["tissue"][0], (0.935*daten["doped_epoxy"]+0.065*daten["pvc"])/daten["tissue"][2], label="mit 6.5% PVC (doped)")
 # ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["PF5080"])/daten["tissue"][2], label="PF5080")
 # ax.plot(daten["tissue"][0], (0.91*daten["water"]+0.09*daten["glucose"]/daten["tissue"][2]), label="tonic water")
@@ -193,6 +194,10 @@ ax.set_xscale('log')
 ax.set_xlabel("Photonenenergie / MeV")
 ax.set_ylabel(r"Verhältnis $(\frac{\mu_{en}}{\rho})_{Detektor}$  /  $(\frac{\mu_{en}}{\rho}_{Gewebe})$")
 ax.set_title("Proportionalitätsfaktor zwischen Detektor- und Gewebedosis")
+
+ax.tick_params(direction="in", top=True, right=True)
+# ax.ticklabel_format(style="sci", useMathText=False, useLocale=True)
+ax.grid(visible=True)
 
 ax.legend()
 # plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit/ergebnisse/different_additives.png", dpi=400)
