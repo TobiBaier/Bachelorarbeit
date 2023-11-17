@@ -1,22 +1,42 @@
 {
-    "ax": null,
-    "dpi": 400,
-    "draw": false,
-    "grid": false,
-    "path": null,
-    "plot_kwargs": {
-        "c": "blue",
-        "fmt": "-+",
-        "mec": "black",
-        "ms": 6
+    "ax_config": {
+        "ax": null,
+        "dpi": 400,
+        "draw": false,
+        "grid": false,
+        "path": null,
+        "save": true,
+        "suptitle": null,
+        "title": null,
+        "xbounds": null,
+        "xlabel": "x",
+        "xscale": "linear",
+        "ybounds": null,
+        "ylabel": "y",
+        "yscale": "linear"
     },
-    "save": true,
-    "suptitle": null,
-    "title": null,
-    "xbounds": null,
-    "xlabel": "x",
-    "xscale": "linear",
-    "ybounds": null,
-    "ylabel": "y",
-    "yscale": "linear"
+    "plot_kwargs": {
+        "color": "black",
+        "ls": "-",
+        "lw": 1,
+        "zorder": 100,
+        "label": null
+    },
+    "tick_kwargs": {
+        "direction": "in",
+        "top": true,
+        "right": true,
+        "which": "both"
+    },
+    "ticklabel_kwargs": {
+        "style": "sci",
+        "useMathText": true,
+        "useLocale": true
+    },
+    "grid_kwargs": {
+        "visible": true,
+        "color": "#87878790",
+        "zorder": -1000,
+        "lw": 1
+    }
 }

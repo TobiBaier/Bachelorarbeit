@@ -42,7 +42,7 @@ ax.legend(a+b, labels, loc="center right")
 # plt.show()
 
 
-name = c.search_in_dir("data/sev/pu", identifiers=["na22", "hist"])[0]
+"""name = c.search_in_dir("data/sev/pu", identifiers=["na22", "hist"])[0]
 print(name)
 c.auto_plot_data(name, auto_title=False,
                  ax_config={
@@ -54,18 +54,18 @@ c.auto_plot_data(name, auto_title=False,
                      "xlabel": "Kanäle",
                      "xbounds": [0, 750]
                  }
-)
+)"""
 
-name = c.search_in_dir("data/spec/pu", identifiers=["good", "hist"])[0]
+name = c.search_in_dir("data/spec/pu", identifiers=["good"])[0]
 print(name)
 c.auto_plot_data(name, auto_title=False,
                  ax_config={
-                     "save": True,
+                     "save": False,
                      "path": "Z:/Studenten/Baier/Latex/images/pu_sev.pdf",
                      "dpi": None,
                      "draw": True,
                      "yscale": "log",
                      "xlabel": "Kanäle",
-                     "xbounds": [0, 750]
+                     "xbounds": [None, None]
                  }
 )
