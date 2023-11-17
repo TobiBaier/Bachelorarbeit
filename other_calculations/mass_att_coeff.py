@@ -162,17 +162,18 @@ daten["bis"] = bis[0] * daten["carbon"][2] + bis[1] * daten["hydrogen"][2]
 
 daten["doped_epoxy"] = (15/15.165) * daten["epoxy"] + (0.15/15.165) * daten["ppo"] + (0.015/15.165) * daten["bis"]
 
-# ax.plot(daten["tissue"][0], daten["pu"]/daten["tissue"][2], label="pu")
-ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxy")
+ax.plot(daten["tissue"][0], daten["pu"]/daten["tissue"][2], label="Polyurethanharz")
+ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxidharz")
+ax.plot(daten["tissue"][0], (0.943*daten["epoxy"]+0.057*daten["pvc"])/daten["tissue"][2], label="Epoxidharz mit 5.7% PVC")
 # ax.plot(daten["tissue"][0], daten["doped_epoxy"]/daten["tissue"][2], label="doped Epoxy")
-# ax.plot(daten["tissue"][0], daten["polysterene"][2]/daten["tissue"][2], label="PS")
-# ax.plot(daten["tissue"][0], daten["vinyltoulene"][2]/daten["tissue"][2], label="PVT")
+ax.plot(daten["tissue"][0], daten["polysterene"][2]/daten["tissue"][2], label="Polystyrol (PS)")
+ax.plot(daten["tissue"][0], daten["vinyltoulene"][2]/daten["tissue"][2], label="Polyvinyltoluol (PVT)")
+ax.plot(daten["tissue"][0], daten["pmma"]/daten["tissue"][2], label="PMMA")
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["pmma"])/daten["tissue"][2], label="pmma")
-ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tissue"][2], label="mit 2% NaCl")
+# ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tissue"][2], label="mit 2% NaCl")
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["borax"])/daten["tissue"][2], label="borax")
 # ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["caco3"])/daten["tissue"][2], label="mit 7% CaCO3")
-ax.plot(daten["tissue"][0], (0.943*daten["epoxy"]+0.057*daten["pvc"])/daten["tissue"][2], label="mit 5.7% PVC")
-ax.plot(daten["tissue"][0], (0.995*daten["vinyltoulene"][2]+0.005*daten["lead"][2])/daten["tissue"][2], label="PVT mit 0.5% Pb")
+ax.plot(daten["tissue"][0], (0.995*daten["vinyltoulene"][2]+0.005*daten["lead"][2])/daten["tissue"][2], label="PVT mit 0.5% Blei")
 # ax.plot(daten["tissue"][0], (0.935*daten["doped_epoxy"]+0.065*daten["pvc"])/daten["tissue"][2], label="mit 6.5% PVC (doped)")
 # ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["PF5080"])/daten["tissue"][2], label="PF5080")
 # ax.plot(daten["tissue"][0], (0.91*daten["water"]+0.09*daten["glucose"]/daten["tissue"][2]), label="tonic water")
@@ -185,7 +186,7 @@ ax.plot(daten["tissue"][0], (0.995*daten["vinyltoulene"][2]+0.005*daten["lead"][
 #ax.plot(daten["tissue"][0], daten["epoxy"], label="epoxy")
 #ax.plot(daten["tissue"][0], daten["tissue"][2], label="tissue")
 
-# ax.set_xlim([0.01, 10])
+ax.set_xlim([0.01, 10])
 # ax.set_ylim([0.01, 2])
 
 # ax.set_yscale('log')
@@ -193,14 +194,14 @@ ax.set_xscale('log')
 
 ax.set_xlabel("Photonenenergie / MeV")
 ax.set_ylabel(r"Verhältnis $(\frac{\mu_{en}}{\rho})_{Detektor}$  /  $(\frac{\mu_{en}}{\rho}_{Gewebe})$")
-ax.set_title("Proportionalitätsfaktor zwischen Detektor- und Gewebedosis")
+# ax.set_title("Proportionalitätsfaktor zwischen Detektor- und Gewebedosis")
 
 ax.tick_params(direction="in", top=True, right=True)
 # ax.ticklabel_format(style="sci", useMathText=False, useLocale=True)
-ax.grid(visible=True)
+ax.grid(visible=True, color="#87878790", zorder=-1, lw=1)
 
-ax.legend()
-# plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit/ergebnisse/different_additives.png", dpi=400)
+ax.legend(loc="lower right")
+plt.savefig("Z:/Studenten/Baier/Latex/images/basematrix_murho_comp.pdf")
 plt.show()
 """
 daten["coeff_pu"] = (0.627922665 * daten["coeff_carbon"][2] +

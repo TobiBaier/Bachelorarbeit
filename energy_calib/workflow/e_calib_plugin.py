@@ -85,16 +85,19 @@ def do_rebin(filename, bin_size, save=False, relpath="Z:/Studenten/Baier/Messung
 
     for i in range(len(bins)):
         for j in range(bin_size):
-            vals[i] = old_vals[i*bin_size + j]
+            vals[i] = vals[i] + old_vals[i*bin_size + j]
 
-    # bins = np.append(bins, bins[-1] + (bins[-1] - bins[-2]))
+    bins = np.append(bins, bins[-1] + (bins[-1] - bins[-2]))
+    plt.stairs(vals, bins)
+    plt.show()
+
 
     if save:
         save_array = np.column_stack((np.append([0, 0, 0, 0], bins), np.append([0, 0, 0, 0], vals)))
         np.savetxt(relpath + filename + "_rebin" + str(bin_size) + ".txt", save_array, delimiter=";")
 
 
-# do_rebin("sev_pvcebis110_bng2s103_ba133_10cm_100s_hight_ecalib_hist", 5)
+do_rebin("sev_dsf_bng2s100_am241_10cm_100s_hight_ecalib_hist", 25)
 
 
 def save_with_e_calibration(filename, relpath="Z:/Studenten/Baier/Messungen/sortme/"):

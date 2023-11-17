@@ -1,6 +1,5 @@
 {
     "osc": {
-        "plot_type": "plot",
         "ax_config": {
             "draw_label": true,
             "grid": true,
@@ -13,44 +12,26 @@
             "ylabel": "pulse height"
         },
         "plot_kwargs": {
-            "c": "black",
+            "color": "black",
             "label": null,
             "linewidth": 0.5,
             "ls": "-",
             "marker": null
-        }
+        },
+        "plot_type": "plot"
+
     },
     "sev": {
         "plot_type": "hist",
         "ax_config": {
             "draw_label": true,
             "grid": true,
-            "norm_ylabel": "gezaehlte Ereignisse (normiert)",
+            "norm_ylabel": "normed counts",
             "xbounds": [
                 0,
                 null
             ],
-            "xlabel": "Energie / keV",
-            "ybounds": [
-                0,
-                null
-            ],
-            "ylabel": "gezaehlte Ereignisse"
-        },
-        "plot_kwargs": {
-            "color": "xkcd:electric blue",
-            "label": null,
-            "linewidth": 1,
-            "ls": "-"
-        }
-    },
-    "spec": {
-        "plot_type": "plot",
-        "ax_config": {
-            "draw_label": true,
-            "grid": true,
-            "norm_ylabel": "gezaehlte Ereignisse (normiert)",
-            "xlabel": "$\\lambda$/nm",
+            "xlabel": "Energie/Kanal",
             "ybounds": [
                 0,
                 null
@@ -60,10 +41,31 @@
         "plot_kwargs": {
             "color": "black",
             "label": null,
+            "linewidth": 1,
+            "ls": "-"
+        }
+
+    },
+    "spec": {
+        "ax_config": {
+            "xlabel": "wavelength/nm",
+            "ybounds": [
+                0,
+                null
+            ],
+            "ylabel": "count rate/$\\frac{1}{s}$",
+            "draw_label": true,
+            "grid": true,
+            "norm_ylabel": "normed count rate"
+        },
+        "plot_kwargs": {
+            "color": "black",
+            "label": null,
             "ls": "-",
             "lw": 1,
             "marker": null
-        }
+        },
+        "plot_type": "plot"
     },
     "uv-vis": {
         "plot_type": "plot",
@@ -79,11 +81,12 @@
             "ylabel": "transmission / %"
         },
         "plot_kwargs": {
-            "c": "black",
+            "color": "black",
             "label": null,
             "ls": "-",
             "lw": 1,
             "marker": null
         }
+
     }
 }

@@ -229,8 +229,9 @@ class Control:
             rec_data = self.c_data.auto_read(inst, filepath)
 
             # add automatic titles (only if neither is given)
-            if kwargs["ax_config"]["title"] is None and kwargs["ax_config"]["suptitle"] is None and auto_title:
-                kwargs["ax_config"]["suptitle"], kwargs["ax_config"]["title"] = self.title_constructor(filename)
+            if auto_title:
+                if kwargs["ax_config"]["title"] is None and kwargs["ax_config"]["suptitle"] is None:
+                    kwargs["ax_config"]["suptitle"], kwargs["ax_config"]["title"] = self.title_constructor(filename)
 
             # make the plot
             return self.c_draw.make_diagram(inst, rec_data, **kwargs)

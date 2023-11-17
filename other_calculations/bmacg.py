@@ -11,9 +11,9 @@ def linreg(x1, y1, x2, y2, a):
 
     return m * a + n
 
-def get_data():
+def get_data(relpath="Z:\Studenten\Baier\mass_att_coeff"):
     daten = {}
-    paths = os.scandir("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/mass_att_coeff")
+    paths = os.scandir(relpath)
 
     for path in paths:
         if path.name.endswith(".txt"):
@@ -79,8 +79,6 @@ def consistency_check(data, mode="normal"):
             new_entries[key1][0] = np.append(new_entries[key1][0], temp1)
             new_entries[key1][1] = np.append(new_entries[key1][1], temp2)
             new_entries[key1][2] = np.append(new_entries[key1][2], temp3)
-
-    pprint(new_entries["polysterene"])
 
     s = data.copy()
     for key in s:
