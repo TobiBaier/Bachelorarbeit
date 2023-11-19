@@ -10,7 +10,7 @@ class Test:
 
     def some_func(self, arg1, arg2, kwarg1=None, kwarg2=None, **kwargs):
 
-        # NEEDED----
+        # NEEDED (when function is called by seq-loader) ----
         if "kwargs" in kwargs:
             kwargs = kwargs["kwargs"]
         # ----
@@ -23,7 +23,7 @@ class Test:
         print("kwargs: ")
         pprint(kwargs)
 
-        # NEEDED----
+        # NEEDED (for saving to seq-loader) ----
         a = locals()
         a.pop("self")
         a["func_name"] = inspect.stack()[0][3]

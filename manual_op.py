@@ -2,15 +2,15 @@ from control import get_inst
 import re
 from pprint import pprint
 
-c = get_inst("Z:\Studenten\Baier\Messungen")
-# c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+# c = get_inst("Z:\Studenten\Baier\Messungen")
+c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
-c.c_file.sort_to_dirs()
+# c.c_file.sort_to_dirs()
 # c.plot_dir("data/spec/uv-led")
 # c.plot_dir("data/uv-vis")
 # c.plot_dir("data/sev/ej200", identifiers=["good"])
 
-name = c.search_in_dir("data/sev/pu",
+"""name = c.search_in_dir("data/sev/pu",
                        identifiers=["na22", "hist"])[0]
 print(name)
 c.auto_plot_data(name, auto_title=False,
@@ -22,10 +22,37 @@ c.auto_plot_data(name, auto_title=False,
                      "xlabel": "Kanäle",
                      "xbounds": [0, 750]
                  }
-)
+)"""
+
+
+cmap = {
+    "pu": "gray",
+    "ppo1": "xkcd:light violet",
+    "ppo5": "xkcd:neon purple",
+    "3hf1": "lime green",
+    "combi14": "aquamarine",
+    "combi92": "light teal",
+    "bis105": "sea blue",
+    "popop105": "cornflower blue",
+}
+
+def color_mapping(names):
+    colors = []
+    for name in names:
+        inst, sample = c.c_file.get_inst_and_sample(name)
+        colors.append(cmap[sample])
+    return colors
+
+names = c.search_in_dir("data/spec", identifiers=["good"])
+print(color_mapping(names))
+
+
+
+
+
 
 """
-color mapping:
+color mapping (alt):
     3hf1: 'xkcd:bright green'
     bis105: 'xkcd:electric blue'
     combi14: 'xkcd:neon green'
