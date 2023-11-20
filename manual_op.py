@@ -2,27 +2,30 @@ from control import get_inst
 import re
 from pprint import pprint
 
-# c = get_inst("Z:\Studenten\Baier\Messungen")
-c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+c = get_inst("Z:\Studenten\Baier\Messungen")
+# c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
-# c.c_file.sort_to_dirs()
+c.c_file.sort_to_dirs()
 # c.plot_dir("data/spec/uv-led")
 # c.plot_dir("data/uv-vis")
 # c.plot_dir("data/sev/ej200", identifiers=["good"])
 
-"""name = c.search_in_dir("data/sev/pu",
-                       identifiers=["na22", "hist"])[0]
+"""name = c.search_in_dir("data/spec/ppo5",
+                       identifiers=["sr90", "good"])[0]
 print(name)
 c.auto_plot_data(name, auto_title=False,
                  ax_config={
-                     "save": True,
-                     "path": "Z:/Studenten/Baier/Latex/images/pu_sev",
+                     "save": False,
                      "draw": True,
-                     "yscale": "log",
-                     "xlabel": "Kanäle",
-                     "xbounds": [0, 750]
+                     # "path": "Z:/Studenten/Baier/Latex/images/pu_sev",
+                     "draw": True,
+                     "xbounds": [300, 550]
                  }
 )"""
+
+# names = ["spec_pu_brg2s076_sr90_good", "spec_pu_brg2s076_5step_filter_good"]
+# labels = c.extract_labels_from_path(names)
+# c.multi_plot(names, labels, path=None, show_final_plot=True)
 
 
 cmap = {
@@ -36,15 +39,16 @@ cmap = {
     "popop105": "cornflower blue",
 }
 
-def color_mapping(names):
+"""def color_mapping(names):
     colors = []
     for name in names:
         inst, sample = c.c_file.get_inst_and_sample(name)
         colors.append(cmap[sample])
     return colors
 
-names = c.search_in_dir("data/spec", identifiers=["good"])
-print(color_mapping(names))
+names = c.search_in_dir("data/spec", identifiers=["good"], or_identifiers=["pu", "ppo1", "ppo5", "3hf1"], not_identifiers=["_e"])
+print(names)
+print(color_mapping(names))"""
 
 
 
@@ -72,7 +76,7 @@ color mapping (alt):
     ej200: "xkcd:charcoal"
 """
 
-"""names = c.search_in_dir("data/sev/dsf",
+names = c.search_in_dir("data/sev/dsf",
                         identifiers=["hist", "hight"])
 # names.append("sev_ej260_bng2s100_na22_530_15min_hist.txt")
 pprint(names)
@@ -83,7 +87,9 @@ style = {
     "ax_config":{
         "xbounds": [0, None],
         "ybounds": [None, None],
-        "yscale": "log"
+        "yscale": "log",
+        "draw": False,
+        "save": False
     }
 }
 # style = {"c": ["xkcd:light teal", 'xkcd:neon green', "xkcd:light violet", "xkcd:charcoal"]}
@@ -92,4 +98,4 @@ labels = ["am", "cm", "na"]
 c.multi_plot(names, labels,
              "zz_sev_combis/testitest.png",
              title="10cm source distance, 100s, room temp, americium214 irradiation",
-             style=style, show_final_plot=True, )"""
+             style=style, show_final_plot=True, )

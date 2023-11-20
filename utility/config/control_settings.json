@@ -4,14 +4,16 @@
         "title": null
     },
     "multi_plot": {
-        "outer_format": {
+        "ax_config": {
             "ax": null,
             "norm": null,
             "suptitle": null,
-            "title": null
+            "title": null,
+            "draw": false,
+            "save": false
         },
-        "style": {
-            "c": [
+        "plot_kwargs": {
+            "color": [
                 "c",
                 "m",
                 "y",
@@ -21,10 +23,8 @@
                 "gray",
                 "purple"
             ],
-            "draw": false,
             "label": null,
-            "ls": "-",
-            "save": false
+            "ls": "-"
         }
     },
     "twin_xscale": {

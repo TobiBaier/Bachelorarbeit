@@ -63,8 +63,8 @@ ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
 ax.tick_params(which="both", direction="in", top=True, right=True, )
 # ax.ticklabel_format(style="sci", useMathText=False, useLocale=True)
 
-ax.set_xbound([np.min(data[0]), np.max(data[0])])
-
+ax.set_xbound([np.min(data[0]), 10**2])
+ax.set_ybound([10**(-4), None])
 ax.legend()
 ax.grid()
 
