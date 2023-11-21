@@ -48,12 +48,12 @@
     },
     "spec": {
         "ax_config": {
-            "xlabel": "wavelength/nm",
+            "xlabel": "Wellenlaenge / nm",
             "ybounds": [
                 0,
                 null
             ],
-            "ylabel": "count rate/$\\frac{1}{s}$",
+            "ylabel": "gezaehlte Ereignisse in 30s",
             "draw_label": true,
             "grid": true,
             "norm_ylabel": "normed count rate"
@@ -73,12 +73,12 @@
             "draw_label": true,
             "grid": true,
             "norm_ylabel": "normed transmission rate",
-            "xlabel": "wavelength/nm",
+            "xlabel": "Wellenlaenge / nm",
             "ybounds": [
                 0,
                 null
             ],
-            "ylabel": "transmission / %"
+            "ylabel": "Transmission / %"
         },
         "plot_kwargs": {
             "color": "black",

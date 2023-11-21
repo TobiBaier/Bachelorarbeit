@@ -89,7 +89,8 @@ def save_draw(params: dict):
     ax_config = params["ax_config"]
 
     if params["plot_kwargs"]["label"] is not None and ax_config["draw_label"]:
-        plt.legend()
+        # print(params["legend_kwargs"])
+        plt.legend(**params["legend_kwargs"])
 
     if ax_config["save"]:
         if ax_config["path"] is None:
@@ -170,7 +171,10 @@ class DiagramMaker:
                 # remove 'plot_type' key from preset-copy-dictionary
                 temp.pop("plot_type")
                 for key in kwargs:
-                    kwargs[key] = temp[key] | kwargs[key]
+                    if key in temp:
+                        kwargs[key] = temp[key] | kwargs[key]
+                    else:
+                        pass
                 # call according plot function and return the return (overwrites presets here)
                 return self.draw_plot(data, **temp | kwargs)
 

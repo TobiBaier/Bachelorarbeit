@@ -1,7 +1,9 @@
 {
     "auto_plot": {
-        "suptitle": null,
-        "title": null
+        "ax_config": {
+            "suptitle": null,
+            "title": null
+        }
     },
     "multi_plot": {
         "ax_config": {

@@ -16,20 +16,17 @@ miax = ax.twinx()
 
 pu_spec = c.search_in_dir("data/spec/pu", identifiers=["good", "sr90"])[0]
 pu_spec_data = c.c_data.auto_read("spec", c.c_file.get_datafile_path(pu_spec))
-a = ax.plot(*pu_spec_data, c="xkcd:black", label="Emissionsspektrum Polyurethan")
-pu_spec = c.search_in_dir("data/spec/pu", identifiers=["good", "filter"])[0]
-pu_spec_data = c.c_data.auto_read("spec", c.c_file.get_datafile_path(pu_spec))
-c = ax.plot(*pu_spec_data, c="xkcd:black", label="Emissionsspektrum Polyurethan uv")
+a = ax.plot(*pu_spec_data, c="xkcd:black", label="Emissionsspektrum Polyurethan uv")
 
 pu_uvvis = c.search_in_dir("data/uv-vis/pu", identifiers=["good", "fast"])[0]
 pu_uvvis_data = c.c_data.auto_read("uv-vis", c.c_file.get_datafile_path(pu_uvvis))
-b = miax.plot(*pu_uvvis_data, c="xkcd:blue", label="Transmissionsspektrum Polyurethan")
+b = miax.plot(*pu_uvvis_data,  c="xkcd:blue", label="Transmissionsspektrum Polyurethan")
 
 ax.set_xlabel(r"$\lambda$/nm")
 ax.set_xbound([300, 450])
 ax.tick_params(axis="both", labelcolor="black", direction="in", top=True)
 ax.ticklabel_format(axis="y", useLocale=True)
-ax.set_ylabel("gezaehlte Ereignisse", color="black")
+ax.set_ylabel("gezaehlte Ereignisse in 30s", color="black")
 ax.set_ybound([80, None])
 
 miax.tick_params(axis="y", labelcolor="black", direction="in", top=True)
@@ -39,7 +36,11 @@ miax.set_ybound([0, None])
 # miax.grid(visible=True, color="#87878790", zorder=-1, lw=1)
 ax.grid(visible=True, color="#87878790", zorder=-1, lw=1)
 labels = ["Emissionsspektrum Polyurethan", "Transmissionsspektrum Polyurethan"]
-ax.legend(a+b, labels, loc="center right")
+leg = ax.legend(a+b, labels, loc="lower right", frameon=True, fancybox=False, markerscale=100)
+
+# set the linewidth of each legend object
+for legobj in leg.legendHandles:
+    legobj.set_linewidth(2.0)
 
 # plt.savefig("Z:/Studenten/Baier/Latex/images/pu_spec_uvvis.pdf")
 plt.show()

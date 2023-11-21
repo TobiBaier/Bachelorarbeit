@@ -63,20 +63,23 @@ class Test:
                 self.some_func(**i)
 
 
-
-
-a = {
-    "test": [1, 2, 3],
-    "kei": 123,
-    "f": 23,
-}
-
-for key in a:
-    a["test"] = 1
+def teset(x, y):
+    return x+y
 
 
 
-#t = Test()
+avar = 4
+bvar = 1
+
+t = Test()
+
+expression = ("teset(avar, bvar)")
+result = eval("t.some_func(1,2, kwarg1='test', kwarg2='ahjj', more_kwarg='asdfkj')")
+print(result)
+
+
+
+
 """t.some_func(1,2, kwarg1="test", kwarg2="ahjj", more_kwarg="asdfkj")
 t.some_func(11,21, kwarg1="test1", kwarg2="ahjj1", more_kwarg="asdfkj1")
 

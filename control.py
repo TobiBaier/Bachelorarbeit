@@ -236,7 +236,7 @@ class Control:
             # make the plot
             return self.c_draw.make_diagram(inst, rec_data, **kwargs)
 
-    def create_combiplot(self, names, inst, params):
+    def create_combiplot(self, names, inst, **params):
 
         #if type(outer_format["ax"]) != list:
         #    outer_format["ax"] = [outer_format["ax"]] * len(names)
@@ -340,10 +340,17 @@ class Control:
         # ax.grid(True)
 
         # get save path
-        path = self.c_file.prodata_path + "/" + path
+        # path = self.c_file.prodata_path + "/" + path
 
         # draw and save plot
-        ax.legend()
+        if "legend_kwargs" in kwargs:
+            leg = ax.legend(**kwargs["legend_kwargs"])
+        else:
+            leg = ax.legend()
+        # set the linewidth of each legend object
+        for legobj in leg.legendHandles:
+            legobj.set_linewidth(1.5)
+
         plt.savefig(path, dpi=400)
 
         if show_final_plot:
