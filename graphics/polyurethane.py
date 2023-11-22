@@ -2,8 +2,8 @@ from control import get_inst
 import re
 from pprint import pprint
 
-c = get_inst("Z:\Studenten\Baier\Messungen")
-# c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+# c = get_inst("Z:\Studenten\Baier\Messungen")
+c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
 c.c_file.sort_to_dirs()
 
@@ -123,14 +123,14 @@ def no_avg():
 
 
 def with_avg():
-    names = c.search_in_dir("data/spec", identifiers=["movingavg2", "sr90"],
+    """names = c.search_in_dir("data/spec", identifiers=["movingavg2", "sr90"],
                             or_identifiers=["pu", "ppo1", "ppo5", "combi92", "bis105", "popop105", "combi14"],
                             not_identifiers=["_e"])
     names[1], names[3] = names[3], names[1]
     labels = label_mapping(names)
     colors = color_mapping(names)
     c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/spec_all_pu_samples.pdf",
-                 show_final_plot=True,
+                 show_final_plot=False,
                  plot_kwargs={
                      "color": colors
                  },
@@ -144,7 +144,7 @@ def with_avg():
     labels = label_mapping(names)
     colors = color_mapping(names)
     c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/spec_pu_ppo.pdf",
-                 show_final_plot=True,
+                 show_final_plot=False,
                  plot_kwargs={
                      "color": colors
                  },
@@ -152,7 +152,7 @@ def with_avg():
                      "xbounds": [310, 540],
                      "ybounds": [75, None]
                  })
-
+    """
     """names = c.search_in_dir("data/uv-vis", identifiers=["good", "fast"], or_identifiers=["pu", "ppo1", "ppo5"],
                             not_identifiers=["_e"])
     labels = label_mapping(names)
@@ -166,14 +166,16 @@ def with_avg():
                      "xbounds": [300, 800],
                      "ybounds": [0, None]
                  })
+    
     names = c.search_in_dir("data/uv-vis", identifiers=["good", "fast"],
                             or_identifiers=["pu", "ppo1", "ppo5", "combi92", "bis105", "popop105", "combi14"],
-                            not_identifiers=["_e"])
+                            not_identifiers=["_e", "025", "040"])
     names[1], names[3] = names[3], names[1]
+    pprint(names)
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/uv-vis_all_pu_samples.pdf",
-                 show_final_plot=False,
+    c.multi_plot(names, labels, "C:/Users/baier\OneDrive/Uni\Bachelorarbeit_2\latex\images/uv-vis_all_pu_samples.pdf",
+                 show_final_plot=True,
                  plot_kwargs={
                      "color": colors
                  },
@@ -181,7 +183,7 @@ def with_avg():
                      "xbounds": [300, 800],
                      "ybounds": [0, None]
                  })
-
+    
     names = c.search_in_dir("data/sev", identifiers=["good", "na22", "hist"], or_identifiers=["pu", "ppo1", "ppo5"],
                             not_identifiers=["_e"])
     labels = label_mapping(names)
@@ -196,15 +198,15 @@ def with_avg():
                      "ybounds": [0, None],
                      "xlabel": "Pulsintegral / Kanal"
                  })
-
+    """
     names = c.search_in_dir("data/sev", identifiers=["good", "hist", "na22"],
                             or_identifiers=["pu", "ppo1", "ppo5", "combi92", "bis105", "popop105", "combi14"],
                             not_identifiers=["_e"])
     names[1], names[3] = names[3], names[1]
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/sev_all_pu_samples.pdf",
-                 show_final_plot=False,
+    c.multi_plot(names, labels, "C:/Users/baier\OneDrive/Uni\Bachelorarbeit_2\latex\images/sev_all_pu_samples.pdf", #"Z:/Studenten/Baier/Latex/images/sev_all_pu_samples.pdf",
+                 show_final_plot=True,
                  plot_kwargs={
                      "color": colors
                  },
@@ -212,7 +214,7 @@ def with_avg():
                      "xbounds": [60, 1000],
                      "ybounds": [0, None],
                      "xlabel": "Pulsintegral / Kanal"
-                 })"""
+                 })
 
 
 def pure_pu():
@@ -239,4 +241,4 @@ def pure_pu():
                      })
 
 
-pure_pu()
+with_avg()
