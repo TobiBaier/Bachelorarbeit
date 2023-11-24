@@ -1,0 +1,30 @@
+
+
+H^*(10)
+  Peaks:
+    22Na
+      Kanal  1820    341 keV  Breite:  100     -6.9%
+      Kanal  3538   1061 keV  Breite:  100      1.9%
+    133Ba
+      Kanal  1213    207 keV  Breite:   50    -22.9%
+    241Am
+      Kanal   630     60 keV  Breite:   30      4.6%
+    244Cm
+      Kanal   170     23 keV  Breite:   17      5.8%
+  Fit:
+    E(x) = 18.625624913500413 + 0.02014289273352661 x**1 + 7.917361015000467e-05 x**2, Unterhalb von Kanal [300, 300] Linear fortgesetzt.
+
+
+H'(0,07)
+  Peaks:
+    22Na
+      Kanal  1820    341 keV  Breite:  100     -6.9%
+      Kanal  3538   1061 keV  Breite:  100      1.9%
+    133Ba
+      Kanal  1213    207 keV  Breite:   50    -22.9%
+    241Am
+      Kanal   630     60 keV  Breite:   30      4.6%
+    244Cm
+      Kanal   170     23 keV  Breite:   17      5.8%
+  Fit:
+    E(x) = 18.625624913500413 + 0.02014289273352661 x**1 + 7.917361015000467e-05 x**2, Unterhalb von Kanal [300, 300] Linear fortgesetzt.

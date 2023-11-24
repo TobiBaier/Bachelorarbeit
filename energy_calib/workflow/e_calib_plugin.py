@@ -3,6 +3,7 @@ import numpy as np
 import re
 import json
 import matplotlib.pyplot as plt
+from pprint import pprint
 
 c = get_inst("Z:\Studenten\Baier\Messungen")
 
@@ -66,9 +67,8 @@ def e_calc(name):
     return e_bins, e_vals
 
 
-def do_rebin(filename, bin_size, save=False, relpath="Z:/Studenten/Baier/Messungen/sortme/"):
+def do_rebin(filename, bin_size, save=False, plot=False, relpath="Z:/Studenten/Baier/Messungen/sortme/"):
     bins, vals = c.c_data.auto_read("sev", c.c_file.get_datafile_path(filename), bin_ret=False)
-
     cut_away = 0
     while True:
         if (len(bins)-cut_away)%bin_size != 0:
@@ -77,8 +77,11 @@ def do_rebin(filename, bin_size, save=False, relpath="Z:/Studenten/Baier/Messung
             break
         cut_away += 1
 
-    old_vals = vals[:-cut_away]
-    bins = bins[:-cut_away]
+    if cut_away != 0:
+        old_vals = vals[:-cut_away]
+        bins = bins[:-cut_away]
+    else:
+        old_vals = vals
 
     bins = bins[::bin_size]
     vals = np.zeros(np.shape(bins))
@@ -87,9 +90,10 @@ def do_rebin(filename, bin_size, save=False, relpath="Z:/Studenten/Baier/Messung
         for j in range(bin_size):
             vals[i] = vals[i] + old_vals[i*bin_size + j]
 
-    bins = np.append(bins, bins[-1] + (bins[-1] - bins[-2]))
-    plt.stairs(vals, bins)
-    plt.show()
+    if plot:
+        pbins = np.append(bins, bins[-1] + (bins[-1] - bins[-2]))
+        plt.stairs(vals, pbins)
+        plt.show()
 
 
     if save:
@@ -97,7 +101,9 @@ def do_rebin(filename, bin_size, save=False, relpath="Z:/Studenten/Baier/Messung
         np.savetxt(relpath + filename + "_rebin" + str(bin_size) + ".txt", save_array, delimiter=";")
 
 
-# do_rebin("sev_dsf_bng2s100_am241_10cm_100s_hight_ecalib_hist", 25)
+do_rebin("sev_dsf_bng2s100_na22_10cm_300s_hight_ecalib_hist", 125, plot=False, save=True)
+do_rebin("sev_ebis110_bng2s111_na22_10cm_900s_hight_ecalib_hist", 25, plot=False, save=True)
+do_rebin("sev_pvcebis110_bng2s103_na22_10cm_900s_hight_ecalib_hist", 25, plot=False, save=True)
 
 
 def save_with_e_calibration(filename, relpath="Z:/Studenten/Baier/Messungen/sortme/"):
@@ -201,6 +207,11 @@ def draw_calibrated_data(filename, xbounds=None, ax=None, save=False, draw=True,
 
 
 
+
+
+
+
+
 # Duo-Plot Code
 """fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -208,9 +219,9 @@ ax = fig.add_subplot(111)
 draw_calibrated_data("sev_dsf_bng2s100_cm244_10cm_100s_hight_ecalib_hist",
                      ax=ax, draw=False, color="xkcd:electric blue")
 draw_calibrated_data("sev_dsf_bng2s100_am241_10cm_100s_hight_ecalib_hist",
-                     ax=ax, draw=True, color="xkcd:neon purple")"""
-"""draw_calibrated_data("sev_pvcebis110_bng2s103_na22_10cm_900s_hight_ecalib_hist",
-                     ax=ax, draw=True, color="xkcd:electric blue")"""
+                     ax=ax, draw=False, color="xkcd:neon purple")
+draw_calibrated_data("sev_pvcebis110_bng2s103_na22_10cm_900s_hight_ecalib_hist",
+                     ax=ax, draw=True, color="xkcd:electric green")"""
 
 
 

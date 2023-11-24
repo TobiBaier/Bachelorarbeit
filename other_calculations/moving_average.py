@@ -33,7 +33,10 @@ def do_moving_avg(name, filter_size=2, plot=False):
     new_wl, new_vals = [], []
 
     for i in range (filter_size, len(wl)-filter_size):
-        in_region = vals[i-filter_size:i+filter_size]
+
+        in_region = vals[i-filter_size:i+filter_size+1]
+
+        # print(len(in_region), (2*filter_size + 1))
 
         new_wl.append(wl[i])
         new_vals.append(np.sum(in_region)/(2*filter_size + 1))
@@ -54,21 +57,31 @@ def save_filtered_data(name, relpath="Z:/Studenten/Baier/Messungen/sortme/", fil
     sample = file_info["sample"]
     s_id = file_info["s_id"]
 
-    new_name = inst + "_" + sample + "_" + s_id + "_sr90_movingavg" + str(filter_size) + ".csv"
+    new_name = inst + "_" + sample + "_" + s_id + "_sr90_run24_movingavg" + str(filter_size) + ".csv"
 
     np.savetxt(relpath + new_name, np.column_stack((wl, vals)), delimiter=";")
 
 
 
-names = c.search_in_dir("data/spec",
+"""names = c.search_in_dir("data/spec",
                         identifiers=["good", "sr90"],
                         or_identifiers=["ep", "eppo1", "eppo5", "e3hf110", "e3hf101", "ebis510", "ebis110", "ebis0201", "ebis105"])
-# for name in names:
-#     print(name)
-save_filtered_data("spec_ebis510_bcg2s090_sr90_good")
+for name in names:
+     save_filtered_data(name)
 
+names = c.search_in_dir("data/spec",
+                        identifiers=["good", "sr90"],
+                        or_identifiers=["pu", "ppo1", "ppo5", "combi92", "bis105", "popop105", "combi14"],
+                        not_identifiers=["_e"])
+for name in names:
+     save_filtered_data(name)"""
 
+names = c.search_in_dir("data/spec",
+                        identifiers=["run24", "sr90"])
+for name in names:
+     save_filtered_data(name)
 
+print(names)
 
 def comp_image():
     names = ["spec_combi92_brg2s072_sr90_good", "spec_combi92_brg2s072_sr90_movingavg2"]
@@ -86,7 +99,7 @@ def comp_image():
                  })
 
 
-
+# comp_image()
 
 
 

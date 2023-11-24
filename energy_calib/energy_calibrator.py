@@ -100,14 +100,14 @@ def E_calib(data, temp, save=False, plot=False):
         plt.show()
 
 
-E_calib(data_dict["pvcebis110"], "roomt", save=False, plot=True)
+E_calib(data_dict["pvcebis110"], "roomt", save=False, plot=False)
 print("")
 # E_calib(data_dict["pvcebis110"], "lowt", plot=True)
 print("")
-# E_calib(data_dict["ebis110"], "roomt")
+E_calib(data_dict["ebis110"], "roomt")
 print("")
 # E_calib(data_dict["ebis110"], "lowt")
-E_calib(data_dict["dsf"], "roomt", plot=True)
+# E_calib(data_dict["dsf"], "roomt", plot=True)
 
 
 

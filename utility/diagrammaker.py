@@ -181,23 +181,31 @@ class DiagramMaker:
             # same as above
             elif self.presets[plot_preset]["plot_type"] == "scatter":
                 temp = self.presets[plot_preset].copy()
-                temp.pop("plot_type")
                 for key in kwargs:
-                    kwargs[key] = temp[key] | kwargs[key]
+                    if key in temp:
+                        kwargs[key] = temp[key] | kwargs[key]
+                    else:
+                        pass
                 return self.draw_scatter(data, **temp | kwargs)
 
             elif self.presets[plot_preset]["plot_type"] == "errorbar":
                 temp = self.presets[plot_preset].copy()
                 temp.pop("plot_type")
                 for key in kwargs:
-                    kwargs[key] = temp[key] | kwargs[key]
+                    if key in temp:
+                        kwargs[key] = temp[key] | kwargs[key]
+                    else:
+                        pass
                 return self.draw_errorbar(data, **temp | kwargs)
 
             elif self.presets[plot_preset]["plot_type"] == "hist":
                 temp = self.presets[plot_preset].copy()
                 temp.pop("plot_type")
                 for key in kwargs:
-                    kwargs[key] = temp[key] | kwargs[key]
+                    if key in temp:
+                        kwargs[key] = temp[key] | kwargs[key]
+                    else:
+                        pass
                 return self.draw_hist(data, **temp | kwargs)
 
             # raise error, if plot type does not exist
