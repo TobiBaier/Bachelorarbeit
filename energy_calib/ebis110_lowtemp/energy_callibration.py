@@ -13,13 +13,20 @@ def plot_fit(peaks, fit, linear_cutoff):
         x_max = 0
         y_max = 0
 
+        colors = {
+            "Na": "blue",
+            "Ba": "green",
+            "Am": "purple",
+            "Cm": "orange"
+        }
+
         for isotop in peaks[kanal]:
             if len(peaks[kanal][isotop]["Energie"]) != 0:
                 x_max = max(x_max, np.max(peaks[kanal][isotop]["Kanal"]))
                 y_max = max(y_max, np.max(peaks[kanal][isotop]["Energie"]))
                 m = re.search(r"(\d{1,3})([A-Z][a-z]{0,2})", isotop)
                 label = "$^{" + m.group(1) + "}$" + m.group(2)
-                plot.errorbar(peaks[kanal][isotop]["Kanal"], peaks[kanal][isotop]["Energie"], xerr=peaks[kanal][isotop]["Breite"], label = label, fmt="o")
+                plot.errorbar(peaks[kanal][isotop]["Kanal"], peaks[kanal][isotop]["Energie"], xerr=peaks[kanal][isotop]["Breite"], label = label, fmt="o", color=colors[m.group(2)])
 
         x = np.linspace(0, x_max * 1.1, 1000)
         for i, p in enumerate(fit[kanal]):
@@ -28,21 +35,27 @@ def plot_fit(peaks, fit, linear_cutoff):
             ind = np.where(x < linear_cutoff[ch])
             energy[ind] = tangente(x[ind])
 
-            plt.plot(x, energy, marker="", linestyle="solid", label=f"Polynom {p.degree()}. grades")
-            plt.axvline(linear_cutoff[ch], color = "gray")
+            plt.plot(x, energy, marker="", linestyle="solid", label=f"Polynom {p.degree()}. grades", color="red")
+            plt.axvline(linear_cutoff[ch], color = "black")
 
-        plot.set_title(f"Kalibrierfunktion ${kanal}$")
-        plot.set_xlabel("Pulsintegral / 1 Kanal")
+        # plot.set_title(f"Kalibrierfunktion ${kanal}$")
+        plot.set_xlabel("Pulsintegral / Kanal")
         plot.set_ylabel("Pulsenergie / keV")
+
+        plot.tick_params(direction="in", top=True, right=True)
+        plot.ticklabel_format(style="sci", useMathText=False, useLocale=True)
+
+        plot.grid(visible=True, color="#87878790", zorder=-1, lw=1)
 
         plot.set_xlim(0, x_max*1.1)
         plot.set_ylim(0, y_max*1.1)
-        plot.grid()
+        # plot.grid()
         plot.legend()
 
         kanal = kanal.replace("^*", "").replace("'", "")
-        plt.savefig(f"Energiekalibrierung {kanal}.pdf")
-    plt.show()
+        plt.savefig("C:/Users/baier\OneDrive/Uni\Bachelorarbeit_2\latex\images/ecalib_ebis_low.pdf")
+        break
+    # plt.show()
 
 def print_fit(peaks, fit, linear_cutoff):
     f = open("Energiekalibrierung.txt", "w")
@@ -111,6 +124,7 @@ def fit_line(peaks, linear_cutoff):
         lin_t = tangente.coef[1]
 
         quad = Polynomial.fit(kanal - cutoff, energie - tangente(kanal), [2], w=1/breite, domain=[-1, 1], window=[-1, 1]).coef[2]
+
 
         lin = -2 * cutoff * quad
         const = -1 * (lin * cutoff + quad * cutoff**2)

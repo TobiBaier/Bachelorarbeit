@@ -12,7 +12,7 @@ H^*(10)
     244Cm
       Kanal   170     23 keV  Breite:   17      5.8%
   Fit:
-    E(x) = 18.625624913500413 + 0.02014289273352661 x**1 + 7.917361015000467e-05 x**2, Unterhalb von Kanal [300, 300] Linear fortgesetzt.
+    E(x) = 18.62562491 + 0.02014289 x + (7.91736102e-05) x**2, Unterhalb von Kanal [300, 300] Linear fortgesetzt.
 
 
 H'(0,07)
@@ -27,4 +27,4 @@ H'(0,07)
     244Cm
       Kanal   170     23 keV  Breite:   17      5.8%
   Fit:
-    E(x) = 18.625624913500413 + 0.02014289273352661 x**1 + 7.917361015000467e-05 x**2, Unterhalb von Kanal [300, 300] Linear fortgesetzt.
+    E(x) = 18.62562491 + 0.02014289 x + (7.91736102e-05) x**2, Unterhalb von Kanal [300, 300] Linear fortgesetzt.

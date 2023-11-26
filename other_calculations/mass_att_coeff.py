@@ -19,8 +19,8 @@ partially mitigating the use additivity, particularly for photon energies below 
 However, additivity has not been used in the present work. 
 """
 
-# paths = os.scandir("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/mass_att_coeff")
-paths = os.scandir("Z:\Studenten\Baier\mass_att_coeffs")
+paths = os.scandir("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/mass_att_coeff")
+# paths = os.scandir("Z:\Studenten\Baier\mass_att_coeffs")
 """
 Du dummer Idiot, trag einfach die notwendigen Energien bei NIST ein und hol dir alles fehlende *facepalm*
 https://physics.nist.gov/PhysRefData/Xcom/html/xcom1.html
@@ -202,7 +202,7 @@ ax.grid(visible=True, color="#87878790", zorder=-1, lw=1)
 
 ax.legend(loc="lower right")
 # plt.savefig("Z:/Studenten/Baier/Latex/images/murho_additives_comp.pdf")
-# plt.show()
+plt.show()
 """
 daten["coeff_pu"] = (0.627922665 * daten["coeff_carbon"][2] +
                      0.090842816 * daten["coeff_hydrogen"][2] +
