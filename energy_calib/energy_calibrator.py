@@ -6,8 +6,8 @@ import json
 import re
 import numpy as np
 
-# c = get_inst("Z:\Studenten\Baier\Messungen")
-c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+c = get_inst("Z:\Studenten\Baier\Messungen")
+# c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
 with open("calibration.json", "r") as of:
     data_dict = json.load(of)
@@ -99,12 +99,12 @@ def E_calib(data, temp, save=False, plot=False):
         ax.legend()
         plt.show()
 
-
-E_calib(data_dict["pvcebis110"], "roomt", save=False, plot=False)
+#
+# E_calib(data_dict["pvcebis110"], "roomt", save=False, plot=False)
 print("")
-E_calib(data_dict["pvcebis110"], "lowt", plot=False)
+# E_calib(data_dict["pvcebis110"], "lowt", plot=False)
 print("")
-E_calib(data_dict["ebis110"], "roomt")
+# E_calib(data_dict["ebis110"], "roomt")
 print("")
 # E_calib(data_dict["ebis110"], "lowt")
 E_calib(data_dict["dsf"], "roomt", plot=False)

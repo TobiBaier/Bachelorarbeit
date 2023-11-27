@@ -56,39 +56,43 @@ def label_mapping(names, short=False):
 def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
     names = c.search_in_dir("data/spec",
                             identifiers=["movingavg", "sr90"],
-                            or_identifiers=["ep", "eppo1", "eppo5", "e3hf110", "e3hf101", "ebis510", "ebis110", "ebis0201", "ebis105"], )
-    labels = label_mapping(names, short=False)
+                            or_identifiers=["ep", "eppo1", "eppo5", "e3hf110", "e3hf101", "ebis510", "ebis110", "ebis0201", "ebis105"],
+                            not_identifiers=["pvcebis", "sebis"])
+    labels = label_mapping(names, short=True)
     colors = color_mapping(names)
     c.multi_plot(names, labels, path + "spec_all_ep_samples.pdf",
-                 show_final_plot=True,
+                 show_final_plot=False,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
+                     "lw": 2,
                  },
                  ax_config={
                      "xbounds": [310, 640],
                      "ybounds": [65, None],
                  },
                  legend_kwargs={
-                     "fontsize": "x-small",
+                     "fontsize": "small",
                      "labelcolor": "black"
     })
 
-    """names = c.search_in_dir("data/spec",
+    names = c.search_in_dir("data/spec",
                             identifiers=["movingavg", "sr90"],
-                            or_identifiers=["ep", "eppo1", "eppo5"], )
+                            or_identifiers=["ep", "eppo1", "eppo5"],
+                            not_identifiers=["pvcebis", "sebis"])
     labels = label_mapping(names, short=False)
     colors = color_mapping(names)
     c.multi_plot(names, labels, path + "spec_ep_ppo_samples.pdf",
-                 show_final_plot=True,
+                 show_final_plot=False,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
+                     "lw": 2,
                  },
                  ax_config={
                      "xbounds": [310, 540],
                      "ybounds": [65, None],
-                 })"""
+                 })
 
-    """names = c.search_in_dir("data/uv-vis", identifiers=["fast"],
+    names = c.search_in_dir("data/uv-vis", identifiers=["fast"],
                             or_identifiers=["ep", "eppo1", "eppo5"],
                             not_identifiers=["pvcebis", "sebis"])
     labels = label_mapping(names)
@@ -96,12 +100,13 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
     c.multi_plot(names, labels, path + "uv-vis_ep_ppo.pdf",
                  show_final_plot=False,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
+                     "lw": 2,
                  },
                  ax_config={
                      "xbounds": [250, 800],
                      "ybounds": [0, None]
-                 })"""
+                 })
 
     names = c.search_in_dir("data/uv-vis", identifiers=["fast"],
                             or_identifiers=["ep", "eppo1", "eppo5", "e3hf110", "e3hf101", "ebis510", "ebis110", "ebis0201", "ebis105"],
@@ -109,29 +114,30 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
     labels = label_mapping(names, short=True)
     colors = color_mapping(names)
     c.multi_plot(names, labels, path + "uv-vis_all_ep_samples.pdf",
-                 show_final_plot=True,
+                 show_final_plot=False,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
+                     "lw": 2
                  },
                  ax_config={
                      "xbounds": [250, 800],
                      "ybounds": [0, None]
                  })
 
-    """names = c.search_in_dir("data/sev", identifiers=["good", "na22", "hist"], or_identifiers=["ep", "eppo1", "eppo5"],
+    names = c.search_in_dir("data/sev", identifiers=["good", "na22", "hist"], or_identifiers=["ep", "eppo1", "eppo5"],
                             not_identifiers=["pvcebis", "sebis"])
     labels = label_mapping(names)
     colors = color_mapping(names)
     c.multi_plot(names, labels, path + "sev_ep_ppo.pdf",
                  show_final_plot=False,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
                  },
                  ax_config={
                      "xbounds": [60, 1000],
                      "ybounds": [0, None],
                      "xlabel": "Pulsintegral / Kanal"
-                 })"""
+                 })
 
     names = c.search_in_dir("data/sev", identifiers=["good", "hist", "na22"],
                             or_identifiers=["ep", "eppo1", "eppo5", "e3hf110", "e3hf101", "ebis510", "ebis110", "ebis0201", "ebis105"],
@@ -139,7 +145,7 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
     labels = label_mapping(names)
     colors = color_mapping(names)
     c.multi_plot(names, labels, path + "sev_all_ep_samples.pdf",
-                 show_final_plot=True,
+                 show_final_plot=False,
                  plot_kwargs={
                      "color": colors
                  },
@@ -157,7 +163,8 @@ def pure_ep(path="Z:/Studenten/Baier/Latex/images/"):
 
     c.auto_plot_data(pu_spec, auto_title=False,
                      plot_kwargs={
-                         "color": "black"
+                         "color": "black",
+                         "lw": 2,
                      },
                      ax_config={
                          "draw": False,
@@ -165,9 +172,10 @@ def pure_ep(path="Z:/Studenten/Baier/Latex/images/"):
                          "ybounds": [65, None],
                          "path": path + "spec_ep.pdf"
                      })
-    """c.auto_plot_data(pu_uvvis, auto_title=False,
+    c.auto_plot_data(pu_uvvis, auto_title=False,
                      plot_kwargs={
-                         "color": "black"
+                         "color": "black",
+                         "lw": 2,
                      },
                      ax_config={
                          "draw": False,
@@ -177,27 +185,29 @@ def pure_ep(path="Z:/Studenten/Baier/Latex/images/"):
                      })
     c.auto_plot_data(pu_sev, auto_title=False,
                      plot_kwargs={
-                         "color": "black"
+                         "color": "black",
+                         "lw": 2,
                      },
                      ax_config={
                          "draw": False,
                          "xbounds": [0, 400],
                          "ybounds": [0, None],
                          "path": path + "sev_ep.pdf"
-                     })"""
+                     })
 
 
 def ep_pu_comp(path="Z:/Studenten/Baier/Latex/images/"):
     ep_uvvis = c.search_in_dir("data/uv-vis/ep", identifiers=["fast"])[0]
     pu_uvvis = c.search_in_dir("data/uv-vis/pu", identifiers=["good", "fast"])[0]
 
-    names = [ep_uvvis, pu_uvvis]
-    labels = ["Epoxidharz", "Polyurethan"]
-    colors = ["black", "gray"]
+    names = [pu_uvvis, ep_uvvis]
+    labels = [ "Polyurethan", "Epoxidharz"]
+    colors = ["gray", "black"]
     c.multi_plot(names, labels, path + "uv-vis_pu_ep_comp.pdf",
                  show_final_plot=True,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
+                     "lw": 2
                  },
                  ax_config={
                      "xbounds": [250, 800],
@@ -205,9 +215,9 @@ def ep_pu_comp(path="Z:/Studenten/Baier/Latex/images/"):
                  })
 
 # pure_ep()
-with_avg()
+# with_avg()
 
-
+ep_pu_comp()
 
 
 

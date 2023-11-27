@@ -101,9 +101,9 @@ def do_rebin(filename, bin_size, save=False, plot=False, relpath="Z:/Studenten/B
         np.savetxt(relpath + filename + "_rebin" + str(bin_size) + ".txt", save_array, delimiter=";")
 
 
-do_rebin("sev_dsf_bng2s100_na22_10cm_300s_hight_ecalib_hist", 125, plot=False, save=True)
-do_rebin("sev_ebis110_bng2s111_na22_10cm_900s_hight_ecalib_hist", 25, plot=False, save=True)
-do_rebin("sev_pvcebis110_bng2s103_na22_10cm_900s_hight_ecalib_hist", 25, plot=False, save=True)
+# do_rebin("sev_dsf_bng2s100_na22_10cm_300s_hight_ecalib_hist", 125, plot=False, save=True)
+# do_rebin("sev_ebis110_bng2s111_na22_10cm_900s_hight_ecalib_hist", 25, plot=False, save=True)
+# do_rebin("sev_dsf_bng2s100_na22_10cm_300s_hight_hist.txt", 75, plot=True, save=False)
 
 
 def save_with_e_calibration(filename, relpath="Z:/Studenten/Baier/Messungen/sortme/"):
@@ -213,20 +213,20 @@ def draw_calibrated_data(filename, xbounds=None, ax=None, save=False, draw=True,
 
 
 # Duo-Plot Code
-"""fig = plt.figure()
+fig = plt.figure()
 ax = fig.add_subplot(111)
 
-draw_calibrated_data("sev_dsf_bng2s100_cm244_10cm_100s_hight_ecalib_hist",
-                     ax=ax, draw=False, color="xkcd:electric blue")
-draw_calibrated_data("sev_dsf_bng2s100_am241_10cm_100s_hight_ecalib_hist",
-                     ax=ax, draw=False, color="xkcd:neon purple")
 draw_calibrated_data("sev_pvcebis110_bng2s103_na22_10cm_900s_hight_ecalib_hist",
-                     ax=ax, draw=True, color="xkcd:electric green")"""
+                     ax=ax, draw=False, color="xkcd:electric blue")
+"""draw_calibrated_data("sev_dsf_bng2s100_am241_10cm_100s_hight_ecalib_hist",
+                     ax=ax, draw=False, color="xkcd:neon purple")"""
+draw_calibrated_data("sev_dsf_bng2s100_na22_10cm_300s_hight_ecalib_hist",
+                     ax=ax, draw=True, color="xkcd:electric green")
+"""
 
 
 
-
-"""c.c_draw.make_diagram("sev", c.c_data.auto_read("sev", c.c_file.get_datafile_path("sev_pvcebis110_bng2s103_cm244_10cm_100s_hight_ecalib_hist")),
+c.c_draw.make_diagram("sev", c.c_data.auto_read("sev", c.c_file.get_datafile_path("sev_pvcebis110_bng2s103_cm244_10cm_100s_hight_ecalib_hist")),
                         ax_config={"draw": True, "save": False})"""
 
 # c.c_file.sort_to_dirs()

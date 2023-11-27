@@ -7,10 +7,16 @@ c = get_inst("Z:\Studenten\Baier\Messungen")
 
 c.c_file.sort_to_dirs()
 
-"""
+pprint(c.search_in_dir("data/sev/dsf"))
 
-
-"""
+c.draw_by_name('sev_dsf_bng2s100_na22_10cm_300s_hight_hist.txt',
+               draw_kwargs=
+               {
+                   "ax_config":{
+                       "save": False,
+                       "draw": True
+                   }
+               })
 
 """name = c.search_in_dir("data/spec/pu",
                        identifiers=["sr90", "good"])[0]

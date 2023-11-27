@@ -54,9 +54,9 @@ def config_window(ax, params: dict):
         ax.grid(**params["grid_kwargs"])
 
     if "xlabel" in ax_config:
-        ax.set_xlabel(ax_config["xlabel"])
+        ax.set_xlabel(ax_config["xlabel"], size=12)
     if "ylabel" in ax_config:
-        ax.set_ylabel(ax_config["ylabel"])
+        ax.set_ylabel(ax_config["ylabel"], size=12)
 
     if "xscale" in ax_config:
         ax.set_xscale(ax_config["xscale"])

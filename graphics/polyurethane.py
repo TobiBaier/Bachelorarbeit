@@ -132,7 +132,8 @@ def with_avg():
     c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/spec_all_pu_samples.pdf",
                  show_final_plot=False,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
+                     "lw": 2,
                  },
                  ax_config={
                      "xbounds": [310, 640],
@@ -144,29 +145,31 @@ def with_avg():
     labels = label_mapping(names)
     colors = color_mapping(names)
     c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/spec_pu_ppo.pdf",
-                 show_final_plot=True,
+                 show_final_plot=False,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
+                     "lw": 2,
                  },
                  ax_config={
                      "xbounds": [310, 540],
                      "ybounds": [75, None]
                  })
 
-    """names = c.search_in_dir("data/uv-vis", identifiers=["good", "fast"], or_identifiers=["pu", "ppo1", "ppo5"],
+    names = c.search_in_dir("data/uv-vis", identifiers=["good", "fast"], or_identifiers=["pu", "ppo1", "ppo5"],
                             not_identifiers=["_e"])
     labels = label_mapping(names)
     colors = color_mapping(names)
     c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/uv-vis_pu_ppo.pdf",
-                 show_final_plot=True,
+                 show_final_plot=False,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
+                     "lw": 2,
                  },
                  ax_config={
                      "xbounds": [300, 800],
                      "ybounds": [0, None]
-                 })"""
-    """
+                 })
+
 
     names = c.search_in_dir("data/uv-vis", identifiers=["good", "fast"],
                             or_identifiers=["pu", "ppo1", "ppo5", "combi92", "bis105", "popop105", "combi14"],
@@ -175,10 +178,11 @@ def with_avg():
     pprint(names)
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "C:/Users/baier\OneDrive/Uni\Bachelorarbeit_2\latex\images/uv-vis_all_pu_samples.pdf",
+    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/uv-vis_all_pu_samples.pdf",
                  show_final_plot=False,
                  plot_kwargs={
-                     "color": colors
+                     "color": colors,
+                     "lw": 2,
                  },
                  ax_config={
                      "xbounds": [300, 800],
@@ -205,7 +209,7 @@ def with_avg():
     names[1], names[3] = names[3], names[1]
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "C:/Users/baier\OneDrive/Uni\Bachelorarbeit_2\latex\images/sev_all_pu_samples.pdf", #"Z:/Studenten/Baier/Latex/images/sev_all_pu_samples.pdf",
+    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/sev_all_pu_samples.pdf",
                  show_final_plot=True,
                  plot_kwargs={
                      "color": colors
@@ -214,7 +218,7 @@ def with_avg():
                      "xbounds": [60, 1000],
                      "ybounds": [0, None],
                      "xlabel": "Pulsintegral / Kanal"
-                 })"""
+                 })
 
 
 def pure_pu():
@@ -223,7 +227,8 @@ def pure_pu():
 
     c.auto_plot_data(pu_spec, auto_title=False,
                      plot_kwargs={
-                         "color": "black"
+                         "color": "black",
+                         "lw": 2,
                      },
                      ax_config={
                          "xbounds": [310, 440],
@@ -232,7 +237,8 @@ def pure_pu():
                      })
     c.auto_plot_data(pu_uvvis, auto_title=False,
                      plot_kwargs={
-                         "color": "black"
+                         "color": "black",
+                         "lw": 2,
                      },
                      ax_config={
                          "xbounds": [300, 800],
@@ -240,5 +246,5 @@ def pure_pu():
                          "path": "Z:/Studenten/Baier/Latex/images/uv-vis_pu.pdf"
                      })
 
-pure_pu()
+# pure_pu()
 with_avg()
