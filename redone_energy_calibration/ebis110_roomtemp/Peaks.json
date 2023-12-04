@@ -1,0 +1,124 @@
+{
+	"H^*(10)": {
+		
+
+		"22Na": [
+			{"Typ": "Vollenergiepeak", "Energie":   511, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   341, "Kanal":  202600, "Breite": 10000},
+			{"Typ": "Vollenergiepeak", "Energie":  1274, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":  1061, "Kanal":  391200, "Breite": 25000}
+		],
+		"60Co": [
+			{"Typ": "Vollenergiepeak", "Energie":  1173, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   963, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":  1332, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":  1118, "Kanal":  null, "Breite": null},
+			{"Typ": "963 + 1118"     , "Energie":  1040, "Kanal":  null, "Breite": null}
+		],
+		"133Ba": [
+			{"Typ": "Vollenergiepeak", "Energie":    33, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":    81, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   303, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   164, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   356, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   207, "Kanal":  null, "Breite": null}
+		],
+		"137Cs": [
+			{"Typ": "Vollenergiepeak", "Energie":    32, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   661, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   477, "Kanal":  null, "Breite": null}
+		],
+		"152Eu": [
+			{"Typ": "Vollenergiepeak", "Energie":    40, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   122, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":    39, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   245, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   120, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   344, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   198, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   779, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   587, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   964, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   762, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":  1112, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   904, "Kanal":  null, "Breite": null},
+			{"Typ": "39 + 42"        , "Energie":    40, "Kanal":  null, "Breite": null},
+			{"Typ": "587 + 762"      , "Energie":   674, "Kanal":  null, "Breite": null}
+		],
+		"207Bi": [
+			{"Typ": "Vollenergiepeak", "Energie":    75, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   570, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   363, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":  1064, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   858, "Kanal":  null, "Breite": null}
+		],
+		"241Am": [
+			{"Typ": "Vollenergiepeak", "Energie":    60, "Kanal":  65400, "Breite": 2000}
+		],
+		"244Cm": [
+			{"Typ": "Vollenergiepeak", "Energie":    23, "Kanal":  19470, "Breite": 2000}
+		]
+	},
+
+
+	"H'(0,07)": {
+
+
+		"22Na": [
+			{"Typ": "Vollenergiepeak", "Energie":   511, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   341, "Kanal":  202600, "Breite": 10000},
+			{"Typ": "Vollenergiepeak", "Energie":  1274, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":  1061, "Kanal":  391200, "Breite": 25000}
+		],
+		"60Co": [
+			{"Typ": "Vollenergiepeak", "Energie":  1173, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   963, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":  1332, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":  1118, "Kanal":  null, "Breite": null},
+			{"Typ": "963 + 1118"     , "Energie":  1040, "Kanal":  null, "Breite": null}
+		],
+		"133Ba": [
+			{"Typ": "Vollenergiepeak", "Energie":    33, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":    81, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   303, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   164, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   356, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   207, "Kanal":  null, "Breite": null}
+		],
+		"137Cs": [
+			{"Typ": "Vollenergiepeak", "Energie":    32, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   661, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   477, "Kanal":  null, "Breite": null}
+		],
+		"152Eu": [
+			{"Typ": "Vollenergiepeak", "Energie":    40, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   122, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":    39, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   245, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   120, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   344, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   198, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   779, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   587, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   964, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   762, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":  1112, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   904, "Kanal":  null, "Breite": null},
+			{"Typ": "39 + 42"        , "Energie":    40, "Kanal":  null, "Breite": null},
+			{"Typ": "587 + 762"      , "Energie":   674, "Kanal":  null, "Breite": null}
+		],
+		"207Bi": [
+			{"Typ": "Vollenergiepeak", "Energie":    75, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":   570, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   363, "Kanal":  null, "Breite": null},
+			{"Typ": "Vollenergiepeak", "Energie":  1064, "Kanal":  null, "Breite": null},
+			{"Typ": "Comptonkante"   , "Energie":   858, "Kanal":  null, "Breite": null}
+		],
+		"241Am": [
+			{"Typ": "Vollenergiepeak", "Energie":    60, "Kanal":  65400, "Breite": 2000}
+		],
+		"244Cm": [
+			{"Typ": "Vollenergiepeak", "Energie":    23, "Kanal":  19470, "Breite": 2000}
+		]
+	}
+}

@@ -2,8 +2,8 @@ from control import get_inst
 import re
 from pprint import pprint
 
-c = get_inst("Z:\Studenten\Baier\Messungen")
-# c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+# c = get_inst("Z:\Studenten\Baier\Messungen")
+c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
 c.c_file.sort_to_dirs()
 
@@ -57,9 +57,10 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
     names = c.search_in_dir("data/spec",
                             identifiers=["movingavg", "sr90"],
                             or_identifiers=["ep", "eppo1", "eppo5", "e3hf110", "e3hf101", "ebis510", "ebis110", "ebis0201", "ebis105"],
-                            not_identifiers=["pvcebis", "sebis"])
+                            not_identifiers=["pvcebis", "sebis", "run24"])
     labels = label_mapping(names, short=True)
     colors = color_mapping(names)
+    pprint(names)
     c.multi_plot(names, labels, path + "spec_all_ep_samples.pdf",
                  show_final_plot=False,
                  plot_kwargs={
@@ -75,7 +76,7 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
                      "labelcolor": "black"
     })
 
-    names = c.search_in_dir("data/spec",
+    """names = c.search_in_dir("data/spec",
                             identifiers=["movingavg", "sr90"],
                             or_identifiers=["ep", "eppo1", "eppo5"],
                             not_identifiers=["pvcebis", "sebis"])
@@ -153,7 +154,10 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
                      "xbounds": [60, 1300],
                      "ybounds": [0, None],
                      "xlabel": "Pulsintegral / Kanal"
-                 })
+                 })"""
+
+
+with_avg("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/")
 
 
 def pure_ep(path="Z:/Studenten/Baier/Latex/images/"):
@@ -217,7 +221,7 @@ def ep_pu_comp(path="Z:/Studenten/Baier/Latex/images/"):
 # pure_ep()
 # with_avg()
 
-ep_pu_comp()
+# ep_pu_comp()
 
 
 

@@ -2,8 +2,8 @@ from control import get_inst
 import re
 from pprint import pprint
 
-c = get_inst("Z:\Studenten\Baier\Messungen")
-# c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+# c = get_inst("Z:\Studenten\Baier\Messungen")
+c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
 c.c_file.sort_to_dirs()
 

@@ -297,7 +297,7 @@ class Control:
             self.auto_plot_data(name)
             plt.close()
 
-    def multi_plot(self, names, labels, path, show_final_plot=False, **kwargs):
+    def multi_plot(self, names, labels, path, show_final_plot=False, save_final_plot=True, **kwargs):
         """
         plots multiple data sets of the same instrument in one diagram
 
@@ -351,10 +351,13 @@ class Control:
         for legobj in leg.legendHandles:
             legobj.set_linewidth(1.5)
 
-        plt.savefig(path, dpi=400)
+        if save_final_plot:
+            plt.savefig(path, dpi=400)
 
         if show_final_plot:
             plt.show()
+
+        return ax
 
     def twin_x_scale_plot(self, names, labels, path, style=None, **kwargs):
         """

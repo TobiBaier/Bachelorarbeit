@@ -4,11 +4,13 @@ import locale
 import numpy as np
 import matplotlib as mpl
 import matplotlib.ticker as ticker
-mpl.use('Qt5Agg')
+# mpl.use('Qt5Agg')
 
 locale.setlocale(locale.LC_ALL, "")
 
-c = get_inst("Z:\Studenten\Baier\Messungen")
+# c = get_inst("Z:\Studenten\Baier\Messungen")
+c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -70,10 +72,10 @@ ax3.set_ybound([0, None])"""
 ax2.set_xbound([400, 520])
 ax2.set_ybound([0, None])
 ax2.grid(visible=True, color="#87878790", zorder=-1, lw=1)
-ax2.tick_params(axis="both", labelsize=10)
+ax2.tick_params(axis="both", labelsize=10, direction="in", top=True, right=True)
 
-ax.plot([408,400], [0.26,0], "--", color="gray")
-ax.plot([570,520], [0.26,0], "--", color="gray")
+ax.plot([408, 400], [0.26, 0], "--", color="gray")
+ax.plot([570, 520], [0.26, 0], "--", color="gray")
 
 ax.set_xlabel(r"$\lambda$/nm")
 ax.set_xbound([250, 650])
@@ -104,6 +106,6 @@ mirror_ax.set_ybound([0, None])
 
 ax.grid(visible=True, color="#87878790", zorder=-1, lw=1)
 
-plt.savefig("Z:/Studenten/Baier/Latex/images/uv-led_filter_comparison.pdf")
-
+plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/uv-led_filter_comparison.pdf")
+# plt.show()
 
