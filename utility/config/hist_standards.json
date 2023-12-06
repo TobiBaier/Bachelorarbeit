@@ -18,12 +18,14 @@
     "plot_kwargs": {
         "color": "black",
         "lw": 1,
-        "zorder": 100
+        "zorder": 100,
+        "label": null
     },
     "tick_kwargs": {
         "direction": "in",
         "top": true,
-        "right": true
+        "right": true,
+        "which": "both"
     },
     "ticklabel_kwargs": {
         "style": "sci",
@@ -35,5 +37,8 @@
         "color": "#87878790",
         "zorder": -1000,
         "lw": 1
+    },
+    "legend_kwargs": {
+
     }
 }

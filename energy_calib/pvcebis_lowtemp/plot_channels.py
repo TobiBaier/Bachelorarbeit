@@ -85,7 +85,7 @@ if __name__ == "__main__":
     if Export:
         plot = None
 
-    plot_histogram("../Spektren/sev_ej200_bng2s100_na22_530_15min_80kbins_hist_good.txt", binwidth = 100, plot=plot)
+    plot_histogram("../Spektren/sev_dsf_bng2s100_na22_10cm_300s_hight_raw_listmode.txt", binwidth = 100, plot=plot)
 
 
     if not Export:

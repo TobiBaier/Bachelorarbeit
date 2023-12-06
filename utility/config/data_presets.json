@@ -10,8 +10,7 @@
     },
     "sev": {
         "data_type": "txt",
-        "sep": ";",
-        "skiprows": 4,
+        "skiprows": 5,
         "usecols": [
             0,
             1

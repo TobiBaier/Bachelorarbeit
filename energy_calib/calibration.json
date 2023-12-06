@@ -61,7 +61,37 @@
         "sev_pvcebis110_bng2s103_am241_10cm_100s_1800V_lowt_hist",
         "sev_pvcebis110_bng2s103_am241_10cm_300s_1800V_lowt_hist",
         "sev_pvcebis110_bng2s103_cm244_10cm_100s_1800V_lowt_hist",
+        "sev_pvcebis110_bng2s103_cm244_10cm_300s_1800V_lowt_hist",
         "sev_pvcebis110_bng2s103_na22_10cm_900s_1800V_lowt_hist"
+      ]
+    }
+  },
+  "dsf": {
+    "mass": 0.0073,
+    "roomtemp": {
+      "linear": [11.5   ,  0.0125],
+      "quadratic": [1.53586233e+01, 4.78275346e-03, 3.85862327e-06],
+      "switch": 1000,
+      "spec_cutoff": 0,
+      "time": 100,
+      "distance": 10,
+      "filenames": [
+        "sev_dsf_bng2s100_am241_10cm_100s_hight_hist_re",
+        "sev_dsf_bng2s100_cm244_10cm_100s_hight_hist_re",
+        "sev_dsf_bng2s100_na22_10cm_300s_hight_hist"
+      ]
+    },
+    "lowtemp": {
+      "linear": [4.01272167, 0.01599846],
+      "quadratic": [16.569625193444843, 0.0027806647925187958, 3.478366628272353e-06],
+      "switch": 1900,
+      "spec_cutoff": 650,
+      "time": 100,
+      "distance": 10,
+      "filenames": [
+        "sev_dsf_bng2s100_am241_10cm_100s_hight_hist_re",
+        "sev_dsf_bng2s100_cm244_10cm_100s_hight_hist_re",
+        "sev_dsf_bng2s100_na22_10cm_300s_hight_hist"
       ]
     }
   }

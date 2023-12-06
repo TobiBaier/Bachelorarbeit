@@ -37,8 +37,8 @@ ax.set_xbound([0, 1250])
 ax.set_ybound([0, None])
 
 ax.set_xlabel(r"Energie / keV")
-ax.set_ylabel(r"gezählte Ereignisse in 15 min")
-ax.set_title("Irgendeine Messung von sonstwas")
+ax.set_ylabel(r"gezählte Ereignisse")
+# ax.set_title("Irgendeine Messung von sonstwas")
 
 ax.set_yscale("linear")
 

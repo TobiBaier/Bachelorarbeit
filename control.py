@@ -189,7 +189,7 @@ class Control:
     --------------------------------------------------------------------------
     PLOT FUNCTIONS
     """
-    def auto_plot_data(self, filename, **kwargs):
+    def auto_plot_data(self, filename, auto_title=True, **kwargs):
         """
         Extracts data from a given file and plots it according to the configured presets // also does ending check
 
@@ -199,7 +199,9 @@ class Control:
         """
 
         # update standard settings
-        kwargs = self.ap_settings | kwargs
+        for key in kwargs:
+            if key in self.ap_settings:
+                kwargs[key] = self.ap_settings[key] | kwargs[key]
 
         # add ending if needed
         temp = filename
@@ -219,59 +221,62 @@ class Control:
             if "path" not in kwargs["ax_config"]:
                 kwargs["ax_config"]["path"] = savepath
 
-            print(f"... Saving plot to '{savepath}'.")
+            sp = kwargs["ax_config"]["path"]
+            print(f"... Saving plot to '{sp}'.")
 
             # get instrument and data to plot
             inst = self.c_file.get_inst_and_sample(filename)[0]
             rec_data = self.c_data.auto_read(inst, filepath)
 
             # add automatic titles (only if neither is given)
-            if kwargs["ax_config"]["title"] is None and kwargs["ax_config"]["suptitle"] is None:
-                kwargs["ax_config"]["suptitle"], kwargs["ax_config"]["title"] = self.title_constructor(filename)
+            if auto_title:
+                if kwargs["ax_config"]["title"] is None and kwargs["ax_config"]["suptitle"] is None:
+                    kwargs["ax_config"]["suptitle"], kwargs["ax_config"]["title"] = self.title_constructor(filename)
 
             # make the plot
             return self.c_draw.make_diagram(inst, rec_data, **kwargs)
 
-    def create_combiplot(self, names, outer_format, style):
+    def create_combiplot(self, names, inst, **params):
 
         #if type(outer_format["ax"]) != list:
         #    outer_format["ax"] = [outer_format["ax"]] * len(names)
-        if type(outer_format["inst"]) != list:
-            outer_format["inst"] = [outer_format["inst"]] * len(names)
-        ax = outer_format["ax"]
+        if type(inst) != list:
+            inst = [inst] * len(names)
+        ax = params["ax_config"]["ax"]
         dgs = []
         # print(outer_format["ax"])
         for i, name in enumerate(names):
 
             config = {}
 
-            for key in style:
+            for key in params:
                 config[key] = {}
-                for inner_key in style[key]:
-                    if type(style[key][inner_key]) != list:
-                        config[key][inner_key] = style[key][inner_key]
+                for inner_key in params[key]:
+                    if type(params[key][inner_key]) != list:
+                        config[key][inner_key] = params[key][inner_key]
                     else:
                         if inner_key == "xbounds" or inner_key == "ybounds":
-                            config[key][inner_key] = style[key][inner_key]
+                            config[key][inner_key] = params[key][inner_key]
                         else:
-                            config[key][inner_key] = style[key][inner_key][i]
+                            config[key][inner_key] = params[key][inner_key][i]
+
 
             filename = self.c_file.check_filename_format(name)
             filepath = self.c_file.get_datafile_path(filename)
 
-            rec_data = self.c_data.auto_read(outer_format["inst"][i], filepath)
+            rec_data = self.c_data.auto_read(inst[i], filepath)
 
-            if outer_format["norm"] == "max":
+            """if outer_format["norm"] == "max":
                 rec_data[1] = rec_data[1] / np.max(rec_data[1])
             elif outer_format["norm"] == "vector":
-                rec_data[1] = rec_data[1] / np.linalg.norm(rec_data[1])
+                rec_data[1] = rec_data[1] / np.linalg.norm(rec_data[1])"""
 
             config["ax_config"]["ax"] = ax
 
-            dgs = dgs + [self.c_draw.make_diagram(outer_format["inst"][i], rec_data, **config)]
+            dgs = dgs + [self.c_draw.make_diagram(inst[i], rec_data, **config)]
 
-        plt.suptitle(outer_format["suptitle"])
-        plt.title(outer_format["title"])
+        plt.suptitle(params["ax_config"]["suptitle"])
+        plt.title(params["ax_config"]["title"])
 
         return dgs
 
@@ -292,7 +297,7 @@ class Control:
             self.auto_plot_data(name)
             plt.close()
 
-    def multi_plot(self, names, labels, path, style=None, show_final_plot=False, **kwargs):
+    def multi_plot(self, names, labels, path, show_final_plot=False, save_final_plot=True, **kwargs):
         """
         plots multiple data sets of the same instrument in one diagram
 
@@ -304,48 +309,55 @@ class Control:
         :return: the multi diagram
         """
 
-        if style is None:
-            style = {}
-        for key in style:
-            if key in self.mp_settings["style"]:
-                style[key] = self.mp_settings["style"][key] | style[key]
-        for key in self.mp_settings["style"]:
-            if key not in style:
-                style[key] = self.mp_settings["style"][key]
+        for key in kwargs:
+            if key in self.mp_settings:
+                kwargs[key] = self.mp_settings[key] | kwargs[key]
+        for key in self.mp_settings:
+            if key not in kwargs:
+                kwargs[key] = self.mp_settings[key]
 
-        # compare outer_format with kwargs (cant use |, because only predefined keys are allowed)
+        """# compare outer_format with kwargs (cant use |, because only predefined keys are allowed)
         outer_format = self.mp_settings["outer_format"]
         for key in kwargs:
             if key in outer_format:
-                outer_format[key] = kwargs[key]
+                outer_format[key] = kwargs[key]"""
 
         # fully construct style dictionary
-        style["plot_kwargs"]["label"] = labels
+        kwargs["plot_kwargs"]["label"] = labels
 
         # fully construct outer_format dictionary
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        outer_format["ax"] = ax
+        kwargs["ax_config"]["ax"] = ax
         inst = self.c_file.get_inst_and_sample(names[0])[0]
-        outer_format["inst"] = inst
 
         # call combi_plot to draw diagrams
-        self.create_combiplot(names, outer_format, style)
+        self.create_combiplot(names, inst, **kwargs)
 
         # adjust plot parameters
-        if outer_format["norm"] is not None:
-            ax.set_ylabel(self.c_draw.plot_standards[outer_format["inst"]]["norm_ylabel"])
+        """if outer_format["norm"] is not None:
+            ax.set_ylabel(self.c_draw.plot_standards[outer_format["inst"]]["norm_ylabel"])"""
         # ax.grid(True)
 
         # get save path
-        path = self.c_file.prodata_path + "/" + path
+        # path = self.c_file.prodata_path + "/" + path
 
         # draw and save plot
-        ax.legend()
-        plt.savefig(path, dpi=400)
+        if "legend_kwargs" in kwargs:
+            leg = ax.legend(**kwargs["legend_kwargs"])
+        else:
+            leg = ax.legend()
+        # set the linewidth of each legend object
+        for legobj in leg.legendHandles:
+            legobj.set_linewidth(1.5)
+
+        if save_final_plot:
+            plt.savefig(path, dpi=400)
 
         if show_final_plot:
             plt.show()
+
+        return ax
 
     def twin_x_scale_plot(self, names, labels, path, style=None, **kwargs):
         """
@@ -444,7 +456,9 @@ class Control:
         path = self.c_file.prodata_path + "/" + path
         plt.savefig(path, dpi=400)
 
-    def draw_by_name(self, name, draw_kwargs={}):
+    def draw_by_name(self, name, draw_kwargs=None):
+        if draw_kwargs is None:
+            draw_kwargs = {}
         path = self.c_file.get_datafile_path(name)
         inst = self.c_file.get_inst_and_sample(name)[0]
         data = self.c_data.auto_read(inst, path)

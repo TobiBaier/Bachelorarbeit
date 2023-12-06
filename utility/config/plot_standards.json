@@ -3,7 +3,7 @@
         "ax": null,
         "dpi": 400,
         "draw": false,
-        "grid": true,
+        "grid": false,
         "path": null,
         "save": true,
         "suptitle": null,
@@ -17,17 +17,20 @@
     },
     "plot_kwargs": {
         "color": "black",
+        "ls": "-",
         "lw": 1,
-        "zorder": 100
+        "zorder": 100,
+        "label": null
     },
     "tick_kwargs": {
         "direction": "in",
         "top": true,
-        "right": true
+        "right": true,
+        "which": "both"
     },
     "ticklabel_kwargs": {
         "style": "sci",
-        "useMathText": false,
+        "useMathText": true,
         "useLocale": true
     },
     "grid_kwargs": {
@@ -35,5 +38,8 @@
         "color": "#87878790",
         "zorder": -1000,
         "lw": 1
+    },
+    "legend_kwargs": {
+
     }
 }

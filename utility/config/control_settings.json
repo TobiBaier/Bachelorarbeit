@@ -6,31 +6,27 @@
         }
     },
     "multi_plot": {
-        "outer_format": {
+        "ax_config": {
             "ax": null,
             "norm": null,
             "suptitle": null,
-            "title": null
+            "title": null,
+            "draw": false,
+            "save": false
         },
-        "style": {
-            "ax_config": {
-                "draw": false,
-                "save": false
-            },
-            "plot_kwargs": {
-                "color":   [
-                    "c",
-                    "m",
-                    "y",
-                    "r",
-                    "g",
-                    "b",
-                    "gray",
-                    "purple"
-                ],
-                "label": null,
-                "ls": "-"
-            }
+        "plot_kwargs": {
+            "color": [
+                "c",
+                "m",
+                "y",
+                "r",
+                "g",
+                "b",
+                "gray",
+                "purple"
+            ],
+            "label": null,
+            "ls": "-"
         }
     },
     "twin_xscale": {

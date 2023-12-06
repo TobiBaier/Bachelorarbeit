@@ -1,0 +1,64 @@
+{
+  "ebis110": {
+    "mass": 0.0042595,
+    "roomtemp": {
+      "linear": [1.15000000e+01, 5.90652286e-04],
+      "quadratic": [1.54005847e+01, 2.78605508e-04, 6.24093556e-09],
+      "switch": 25000,
+      "spec_cutoff": 8700,
+      "distance": 10,
+      "filenames": [
+        "sev_ebis110_bng2s111_am241_10cm_100s_hight_hist_dosibinning1_rebin150.txt",
+        "sev_ebis110_bng2s111_cm244_10cm_100s_hight_hist_dosibinning1_rebin150.txt",
+        "sev_ebis110_bng2s111_na22_10cm_900s_hight_hist_dosibinning1_rebin150.txt"
+      ]
+
+    }
+  },
+  "pvcebis110": {
+    "mass": 0.0041043,
+    "roomtemp": {
+      "linear": [1.15000000e+01, 6.74091442e-04],
+      "quadratic": [2.15656436e+01, 9.89118059e-05, 8.21685194e-09],
+      "switch" : 35000,
+      "spec_cutoff": 10000,
+      "time": 100,
+      "distance": 10,
+      "filenames": [
+        "sev_pvcebis110_bng2s103_am241_10cm_100s_hight_hist_dosibinning1_rebin150.txt",
+        "sev_pvcebis110_bng2s103_ba133_10cm_900s_hight_hist_dosibinning1_rebin150.txt",
+        "sev_pvcebis110_bng2s103_cm244_10cm_100s_hight_hist_dosibinning1_rebin150.txt",
+        "sev_pvcebis110_bng2s103_na22_10cm_900s_hight_hist_dosibinning1_rebin150.txt"
+      ]
+    },
+    "lowtemp": {
+      "linear": [1.15000000e+01, 7.66666667e-04],
+      "quadratic": [1.95707119e+01, 3.05483129e-04, 6.58833626e-09],
+      "switch": 35000,
+      "spec_cutoff": 9000,
+      "time": 100,
+      "distance": 10,
+      "filenames": [
+        "sev_pvcebis110_bng2s103_am241_10cm_100s_lowt_hist_dosibinning1_rebin150.txt",
+        "sev_pvcebis110_bng2s103_cm244_10cm_100s_lowt_hist_dosibinning1_rebin150.txt",
+        "sev_pvcebis110_bng2s103_na22_10cm_900s_lowt_hist_dosibinning1_rebin150.txt"
+      ]
+    }
+  },
+  "dsf": {
+    "mass": 0.0073,
+    "roomtemp": {
+      "linear": [11.5       ,  0.01240561],
+      "quadratic": [1.49957941e+01, 5.04604291e-03, 3.87345610e-06],
+      "switch": 950,
+      "spec_cutoff": 300,
+      "time": 100,
+      "distance": 10,
+      "filenames": [
+        "sev_dsf_bng2s100_am241_10cm_100s_hight_raw_hist_dosibinning1_rebin25.txt",
+        "sev_dsf_bng2s100_cm244_10cm_100s_hight_hist_dosibinning1_rebin25.txt",
+        "sev_dsf_bng2s100_na22_10cm_300s_hight_hist_dosibinning1_rebin25.txt"
+      ]
+    }
+  }
+}

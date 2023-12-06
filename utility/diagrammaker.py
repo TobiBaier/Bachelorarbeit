@@ -33,19 +33,6 @@ def create_window(params: dict):
     else:
         ax = params["ax_config"]["ax"]
 
-    """# set title, suptitle, grid if given
-    # title is BELOW suptitle and therefore smaller
-    if params["title"]:
-        plt.title(params["title"], fontsize="small")
-    if params["suptitle"]:
-        plt.suptitle(params["suptitle"], fontsize="medium")
-    if params["grid"]:
-        ax.grid()
-
-    # configure axis labels
-    ax.set_xlabel(params["xlabel"])
-    ax.set_ylabel(params["ylabel"])"""
-
     # return configured plot
     return ax
 
@@ -67,9 +54,9 @@ def config_window(ax, params: dict):
         ax.grid(**params["grid_kwargs"])
 
     if "xlabel" in ax_config:
-        ax.set_xlabel(ax_config["xlabel"])
+        ax.set_xlabel(ax_config["xlabel"], size=12)
     if "ylabel" in ax_config:
-        ax.set_ylabel(ax_config["ylabel"])
+        ax.set_ylabel(ax_config["ylabel"], size=12)
 
     if "xscale" in ax_config:
         ax.set_xscale(ax_config["xscale"])
@@ -102,7 +89,8 @@ def save_draw(params: dict):
     ax_config = params["ax_config"]
 
     if params["plot_kwargs"]["label"] is not None and ax_config["draw_label"]:
-        plt.legend()
+        # print(params["legend_kwargs"])
+        plt.legend(**params["legend_kwargs"])
 
     if ax_config["save"]:
         if ax_config["path"] is None:
@@ -110,7 +98,7 @@ def save_draw(params: dict):
             print("Done Saving!")
         else:
             plt.savefig(ax_config["path"], dpi=ax_config["dpi"])
-            print("Done Saving!")
+            print("Done Saving!1")
 
     if ax_config["draw"]:
         plt.show()
@@ -183,30 +171,41 @@ class DiagramMaker:
                 # remove 'plot_type' key from preset-copy-dictionary
                 temp.pop("plot_type")
                 for key in kwargs:
-                    kwargs[key] = temp[key] | kwargs[key]
+                    if key in temp:
+                        kwargs[key] = temp[key] | kwargs[key]
+                    else:
+                        pass
                 # call according plot function and return the return (overwrites presets here)
                 return self.draw_plot(data, **temp | kwargs)
 
             # same as above
             elif self.presets[plot_preset]["plot_type"] == "scatter":
                 temp = self.presets[plot_preset].copy()
-                temp.pop("plot_type")
                 for key in kwargs:
-                    kwargs[key] = temp[key] | kwargs[key]
+                    if key in temp:
+                        kwargs[key] = temp[key] | kwargs[key]
+                    else:
+                        pass
                 return self.draw_scatter(data, **temp | kwargs)
 
             elif self.presets[plot_preset]["plot_type"] == "errorbar":
                 temp = self.presets[plot_preset].copy()
                 temp.pop("plot_type")
                 for key in kwargs:
-                    kwargs[key] = temp[key] | kwargs[key]
+                    if key in temp:
+                        kwargs[key] = temp[key] | kwargs[key]
+                    else:
+                        pass
                 return self.draw_errorbar(data, **temp | kwargs)
 
             elif self.presets[plot_preset]["plot_type"] == "hist":
                 temp = self.presets[plot_preset].copy()
                 temp.pop("plot_type")
                 for key in kwargs:
-                    kwargs[key] = temp[key] | kwargs[key]
+                    if key in temp:
+                        kwargs[key] = temp[key] | kwargs[key]
+                    else:
+                        pass
                 return self.draw_hist(data, **temp | kwargs)
 
             # raise error, if plot type does not exist
@@ -255,10 +254,9 @@ class DiagramMaker:
                 # print(key)
                 params[key] = self.hist_standards[key]
 
-        # configure the window with according utility_deprecated function
+        # configure the window with according utility function
         ax = create_window(params)
         # print(data)
-        pprint(params["plot_kwargs"])
         diagram = ax.stairs(*data, **params["plot_kwargs"])
 
         ax = config_window(ax, params)

@@ -2,6 +2,8 @@ import urllib
 import re
 import mechanize
 from mechanize import urlopen
+import pandas as pd
+from pprint import pprint
 
 br = mechanize.Browser()
 br.open("https://physics.nist.gov/cgi-bin/Xcom/xcom2?Method=Elem&Output2=Hand")
@@ -24,8 +26,8 @@ input = {
     "Graph5": ["on"],
     "Graph6": ["on"],
     "Graph7": [],
-    "ZNum": "14",
-    "Energies": "0.123\n13.12\n13.13"
+    "ZNum": "13",
+    "Energies": "0.023"
 }
 
 for key in input:
@@ -55,6 +57,7 @@ for key in input:
 answer = urlopen(a.click()).read().decode()
 
 answer = answer[re.search("\n\n", answer).end():-1]
-print(answer)
+df = pd.DataFrame([x.split(' ') for x in answer.split('\n')])
 
-
+nda = df.to_numpy()
+print(nda)
