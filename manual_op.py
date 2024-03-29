@@ -5,18 +5,18 @@ from pprint import pprint
 # c = get_inst("Z:\Studenten\Baier\Messungen")
 c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
-c.c_file.sort_to_dirs()
+# c.c_file.sort_to_dirs()
 
-pprint(c.search_in_dir("data/sev/dsf"))
+# pprint(c.search_in_dir("data/sev/dsf"))
 
-c.draw_by_name('sev_dsf_bng2s100_na22_10cm_300s_hight_hist.txt',
+"""c.draw_by_name('sev_dsf_bng2s100_na22_10cm_300s_hight_hist.txt',
                draw_kwargs=
                {
                    "ax_config":{
                        "save": False,
                        "draw": True
                    }
-               })
+               })"""
 
 """name = c.search_in_dir("data/spec/pu",
                        identifiers=["sr90", "good"])[0]
@@ -34,9 +34,23 @@ c.auto_plot_data(name, auto_title=False,
                  }
 )"""
 
-# names = ["spec_pu_brg2s076_sr90_good", "spec_pu_brg2s076_5step_filter_good"]
-# labels = c.extract_labels_from_path(names)
-# c.multi_plot(names, labels, path=None, show_final_plot=True)
+names = ["spec_combi92_brg2s072_sr90_good", "spec_combi92_brg2s072_sr90_movingavg2"]
+labels = ["ohne Filter", "mit Filter"]
+c.multi_plot(names, labels, path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/moving_average_comparison.pdf", show_final_plot=False, save_final_plot=True,
+             ax_config={
+                 "draw": False,
+                 # "path": "C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/moving_average_comparison.pdf",
+                 "xbounds": [325, 650],
+                 "ybounds": [75, None],
+             },
+             plot_kwargs={
+                 "color": ["black", "red"]
+             }
+             )
+
+
+
+
 
 cmap = {
     "pu": ["black", "Polyurethan (PU)"],

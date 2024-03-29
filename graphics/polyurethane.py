@@ -2,10 +2,10 @@ from control import get_inst
 import re
 from pprint import pprint
 
-c = get_inst("Z:\Studenten\Baier\Messungen")
-# c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
+# c = get_inst("Z:\Studenten\Baier\Messungen")
+c = get_inst("C:/Users/baier/OneDrive/Uni/Bachelorarbeit")
 
-c.c_file.sort_to_dirs()
+# c.c_file.sort_to_dirs()
 
 cmap = {
     "pu": ["black", "Polyurethan (PU)"],
@@ -122,14 +122,14 @@ def no_avg():
                  })
 
 
-def with_avg():
+def with_avg(path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/Präsentation/images/"):
     names = c.search_in_dir("data/spec", identifiers=["movingavg2", "sr90"],
                             or_identifiers=["pu", "ppo1", "ppo5", "combi92", "bis105", "popop105", "combi14"],
                             not_identifiers=["_e"])
     names[1], names[3] = names[3], names[1]
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/spec_all_pu_samples.pdf",
+    c.multi_plot(names, labels, path + "spec_all_pu_samples.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
@@ -144,7 +144,7 @@ def with_avg():
                             not_identifiers=["_e"])
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/spec_pu_ppo.pdf",
+    c.multi_plot(names, labels, path + "spec_pu_ppo.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
@@ -159,7 +159,7 @@ def with_avg():
                             not_identifiers=["_e"])
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/uv-vis_pu_ppo.pdf",
+    c.multi_plot(names, labels, path + "uv-vis_pu_ppo.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
@@ -178,7 +178,7 @@ def with_avg():
     pprint(names)
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/uv-vis_all_pu_samples.pdf",
+    c.multi_plot(names, labels, path + "uv-vis_all_pu_samples.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
@@ -192,7 +192,7 @@ def with_avg():
                             not_identifiers=["_e"])
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/sev_pu_ppo.pdf",
+    c.multi_plot(names, labels, path + "sev_pu_ppo.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors
@@ -209,8 +209,8 @@ def with_avg():
     names[1], names[3] = names[3], names[1]
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, "Z:/Studenten/Baier/Latex/images/sev_all_pu_samples.pdf",
-                 show_final_plot=True,
+    c.multi_plot(names, labels, path + "sev_all_pu_samples.svg",
+                 show_final_plot=False,
                  plot_kwargs={
                      "color": colors
                  },
@@ -221,9 +221,10 @@ def with_avg():
                  })
 
 
-def pure_pu():
+def pure_pu(path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/"):
     pu_spec = c.search_in_dir("data/spec/pu", identifiers=["movingavg2", "sr90"])[0]
     pu_uvvis = c.search_in_dir("data/uv-vis/pu", identifiers=["good", "fast"])[0]
+    pu_sev = c.search_in_dir("data/sev/pu", identifiers=["good"])[0]
 
     c.auto_plot_data(pu_spec, auto_title=False,
                      plot_kwargs={
@@ -233,7 +234,7 @@ def pure_pu():
                      ax_config={
                          "xbounds": [310, 440],
                          "ybounds": [75, None],
-                         "path": "Z:/Studenten/Baier/Latex/images/spec_pu.pdf"
+                         "path": path + "spec_pu.pdf"
                      })
     c.auto_plot_data(pu_uvvis, auto_title=False,
                      plot_kwargs={
@@ -243,7 +244,17 @@ def pure_pu():
                      ax_config={
                          "xbounds": [300, 800],
                          "ybounds": [0, None],
-                         "path": "Z:/Studenten/Baier/Latex/images/uv-vis_pu.pdf"
+                         "path": path + "uv-vis_pu.pdf"
+                     })
+    c.auto_plot_data(pu_sev, auto_title=False,
+                     plot_kwargs={
+                         "color": "black",
+                         "lw": 2,
+                     },
+                     ax_config={
+                         "xbounds": [0, 750],
+                         "ybounds": [0, None],
+                         "path": path + "pu_sev.pdf"
                      })
 
 # pure_pu()

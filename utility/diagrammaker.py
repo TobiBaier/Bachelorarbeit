@@ -124,19 +124,19 @@ class DiagramMaker:
         """
 
         try:
-            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/plot_standards.json", "r") as of:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/plot_standards.json", "r", encoding='UTF-8') as of:
                 self.plot_standards = json.load(of)
         except FileNotFoundError:
             raise FileNotFoundError("Could not load config/plot_standards.json because file does not exists!")
 
         try:
-            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/hist_standards.json", "r") as of:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/hist_standards.json", "r", encoding='UTF-8') as of:
                 self.hist_standards = json.load(of)
         except FileNotFoundError:
             raise FileNotFoundError("Could not load config/plot_standards.json because file does not exists!")
 
         try:
-            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/draw_presets.json", "r") as of:
+            with open(os.path.abspath(os.path.dirname(__file__)) + "/config/draw_presets.json", "r", encoding='UTF-8') as of:
                 self.presets = json.load(of)
         except FileNotFoundError:
             raise FileNotFoundError("Could not load config/draw_presets.json because file does not exists!")

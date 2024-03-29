@@ -61,7 +61,7 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
     labels = label_mapping(names, short=True)
     colors = color_mapping(names)
     pprint(names)
-    c.multi_plot(names, labels, path + "spec_all_ep_samples.pdf",
+    c.multi_plot(names, labels, path + "spec_all_ep_samples.svg", save_final_plot=True,
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
@@ -69,20 +69,20 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
                  },
                  ax_config={
                      "xbounds": [310, 640],
-                     "ybounds": [65, None],
+                     "ybounds": [65, None]
                  },
                  legend_kwargs={
                      "fontsize": "small",
                      "labelcolor": "black"
     })
 
-    """names = c.search_in_dir("data/spec",
+    names = c.search_in_dir("data/spec",
                             identifiers=["movingavg", "sr90"],
                             or_identifiers=["ep", "eppo1", "eppo5"],
                             not_identifiers=["pvcebis", "sebis"])
     labels = label_mapping(names, short=False)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, path + "spec_ep_ppo_samples.pdf",
+    c.multi_plot(names, labels, path + "spec_ep_ppo_samples.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
@@ -98,7 +98,7 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
                             not_identifiers=["pvcebis", "sebis"])
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, path + "uv-vis_ep_ppo.pdf",
+    c.multi_plot(names, labels, path + "uv-vis_ep_ppo.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
@@ -114,7 +114,7 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
                             not_identifiers=["pvcebis", "sebis", "exclude"])
     labels = label_mapping(names, short=True)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, path + "uv-vis_all_ep_samples.pdf",
+    c.multi_plot(names, labels, path + "uv-vis_all_ep_samples.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
@@ -129,7 +129,7 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
                             not_identifiers=["pvcebis", "sebis"])
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, path + "sev_ep_ppo.pdf",
+    c.multi_plot(names, labels, path + "sev_ep_ppo.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
@@ -145,7 +145,7 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
                             not_identifiers=["pvcebis", "sebis"])
     labels = label_mapping(names)
     colors = color_mapping(names)
-    c.multi_plot(names, labels, path + "sev_all_ep_samples.pdf",
+    c.multi_plot(names, labels, path + "sev_all_ep_samples.svg",
                  show_final_plot=False,
                  plot_kwargs={
                      "color": colors
@@ -154,10 +154,10 @@ def with_avg(path="Z:/Studenten/Baier/Latex/images/"):
                      "xbounds": [60, 1300],
                      "ybounds": [0, None],
                      "xlabel": "Pulsintegral / Kanal"
-                 })"""
+                 })
 
 
-with_avg("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/")
+# with_avg("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/")
 
 
 def pure_ep(path="Z:/Studenten/Baier/Latex/images/"):
@@ -208,7 +208,7 @@ def ep_pu_comp(path="Z:/Studenten/Baier/Latex/images/"):
     labels = [ "Polyurethan", "Epoxidharz"]
     colors = ["gray", "black"]
     c.multi_plot(names, labels, path + "uv-vis_pu_ep_comp.pdf",
-                 show_final_plot=True,
+                 show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
                      "lw": 2
@@ -219,9 +219,9 @@ def ep_pu_comp(path="Z:/Studenten/Baier/Latex/images/"):
                  })
 
 # pure_ep()
-# with_avg()
+with_avg("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/Präsentation/images/")
 
-# ep_pu_comp()
+# ep_pu_comp("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/")
 
 
 

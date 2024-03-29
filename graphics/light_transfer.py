@@ -23,7 +23,7 @@ ax = c.multi_plot(names, labels, path="", show_final_plot=False, save_final_plot
 
 ax.arrow(400, 1000, 60, 0, width=10, head_width=30, head_length=20, color="red", length_includes_head=True)
 ax.vlines([400, 460], 0, 1500, colors="red", linestyles="dashed")
-ax.text(381, 1080, "Stokes-Shift", color="black", zorder=1000, fontweight="bold")
+ax.text(360, 1050, "Wellenlängen-\nverschiebung", color="black", zorder=1000, fontweight="bold")
 
 
 ax.set_ybound([85, 1200])

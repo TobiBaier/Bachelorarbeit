@@ -36,7 +36,7 @@
                 0,
                 null
             ],
-            "ylabel": "gezaehlte Ereignisse"
+            "ylabel": "gezählte Ereignisse"
         },
         "plot_kwargs": {
             "color": "black",
@@ -48,12 +48,12 @@
     },
     "spec": {
         "ax_config": {
-            "xlabel": "Wellenlaenge / nm",
+            "xlabel": "Wellenlänge / nm",
             "ybounds": [
                 0,
                 null
             ],
-            "ylabel": "gezaehlte Ereignisse in 30s",
+            "ylabel": "gezählte Ereignisse in 30s",
             "draw_label": true,
             "grid": true,
             "norm_ylabel": "normed count rate"
@@ -73,7 +73,7 @@
             "draw_label": true,
             "grid": true,
             "norm_ylabel": "normed transmission rate",
-            "xlabel": "Wellenlaenge / nm",
+            "xlabel": "Wellenlänge / nm",
             "ybounds": [
                 0,
                 null

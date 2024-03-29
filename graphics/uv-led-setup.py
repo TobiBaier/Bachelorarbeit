@@ -77,11 +77,11 @@ ax2.tick_params(axis="both", labelsize=10, direction="in", top=True, right=True)
 ax.plot([408, 400], [0.26, 0], "--", color="gray")
 ax.plot([570, 520], [0.26, 0], "--", color="gray")
 
-ax.set_xlabel(r"$\lambda$/nm")
+ax.set_xlabel(r"Wellenlänge / nm")
 ax.set_xbound([250, 650])
 ax.tick_params(axis="both", labelcolor="black", direction="in", top=True)
 ax.ticklabel_format(axis="y", useLocale=True)
-ax.set_ylabel("gezaehlte Ereignisse", color="black")
+ax.set_ylabel("gezählte Ereignisse", color="black")
 ax.set_ybound([0, None])
 
 def formatter(y, pos):

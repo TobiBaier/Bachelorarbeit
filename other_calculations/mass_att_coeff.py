@@ -139,8 +139,8 @@ daten["PF5080"] = pf[0] * daten["carbon"][2] + pf[1] * daten["flourine"][2]
 g = mass_fractions([12.011, 1.00784, 15.999], [6, 12, 6])
 daten["glucose"] = g[0] * daten["carbon"][2] + g[1] * daten["hydrogen"][2] + g[2] * daten["oxygen"][2]
 
-w = mass_fractions([1.00784, 15.999], [2, 1])
-daten["water"] = w[0] * daten["hydrogen"][2] + w[1] * daten["oxygen"][2]
+"""w = mass_fractions([1.00784, 15.999], [2, 1])
+daten["water"] = w[0] * daten["hydrogen"][2] + w[1] * daten["oxygen"][2]"""
 
 si = mass_fractions([15.999, 28.0855], [2, 1])
 daten["sio2"] = si[0] * daten["oxygen"][2] + si[1] * daten["silicon"][2]
@@ -164,36 +164,77 @@ daten["bis"] = bis[0] * daten["carbon"][2] + bis[1] * daten["hydrogen"][2]
 
 daten["doped_epoxy"] = (15/15.165) * daten["epoxy"] + (0.15/15.165) * daten["ppo"] + (0.015/15.165) * daten["bis"]
 
+baso4 = mass_fractions([55.845, 32.065, 15.999], [1, 1, 4])
+daten["baso4"] = baso4[0] * daten["iron"][2] + baso4[1] * daten["sulfur"][2] + baso4[2] * daten["oxygen"][2]
+
+cacl2 = mass_fractions([40.078, 35.453], [1, 2])
+daten["cacl2"] = cacl2[0] * daten["calcium"][2] + cacl2[1] * daten["chlorine"][2] # + cacl2[2] * daten["oxygen"][2]
+
+fecl2 = mass_fractions([55.845, 35.453], [1, 2])
+daten["fecl2"] = fecl2[0] * daten["iron"][2] + fecl2[1] * daten["chlorine"][2] # + cacl2[2] * daten["oxygen"][2]
+
+crcl2 = mass_fractions([51.9961, 35.453], [1, 2])
+daten["crcl2"] = crcl2[0] * daten["chromium"][2] + crcl2[1] * daten["chlorine"][2] # + cacl2[2] * daten["oxygen"][2]
+
+fecl3 = mass_fractions([55.845, 35.453], [1, 3])
+daten["fecl3"] = fecl2[0] * daten["iron"][2] + fecl2[1] * daten["chlorine"][2] # + cacl2[2] * daten["oxygen"][2]
+
+# feso4 = mass_fractions([51.9961, 32.065, 15.999], [1, 2])
+
+
+# ax.plot(daten["tissue"][0], daten["tissue"][2]/daten["tissue"][2], color="xkcd:red")
 # ax.plot(daten["tissue"][0], daten["pu"]/daten["tissue"][2], label="Polyurethanharz", color="xkcd:purple")
-ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxidharz", color="xkcd:primary blue")
-ax.plot(daten["tissue"][0], (0.943*daten["epoxy"]+0.057*daten["pvc"])/daten["tissue"][2], label="Epoxidharz mit 5.7% PVC", color="xkcd:sea blue")
-ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tissue"][2], label="Epoxidharz mit 2% NaCl", color="xkcd:baby blue")
+# ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxidharz", color="xkcd:primary blue")
+# ax.plot(daten["tissue"][0], (0.943*daten["epoxy"]+0.057*daten["pvc"])/daten["tissue"][2], label="Epoxidharz mit 5,7% PVC", color="xkcd:baby blue")
+# ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tissue"][2], label="Epoxidharz mit 2% NaCl", color="xkcd:baby blue")
 # ax.plot(daten["tissue"][0], daten["doped_epoxy"]/daten["tissue"][2], label="doped Epoxy")
-# ax.plot(daten["tissue"][0], daten["polysterene"][2]/daten["tissue"][2], label="Polystyrol (PS)")
-ax.plot(daten["tissue"][0], daten["vinyltoulene"][2]/daten["tissue"][2], label="Polyvinyltoluol (PVT)", color="red")
+# ax.plot(daten["tissue"][0], daten["polysterene"][2]/daten["tissue"][2], label="Polystyrol (PS)", color="xkcd:dark green")
+# ax.plot(daten["tissue"][0], daten["vinyltoulene"][2]/daten["tissue"][2], label="Polyvinyltoluol (PVT)", color="xkcd:light green")
 # ax.plot(daten["tissue"][0], daten["pmma"]/daten["tissue"][2], label="PMMA")
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["pmma"])/daten["tissue"][2], label="pmma")
 # ax.plot(daten["tissue"][0], (0.7*daten["epoxy"]+0.3*daten["borax"])/daten["tissue"][2], label="borax")
 # ax.plot(daten["tissue"][0], (0.93*daten["epoxy"]+0.07*daten["caco3"])/daten["tissue"][2], label="mit 7% CaCO3")
-ax.plot(daten["tissue"][0], (0.995*daten["vinyltoulene"][2]+0.005*daten["lead"][2])/daten["tissue"][2], label="PVT mit 0.5% Blei", color="green")
+# ax.plot(daten["tissue"][0], (0.995*daten["vinyltoulene"][2]+0.005*daten["lead"][2])/daten["tissue"][2], label="PVT mit 0,5% Blei", color="green")
 # ax.plot(daten["tissue"][0], (0.935*daten["doped_epoxy"]+0.065*daten["pvc"])/daten["tissue"][2], label="mit 6.5% PVC (doped)")
 # ax.plot(daten["tissue"][0], (0.92*daten["epoxy"]+0.08*daten["PF5080"])/daten["tissue"][2], label="PF5080")
-# ax.plot(daten["tissue"][0], (0.91*daten["water"]+0.09*daten["glucose"]/daten["tissue"][2]), label="tonic water")
+# ax.plot(daten["tissue"][0], daten["water"][2]/daten["tissue"][2], label="Wasser", color="blue")
 # ax.plot(daten["tissue"][0], (0.9*daten["epoxy"]+0.1*daten["sio2"])/daten["tissue"][2], label="mit 10% SiO2")
 # ax.plot(daten["tissue"][0], (0.95*daten["epoxy"]+0.05*daten["chloroform"])/daten["tissue"][2], label="mit 3% Chloroform")
 # ax.plot(daten["tissue"][0], daten["air"][2]/daten["tissue"][2], label="Luft", color="black")
+ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["baso4"])/daten["tissue"][2], label="Epoxidharz mit crcl2", color="xkcd:baby blue")
 
-
+"""ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxidharz", color="xkcd:primary blue")
+ax.plot(daten["tissue"][0], (0.943*daten["epoxy"]+0.057*daten["pvc"])/daten["tissue"][2], label="Epoxidharz mit 5,7% PVC", color="xkcd:sea blue")
+ax.plot(daten["tissue"][0], (0.98*daten["epoxy"]+0.02*daten["salt"])/daten["tissue"][2], label="Epoxidharz mit 2% NaCl", color="xkcd:baby blue")
+ax.plot(daten["tissue"][0], daten["vinyltoulene"][2]/daten["tissue"][2], label="Polyvinyltoluol (PVT)", color="red")
+ax.plot(daten["tissue"][0], (0.995*daten["vinyltoulene"][2]+0.005*daten["lead"][2])/daten["tissue"][2], label="PVT mit 0,5% Blei", color="green")
 ax.plot([0.06, 0.06, 0.06, 0.06], [1.3, 0.963, 0.735, 0], "-_", color="black", ms=10)
 ax.plot([0.023, 0.023, 0.023, .023], [1.044, 0.901, 0.507, 0], "-_", color="black", ms=10)
-
 ax.text(0.062, 0.325, r"$^{241}$Am " + "\n(60keV)", fontweight="bold")
 ax.text(0.02305, 0.325, r"$^{244}$Cm " + "\n(23keV)", fontweight="bold")
-# ax.text(0.062, 1.31, r"1,300")
-
-
 ax.text(0.062, 1.05, "1:1,35", fontweight="bold")
-ax.text(0.062, 0.82, "1:0,87", fontweight="bold")
+ax.text(0.062, 0.82, "1:0,87", fontweight="bold")"""
+
+
+"""ax.plot(daten["tissue"][0], daten["pu"]/daten["tissue"][2], label="Polyurethanharz", color="xkcd:purple")
+ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxidharz", color="xkcd:primary blue")
+ax.plot(daten["tissue"][0], (0.943*daten["epoxy"]+0.057*daten["pvc"])/daten["tissue"][2], label="Epoxidharz mit 5,7% PVC", color="xkcd:sea blue")
+ax.plot(daten["tissue"][0], daten["vinyltoulene"][2]/daten["tissue"][2], label="Polyvinyltoluol (PVT)", color="red")
+ax.plot(daten["tissue"][0], (0.995*daten["vinyltoulene"][2]+0.005*daten["lead"][2])/daten["tissue"][2], label="PVT mit 0,5% Blei", color="green")
+ax.plot(daten["tissue"][0], daten["air"][2]/daten["tissue"][2], label="Luft", color="black")"""
+
+
+
+"""ax.plot(daten["tissue"][0], daten["pu"]/daten["tissue"][2], label="Polyurethanharz", color="xkcd:purple")
+ax.plot(daten["tissue"][0], daten["epoxy"]/daten["tissue"][2], label="Epoxidharz", color="xkcd:primary blue")
+ax.plot(daten["tissue"][0], daten["polysterene"][2]/daten["tissue"][2], label="Polystyrol (PS)")
+ax.plot(daten["tissue"][0], daten["vinyltoulene"][2]/daten["tissue"][2], label="Polyvinyltoluol (PVT)", color="red")
+ax.plot(daten["tissue"][0], (0.995*daten["vinyltoulene"][2]+0.005*daten["lead"][2])/daten["tissue"][2], label="PVT mit 0,5% Blei", color="green")
+ax.plot(daten["tissue"][0], daten["pmma"]/daten["tissue"][2], label="PMMA")
+"""
+
+
+
 """ax.text(0.062, 0.70, "0,735")
 ax.text(0.024, 1.005, "1,044")
 ax.text(0.024, 0.865, "0,901")
@@ -219,8 +260,8 @@ ax.tick_params(which="both", direction="in", top=True, right=True)
 ax.grid(visible=True, color="#87878790", zorder=-1, lw=1)
 
 ax.legend(loc="lower right")
-plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/murho_additives_comp.pdf")
-# plt.show()
+# plt.savefig("C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/Präsentation/images/intro5.svg")
+plt.show()
 """
 daten["coeff_pu"] = (0.627922665 * daten["coeff_carbon"][2] +
                      0.090842816 * daten["coeff_hydrogen"][2] +

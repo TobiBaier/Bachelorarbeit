@@ -79,15 +79,15 @@ def psev_comp(path="Z:/Studenten/Baier/Latex/images/"):
                      "color": colors,
                  },
                  ax_config={
-                     "xbounds": [0, 1250],
+                     "xbounds": [15.233, 1250],
                  },
                  legend_kwargs={
                      "fontsize": "small"
                  }
                  )
 
-# psev_comp()
-# emission_comp()
+# psev_comp(path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/")
+# emission_comp(path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/")
 
 
 
@@ -104,7 +104,7 @@ def calibrated_psev(path="Z:/Studenten/Baier/Latex/images/"):
                      "color": colors,
                  },
                  ax_config={
-                     "xbounds": [14.42, 80],
+                     "xbounds": [15.233, 80],
                      "yscale": "linear",
                      "xlabel": "Pulsenergie / keV"
                  })
@@ -121,13 +121,13 @@ def calibrated_psev(path="Z:/Studenten/Baier/Latex/images/"):
                      "color": colors,
                  },
                  ax_config={
-                     "xbounds": [14.42, 250],
+                     "xbounds": [15.233, 250],
                      "yscale": "log",
                      "xlabel": "Pulsenergie / keV"
                  })
 
 
-    """names = c.search_in_dir("data/sev",
+    names = c.search_in_dir("data/sev",
                             identifiers=["na22", "hight", "ecalib", "rebin", "rebin", "binning"],
                             or_identifiers=["pvcebis110", "ebis110", "dsf"], )
     colors = color_mapping(names)
@@ -141,7 +141,7 @@ def calibrated_psev(path="Z:/Studenten/Baier/Latex/images/"):
                      "xbounds": [14.42, 2250],
                      "yscale": "log",
                      "xlabel": "Pulsenergie / keV"
-                 })"""
+                 })
 
 
 def ej_comparison(path="Z:/Studenten/Baier/Latex/images/"):
@@ -150,8 +150,8 @@ def ej_comparison(path="Z:/Studenten/Baier/Latex/images/"):
                             or_identifiers=["e3hf101", "ebis110", "ej200", "ej260"])
     colors=color_mapping(names)
     labels = label_mapping(names)
-    c.multi_plot(names, labels, path + "sev_ej_comp.pdf",
-                 show_final_plot=True,
+    c.multi_plot(names, labels, path + "sev_ej_comp.svg",
+                 show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
                  },
@@ -160,13 +160,14 @@ def ej_comparison(path="Z:/Studenten/Baier/Latex/images/"):
                      "yscale": "linear",
                  })
 
-    """names = c.search_in_dir("data/uv-vis",
-                            identifiers=["fast", "good"],
-                            or_identifiers=["e3hf101", "ebis110", "ej200", "ej260"])
+    names = c.search_in_dir("data/uv-vis",
+                            identifiers=["fast"],
+                            or_identifiers=["e3hf101", "ebis110", "ej200", "ej260"],
+                            not_identifiers=["exclude", "sebis"])
     pprint(names)
     colors = color_mapping(names)
     labels = label_mapping(names, short=True)
-    c.multi_plot(names, labels, path + "uv-vis_ej_comp.pdf",
+    c.multi_plot(names, labels, path + "uv-vis_ej_comp.svg",
                  show_final_plot=True,
                  plot_kwargs={
                      "color": colors,
@@ -174,9 +175,9 @@ def ej_comparison(path="Z:/Studenten/Baier/Latex/images/"):
                  ax_config={
                      "xbounds": [340, 800],
                      "yscale": "linear",
-                 })"""
+                 })
 
-    """names = c.search_in_dir("data/spec",
+    names = c.search_in_dir("data/spec",
                             identifiers=["sr90", "movingavg", "run24"],
                             or_identifiers=["e3hf101", "ebis110", "ej200", "ej260"],
                             not_identifiers=["sebis", "pvcebis"])
@@ -185,8 +186,8 @@ def ej_comparison(path="Z:/Studenten/Baier/Latex/images/"):
     pprint(names)
     colors = color_mapping(names)
     labels = label_mapping(names, short=True)
-    c.multi_plot(names, labels, path + "spec_ej_comp.pdf",
-                 show_final_plot=True,
+    c.multi_plot(names, labels, path + "spec_ej_comp.svg",
+                 show_final_plot=False,
                  plot_kwargs={
                      "color": colors,
                  },
@@ -196,11 +197,11 @@ def ej_comparison(path="Z:/Studenten/Baier/Latex/images/"):
                  },
                  legend_kwargs={
                      "fontsize": "x-small"
-                 })"""
+                 })
 
 
 def hot_cold_comp(path="Z:/Studenten/Baier/Latex/images/"):
-    """names = c.search_in_dir("data/sev/pvcebis110",
+    names = c.search_in_dir("data/sev/pvcebis110",
                             identifiers=["am241", "100s", "ecalib", "rebin", "binning"],)
     pprint(names)
     colors = ["red", "blue"]
@@ -236,7 +237,7 @@ def hot_cold_comp(path="Z:/Studenten/Baier/Latex/images/"):
                  },
                  legend_kwargs={
                      "fontsize": "medium"
-                 })"""
+                 })
 
     names = c.search_in_dir("data/sev/pvcebis110",
                             identifiers=["na22", "ecalib", "rebin", "binning"],)
@@ -261,9 +262,9 @@ def hot_cold_comp(path="Z:/Studenten/Baier/Latex/images/"):
 
 # hot_cold_comp(path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/")
 
-c.c_file.sort_to_dirs()
+# c.c_file.sort_to_dirs()
 # calibrated_psev(path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/")
 
 # emission_comp()
-ej_comparison(path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/latex/images/")
+ej_comparison(path="C:/Users/baier/OneDrive/Uni/Bachelorarbeit_2/Präsentation/images/")
 
