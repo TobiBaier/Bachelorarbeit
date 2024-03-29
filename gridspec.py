@@ -139,22 +139,30 @@ class GridSpec:
         # collect only one value (meaning as fast as possible)
         # wait until new data has arrived
         if single_value:
-            data = self.ser_photo.readline()
-            count = float(data.decode())
-            return count
+            try:
+                data = self.ser_photo.readline()
+                count = float(data.decode())
+                return count
+            except ValueError:
+                print("Error -> Measuring again!")
+                return self.read_photo(single_value=single_value)
 
         # cumulative measurement
         else:
-            data = np.array([])
-            time.sleep(self.wait_time)
-            while True:
-                if len(data) >= self.wait_time:
-                    break
-                else:
+            try:
+                data = np.array([])
+                time.sleep(self.wait_time)
+                while self.ser_photo.inWaiting() != 0:
+                    # if len(data) >= self.wait_time:
+                    #    break
+                    # else:
                     temp = self.ser_photo.readline().decode()
                     data = np.append(data, float(temp))
-            print(data)
-            return np.sum(data)
+                print(data)
+                return np.sum(data)
+            except ValueError:
+                print("Error -> Measuring again!")
+                return self.read_photo(single_value=single_value)
 
     """
     functions to save and draw spectrum
@@ -323,6 +331,9 @@ class GridSpec:
         # create return array
         self.current_spectrum = np.zeros((len(wl), 2))
 
+        if self.wait_time != 1:
+            sv = False
+
         # make measurement
         for i, curr_wl in enumerate(wl):
             actual_wl = self.goto_wavelength(curr_wl)
@@ -353,3 +364,5 @@ def name_call():
 
 if __name__ == "__main__":
     name_call()
+
+
